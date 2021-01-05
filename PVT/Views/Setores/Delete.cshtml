@@ -1,0 +1,63 @@
+﻿@model PVT.Models.Setor
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Setor</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-md-10">
+            @Html.DisplayNameFor(model => model.NOME)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NOME)
+        </dd>
+        <dt class = "col-md-10">
+            @Html.DisplayNameFor(model => model.DESCRICAO)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DESCRICAO)
+        </dd>
+        <dt class = "col-md-10">
+            @Html.DisplayNameFor(model => model.DATA_CRIACAO)
+        </dt>
+        <dd class = "col-md-10">
+            @Html.DisplayFor(model => model.DATA_CRIACAO)
+        </dd>
+        <dt class = "col-md-10">
+            @Html.DisplayNameFor(model => model.USUARIO_CRIACAO)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.USUARIO_CRIACAO)
+        </dd>
+        <dt class = "col-md-10">
+            @Html.DisplayNameFor(model => model.DATA_ALTERACAO)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DATA_ALTERACAO)
+        </dd>
+        <dt class = "col-sm-10">
+            @Html.DisplayNameFor(model => model.USUARIO_ALTERACAO)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.USUARIO_ALTERACAO)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

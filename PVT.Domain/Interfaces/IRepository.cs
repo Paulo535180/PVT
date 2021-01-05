@@ -1,0 +1,17 @@
+﻿using PVT.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace PVT.Domain.Interface
+{
+    public interface IRepository<T> : IDisposable where T : Entity
+    {
+        //Métodos Basicos
+        Task<IList<T>> SelectAll();
+        Task<T> SelectId(int id);
+        Task Update(T objeto);
+        Task Insert(T objeto);
+        Task Delete(int id);
+    }
+}
