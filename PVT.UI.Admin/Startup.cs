@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,16 @@ namespace PVT.UI.Admin
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddMvc().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
+
+
+
+            services.AddAuthentication("connDB").AddCookie("connDB", options => {
+
+                options.AccessDeniedPath = new PathString ("/Login/Index");
+                options.LoginPath = new PathString ("/Login/Index");
+                options.LogoutPath = new PathString ("/Login/Index");
+
+            });
 
 
             string connection = Configuration.GetConnectionString("ConnDB");
@@ -59,8 +70,9 @@ namespace PVT.UI.Admin
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-
+            app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseRouting();
 

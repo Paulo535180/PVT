@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PVT.Domain.Models;
+using System.Threading.Tasks;
 
 namespace PVT.UI.Admin.Controllers
 {
