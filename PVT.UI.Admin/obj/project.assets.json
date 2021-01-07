@@ -8551,7 +8551,6 @@
       "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation >= 3.1.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.10",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4",
-      "PVT.Domain >= 1.0.0",
       "PVT.Service >= 1.0.0"
     ]
   },
@@ -8586,9 +8585,6 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Domain\\PVT.Domain.csproj": {
-              "projectPath": "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Domain\\PVT.Domain.csproj"
-            },
             "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Service\\PVT.Service.csproj": {
               "projectPath": "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Service\\PVT.Service.csproj"
             }

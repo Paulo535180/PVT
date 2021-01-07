@@ -6,4 +6,3 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Domain\obj\Debug\netcoreapp3.1\PVT.Dom
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Domain\obj\Debug\netcoreapp3.1\PVT.Domain.csproj.CoreCompileInputs.cache
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Domain\obj\Debug\netcoreapp3.1\PVT.Domain.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Domain\obj\Debug\netcoreapp3.1\PVT.Domain.pdb
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Domain\obj\Debug\netcoreapp3.1\PVT.Domain.csprojAssemblyReference.cache

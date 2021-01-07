@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,14 +31,14 @@ namespace PVT.UI.Admin
             services.AddMvc().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
 
+            services.Configure<CookiePolicyOptions>(options => { options.CheckConsentNeeded = context => true; options.MinimumSameSitePolicy = SameSiteMode.None; });
+           
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
 
-
-            services.AddAuthentication("connDB").AddCookie("connDB", options => {
-
-                options.AccessDeniedPath = new PathString ("/Login/Index");
-                options.LoginPath = new PathString ("/Login/Index");
-                options.LogoutPath = new PathString ("/Login/Index");
-
+                options.AccessDeniedPath = new PathString("/Login/Index");
+                options.LoginPath = new PathString("/Login/Index");
+                options.LogoutPath = new PathString("/Login/Index");
             });
 
 
@@ -49,13 +50,14 @@ namespace PVT.UI.Admin
             services.AddScoped<IModuloRepository, ModuloRepository>();
             services.AddScoped<ICursoRepository, CursoRepository>();
             services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
-            services.AddScoped<IAulaRepository, AulaRepository>(); 
+            services.AddScoped<IAulaRepository, AulaRepository>();
             services.AddScoped<ITipoAulaRepository, TipoAulaRepository>();
             services.AddScoped<IUsuarioGestorRepository, UsuarioGestorRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         }
 
-        
+
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
@@ -70,17 +72,20 @@ namespace PVT.UI.Admin
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
-            app.UseAuthentication();
+            app.UseCookiePolicy();
+
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

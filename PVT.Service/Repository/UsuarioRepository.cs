@@ -1,10 +1,7 @@
-﻿using PVT.Domain.Interface;
+﻿using Dapper;
+using PVT.Domain.Interface;
 using PVT.Domain.Models;
-using PVT.Service.Data;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PVT.Service.Repository
@@ -17,10 +14,27 @@ namespace PVT.Service.Repository
             _connection = connection;
         }
 
-
-        public Task<Usuario> ValidarLogin(Usuario usuario)
+        public async Task<Usuario> ValidarLogin(Usuario usuario)
         {
-            throw new NotImplementedException();
+            return await _connection.QueryFirstOrDefaultAsync<Usuario>($@"
+                select UUSUARIO.ID as ID,
+                Nome AS NOME,
+                email AS EMAIL,
+                UUSUARIO.SENHA AS Password,
+                UPERFIL.PERFIL AS PERFIL,
+                UUSUARIO.LOGIN AS LOGIN
+
+                from UUSUARIO
+
+                INNER JOIN USISTEMA_USUARIO ON USISTEMA_USUARIO.USUARIO = UUSUARIO.ID
+
+                INNER JOIN USISTEMA_PERFIL ON USISTEMA_PERFIL.ID = USISTEMA_USUARIO.SISTEMA_PERFIL
+
+                INNER JOIN UPERFIL ON USISTEMA_PERFIL.PERFIL = UPERFIL.ID
+
+                INNER JOIN USISTEMA on USISTEMA_PERFIL.SISTEMA = USISTEMA.ID
+
+                where UUSUARIO.ID IN (728,18) AND USISTEMA.SIGLA = 'PVT' ", usuario);
         }
     }
 }

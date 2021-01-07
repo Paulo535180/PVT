@@ -163,9 +163,6 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Domain\\PVT.Domain.csproj": {
-                "projectPath": "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Domain\\PVT.Domain.csproj"
-              },
               "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Service\\PVT.Service.csproj": {
                 "projectPath": "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.Service\\PVT.Service.csproj"
               }
