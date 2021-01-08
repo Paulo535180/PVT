@@ -39,18 +39,16 @@ namespace PVT.UI.Admin.Controllers
             var user = await usuarioRepository.ValidarLogin(modelo);
             if (user == null)
             {
-                return Redirect("/Login/Index?usuarioInexistente=true");
+                return Redirect("/Login/Index?persist=true");
             }
 
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.PrimarySid, modelo.ID.ToString()),
-                new Claim(ClaimTypes.Actor, modelo.Login),
-                new Claim(ClaimTypes.Role, modelo.Perfil),
-                new Claim(ClaimTypes.Name, modelo.Nome),
-                new Claim(ClaimTypes.Email, modelo.Email),
-
-            };
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.PrimarySid, user.ID.ToString()));
+            claims.Add(new Claim(ClaimTypes.Actor, user.Login));
+            claims.Add(new Claim(ClaimTypes.Role, user.Perfil));
+            claims.Add(new Claim(ClaimTypes.Name, user.Nome));
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
+                
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");
 
@@ -70,7 +68,7 @@ namespace PVT.UI.Admin.Controllers
                 properties: cookie
                 );
 
-            return Redirect("Home/Index");
+            return Redirect("/");
         }
     }
 }

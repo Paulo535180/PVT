@@ -1,12 +1,12 @@
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Service.deps.json
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Service.dll
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Service.pdb
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Domain.dll
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Domain.pdb
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\obj\Debug\netcoreapp3.1\PVT.Service.csprojAssemblyReference.cache
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\obj\Debug\netcoreapp3.1\PVT.Service.AssemblyInfoInputs.cache
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\obj\Debug\netcoreapp3.1\PVT.Service.AssemblyInfo.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\obj\Debug\netcoreapp3.1\PVT.Service.csproj.CoreCompileInputs.cache
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Service.deps.json
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Service.dll
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Service.pdb
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\bin\Debug\netcoreapp3.1\PVT.Domain.pdb
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\obj\Debug\netcoreapp3.1\PVT.Service.csproj.CopyComplete
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\obj\Debug\netcoreapp3.1\PVT.Service.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.Service\obj\Debug\netcoreapp3.1\PVT.Service.pdb

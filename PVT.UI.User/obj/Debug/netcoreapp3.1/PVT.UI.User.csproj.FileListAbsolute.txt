@@ -6,6 +6,7 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\bin\Debug\netcoreapp3.1\PVT.UI
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\bin\Debug\netcoreapp3.1\PVT.UI.User.runtimeconfig.dev.json
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\bin\Debug\netcoreapp3.1\PVT.UI.User.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\bin\Debug\netcoreapp3.1\PVT.UI.User.pdb
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.csprojAssemblyReference.cache
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.AssemblyInfoInputs.cache
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.AssemblyInfo.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.csproj.CoreCompileInputs.cache
@@ -17,4 +18,3 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.pdb
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.genruntimeconfig.cache
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.User\obj\Debug\netcoreapp3.1\PVT.UI.User.csprojAssemblyReference.cache

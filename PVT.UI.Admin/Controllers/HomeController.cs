@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace PVT.UI.Admin.Controllers
 {
 
-   
+   [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
