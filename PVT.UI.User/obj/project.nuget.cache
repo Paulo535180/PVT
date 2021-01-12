@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "n6HeZd4i6aJf85lanByOycvJPsUl8zMlRttoPDZsi80djkeMW/I+QBa7FiyytA16FxnoAkqcG1jwxbVApt4jWQ==",
+  "dgSpecHash": "B/NzrX+C/x9RJz1H0PiOP3BM5lC5NxBkO2Y0RyoY/8NVC0GN0FVfOs/oi5fDErt/MIetU1pjbRYPCnkgJCU3/A==",
   "success": true,
   "projectFilePath": "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.UI.User\\PVT.UI.User.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.1\\microsoft.aspnetcore.jsonpatch.3.1.1.nupkg.sha512",
+    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.1\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.1.nupkg.sha512",
+    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

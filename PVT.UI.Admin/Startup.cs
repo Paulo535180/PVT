@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using PVT.Domain.Interface;
 using PVT.Service.Data;
 using PVT.Service.Repository;
@@ -40,6 +41,11 @@ namespace PVT.UI.Admin
                 options.LoginPath = new PathString("/Login/Index");
                 options.LogoutPath = new PathString("/Login/Index");
             });
+
+            services.AddMvc().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            }).AddRazorRuntimeCompilation();
 
 
             string connection = Configuration.GetConnectionString("ConnDB");
