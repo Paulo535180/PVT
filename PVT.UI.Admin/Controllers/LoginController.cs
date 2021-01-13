@@ -27,11 +27,8 @@ namespace PVT.UI.Admin.Controllers
         }
 
         [HttpPost]
-      
         public async Task<IActionResult> Login(Usuario modelo)
         {
-           
-
             if (!ModelState.IsValid)
             {
                 return Redirect("/Login/Index?persist=true");

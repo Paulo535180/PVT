@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PVT.Domain.Interface;
+using PVT.Domain.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PVT.UI.Admin.Controllers
@@ -22,6 +22,53 @@ namespace PVT.UI.Admin.Controllers
         public async Task<IActionResult> Listagem()
         {
             return Ok(await _context.SelectAll());
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarSetor([FromBody] Setor setor)
+        {
+            setor.USUARIO_CRIACAO = User.Identity.Name;
+
+            setor.DATA_CRIACAO = DateTime.Now;
+
+            if (ModelState.IsValid) return View(setor);
+
+            await _context.Insert(setor);
+            return Created("/Setor/Index", setor);
+        }
+        [HttpPut]
+        public async Task<IActionResult> EditarSetor(int id,[FromBody] Setor setor)
+        {
+            setor.USUARIO_ALTERACAO = User.Identity.Name;
+            setor.DATA_ALTERACAO = DateTime.Now;
+
+            if (id != setor.ID)
+            {
+                return Conflict();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _context.Update(setor);
+                    return Accepted();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SetorExists(setor.ID))
+                    {
+                        return NotFound();
+                    }
+                }
+
+            }
+            return UnprocessableEntity();
+        }
+        private bool SetorExists(int id)
+        {
+            return _context.SelectId(id) != null;
         }
     }
 }
