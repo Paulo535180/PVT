@@ -18,10 +18,6 @@ namespace PVT.Service.Data
         public DbSet<SetorModulo> SetorModulo { get; set; }
         public DbSet<TipoAula> TiposAulas { get; set; }
         public DbSet<UsuarioGestor> UsuariosGestores { get; set; }
-        //public DbSet<Usuario> Usuarios { get; set; }
-
-
-
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PVT.Domain.Interface;
 using PVT.Domain.Models;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace PVT.UI.Admin.Controllers
 {
+
+    [Authorize]
     public class SetorController : Controller
     {
         private readonly ISetorRepository _context;
@@ -24,7 +27,7 @@ namespace PVT.UI.Admin.Controllers
             return Ok(await _context.SelectAll());
         }
 
-
+        
         [HttpPost]
         public async Task<IActionResult> AdicionarSetor([FromBody] Setor setor)
         {
@@ -37,6 +40,7 @@ namespace PVT.UI.Admin.Controllers
             await _context.Insert(setor);
             return Created("/Setor/Index", setor);
         }
+
         [HttpPut]
         public async Task<IActionResult> EditarSetor(int id,[FromBody] Setor setor)
         {
@@ -53,6 +57,7 @@ namespace PVT.UI.Admin.Controllers
                 try
                 {
                     await _context.Update(setor);
+                    
                     return Accepted();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -62,7 +67,6 @@ namespace PVT.UI.Admin.Controllers
                         return NotFound();
                     }
                 }
-
             }
             return UnprocessableEntity();
         }

@@ -2,6 +2,7 @@
     ViewBag.Title = "Setores";
 
 }
+
 <div ng-controller="setor">
     <div class="page-header justify-content">
         <h3>@ViewBag.Title</h3>
@@ -23,7 +24,7 @@
                                 <th class="text-center">Descricao</th>
                                 <th class="text-center">Data Criacão</th>
                                 <th class="text-center">Usuario Criação</th>
-                                <th class="text-center">Ativo?</th>
+                                <th class="text-center">Ativar/Desativar</th>
                                 <th class="text-center">Ações</th>
                             </tr>
                         </thead>
@@ -34,23 +35,15 @@
                                 <td class="text-center">{{item.DATA_CRIACAO}}</td>
                                 <td class="text-center">{{item.USUARIO_CRIACAO}}</td>
                                 <td class="text-center">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" 
-                                                   type="checkbox" id="gridCheck" ng-model="item.STATUS">
-                                        </div>
-                                    </div>
+                                        <label class="switch s-outline s-outline-success  mb-4 mr-2">
+                                            <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarSetor(item)">
+                                            <span class="slider round"></span>
+                                        </label>
                                 </td>
                                 <td class="text-center">
-                                    <ul class="table-controls">
-                                        @* Modal de Edição *@
-                                        <li>
-                                            <button type="button" class="btn btn-primary" 
-                                                    ng-click="AbrirModalEditar(item)">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
-                                            </button>
-                                        </li>
-                                    </ul>
+                                    <button type="button" class="btn btn-primary" ng-click="AbrirModalEditar(item)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -85,8 +78,6 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                             <button type="button" class="btn btn-primary" ng-click="AdicionarSetor(setor)">Enviar</button>
                         </div>
-                            
-                        
                     </form>
                 </div>
             </div>
@@ -95,6 +86,7 @@
 </div>
 
 @section ScriptSectionRender {
+
     <script src="~/app/controllers/setor.controller.js">
     </script>
 }

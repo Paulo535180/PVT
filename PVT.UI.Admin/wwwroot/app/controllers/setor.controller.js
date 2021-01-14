@@ -19,16 +19,26 @@
         };
 
         $scope.AdicionarSetor = (setor) => {
+
             let promessa
-            if(!setor.ID) {
+            if (!setor.ID) {
                 setor.DATA_CRIACAO = new Date(Date.now());
                 setor.USUARIO_CRIACAO = '';
-                promessa = $http.post('/setor/AdicionarSetor', setor)
+                setor.STATUS = true;
+                promessa = $http.post('/setor/AdicionarSetor', setor);
+                $scope.BuscarSetores();
             } else {
-                promessa = $http.put('/setor/EditarSetor?id=' +setor.ID, setor)
-            }promessa.then(data => { }).catch(erro => { console.log(erro) });
+                promessa = $http.put('/setor/EditarSetor?id=' + setor.ID, setor)
+            }
+            promessa.then(data => {
+                console.log(data);
+                $scope.BuscarSetores();
+                angular.element('#modalEdicao').modal('hide');
+            })
+                .catch(erro => { console.log(erro) });
+            console.log(setor);
         }
-        
+
         $scope.AbrirModalEditar = (setor) => {
             $scope.setor = { ...setor };
             if (setor)
