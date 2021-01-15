@@ -41,6 +41,7 @@ namespace PVT.UI.Admin.Controllers
 
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.PrimarySid, user.ID.ToString()));
+            claims.Add(new Claim(ClaimTypes.GroupSid, user.ID_SETOR.HasValue.ToString()));
             claims.Add(new Claim(ClaimTypes.Actor, user.Login));
             claims.Add(new Claim(ClaimTypes.Role, user.Perfil));
             claims.Add(new Claim(ClaimTypes.Name, user.Nome));

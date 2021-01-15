@@ -14,5 +14,6 @@ namespace PVT.Domain.Models
         [Required(ErrorMessage = "Informe uma senha Válida")]
         public string Password { get; set; }
         public string Perfil { get; set; }
+        public int? ID_SETOR { get; set; }
     }
 }

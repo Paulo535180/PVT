@@ -19,16 +19,18 @@
         };
 
         $scope.AdicionarSetor = (setor) => {
-
             let promessa
             if (!setor.ID) {
                 setor.DATA_CRIACAO = new Date(Date.now());
                 setor.USUARIO_CRIACAO = '';
                 setor.STATUS = true;
                 promessa = $http.post('/setor/AdicionarSetor', setor);
+                alert("Setor Criado");
                 $scope.BuscarSetores();
+                
             } else {
                 promessa = $http.put('/setor/EditarSetor?id=' + setor.ID, setor)
+                alert("Setor Alterado");
             }
             promessa.then(data => {
                 console.log(data);

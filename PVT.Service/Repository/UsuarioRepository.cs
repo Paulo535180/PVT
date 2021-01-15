@@ -17,12 +17,13 @@ namespace PVT.Service.Repository
         public async Task<Usuario> ValidarLogin(Usuario usuario)
         {
             return await _connection.QueryFirstOrDefaultAsync<Usuario>($@"
-                select UUSUARIO.ID as ID,
+        select UUSUARIO.ID as ID,
         Nome AS NOME,
         email AS EMAIL,
         UUSUARIO.SENHA AS Password,
         UPERFIL.PERFIL AS PERFIL,
-        UUSUARIO.LOGIN AS LOGIN
+        UUSUARIO.LOGIN AS LOGIN,
+		PVT_USUARIO_GESTOR.ID_SETOR as ID_SETOR
 
         from UUSUARIO
 
@@ -35,12 +36,10 @@ namespace PVT.Service.Repository
         INNER JOIN USISTEMA on USISTEMA_PERFIL.SISTEMA = USISTEMA.ID and USISTEMA.ATIVO = 'T'
 
 		left Join PVT_USUARIO_GESTOR on PVT_USUARIO_GESTOR.ID_USUARIO  = UUSUARIO.ID and PVT_USUARIO_GESTOR.STATUS = 1
-
-
         where USISTEMA.SIGLA = 'PVT' 
 			and UUSUARIO.ATIVO = 'T' 
 			and (PVT_USUARIO_GESTOR.ID_SETOR is not null or UPERFIL.PERFIL = 'ADMINISTRADOR')
-		    and LOGIN = @Login AND SENHA = @Password ", usuario);
+		    and LOGIN = @Login AND SENHA = @Password", usuario);
         }
     }
 }

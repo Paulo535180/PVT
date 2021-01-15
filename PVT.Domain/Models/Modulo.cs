@@ -14,9 +14,6 @@ namespace PVT.Domain.Models
         [Required]
         [StringLength(2000, MinimumLength = 3)]
         public string DESCRICAO { get; set; }
-
-        //public UsuarioGestor UsuarioSetor { get; set; }
-        //public IEnumerable<SetorModulo> SetorModulo { get; set; }
-        //public IEnumerable<Curso> Cursos { get; set; }
+        public int ID_USUARIO_GESTOR { get; set; }
     }
 }

@@ -1,5 +1,3 @@
 ﻿(function () {
-    
-    angular.module('PjrPadrao',[]);
-
+    angular.module('PjrPadrao', []);
 })();
