@@ -6,7 +6,7 @@
 <div ng-controller="modulo">
     <div class="page-header justify-content">
         <h3>@ViewBag.Title</h3>
-        <button class="btn btn-primary" ng-click="AbrirModalEditar()">Cadastrar Setor</button>
+        <button class="btn btn-primary" ng-click="AbrirModalEditar()">Cadastrar Módulo</button>
     </div>
 
 
@@ -20,23 +20,23 @@
                     <table class="table table-hover" width="100%" ng-init="BuscarModulos()">
                         <thead>
                             <tr>
+
                                 <th class="text-center">Nome</th>
                                 <th class="text-center">Descricao</th>
-                                <th class="text-center">Data Criacão</th>
-                                <th class="text-center">Usuario Criação</th>
+                                <th class="text-center">Responsável</th>
                                 <th class="text-center">Ativar/Desativar</th>
                                 <th class="text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in ListarModulos | filter: filtro">
+
                                 <td class="text-center">{{item.NOME}}</td>
                                 <td class="text-center">{{item.DESCRICAO}}</td>
-                                <td class="text-center">{{item.DATA_CRIACAO}}</td>
-                                <td class="text-center">{{item.USUARIO_CRIACAO}}</td>
+                                <td class="text-center">{{item.Responsavel}}</td>
                                 <td class="text-center">
                                     <label class="switch s-outline s-outline-success  mb-4 mr-2">
-                                        <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarSetor(item)">
+                                        <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarModulo(item)">
                                         <span class="slider round"></span>
                                     </label>
                                 </td>
@@ -67,16 +67,17 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Nome:</label>
-                                <input type="text" class="form-control" id="recipient-name" ng-model="setor.NOME">
+                                <input type="text" class="form-control" id="recipient-name" ng-model="modulo.NOME">
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                <textarea class="form-control" id="message-text" ng-model="setor.DESCRICAO"></textarea>
+                                <textarea class="form-control" id="message-text" ng-model="modulo.DESCRICAO"></textarea>
                             </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" ng-click="AdicionarSetor(setor)">Enviar</button>
+                            <button type="button" class="btn btn-primary" ng-click="AdicionarModulo(modulo)">Enviar</button>
                         </div>
                     </form>
                 </div>

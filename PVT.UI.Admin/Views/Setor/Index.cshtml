@@ -32,7 +32,7 @@
                             <tr ng-repeat="item in ListagemSetores | filter: filtro">
                                 <td class="text-center">{{item.NOME}}</td>
                                 <td class="text-center">{{item.DESCRICAO}}</td>
-                                <td class="text-center">{{item.DATA_CRIACAO}}</td>
+                                <td class="text-center">{{item.DATA_CRIACAO | date : 'dd/MM/yyyy'}}</td>
                                 <td class="text-center">{{item.USUARIO_CRIACAO}}</td>
                                 <td class="text-center">
                                         <label class="switch s-outline s-outline-success  mb-4 mr-2">

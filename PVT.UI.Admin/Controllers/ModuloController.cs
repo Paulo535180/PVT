@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PVT.Domain.Interface;
 using PVT.Domain.Models;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace PVT.UI.Admin.Controllers
 {
+    [Authorize]
     public class ModuloController : Controller
     {
         private readonly IModuloRepository _context;
@@ -24,7 +26,7 @@ namespace PVT.UI.Admin.Controllers
 
         public async Task<IActionResult> Listagem()
         {
-            return Ok(await _context.SelectAll());
+            return Ok(await _context.ListagemModulos());
         }
 
         [HttpPost]
@@ -32,7 +34,7 @@ namespace PVT.UI.Admin.Controllers
         {
             var claims = (ClaimsIdentity)User.Identity;
             modulo.USUARIO_CRIACAO = User.Identity.Name;
-            modulo.ID_USUARIO_GESTOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimarySid).Value);
+            modulo.ID_USUARIO_GESTOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
             modulo.DATA_CRIACAO = DateTime.Now;
             if (ModelState.IsValid) return View(modulo);
             await _context.Insert(modulo);

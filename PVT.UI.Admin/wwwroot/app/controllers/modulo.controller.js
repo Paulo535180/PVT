@@ -18,25 +18,34 @@
 
         $scope.AdicionarModulo = (modulo) => {
             let promessa
+            console.log(modulo)
             if (!modulo.ID) {
                 modulo.DATA_CRIACAO = new Date(Date.now());
+                modulo.ID_GESTOR = '';
                 modulo.USUARIO_CRIACAO = '';
                 modulo.STATUS = true;
-                promessa = $http.post('/setor/AdicionarModulo', modulo);
-                alert("Modulo Criado");
-                $scope.BuscarModulos();
+                promessa = $http.post('/modulo/AdicionarModulo', modulo);
 
             } else {
-                promessa = $http.put('/setor/EditarSetor?id=' + setor.ID, setor)
-                alert("Setor Alterado");
+                promessa = $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
             }
             promessa.then(data => {
                 console.log(data);
-                $scope.BuscarSetores();
+                $scope.BuscarModulos();
                 angular.element('#modalEdicao').modal('hide');
             })
                 .catch(erro => { console.log(erro) });
-            console.log(setor);
+            console.log(modulo);
+        }
+
+        $scope.AbrirModalEditar = (modulo) => {
+            $scope.modulo = { ...modulo };
+            if (modulo)
+                $scope.tituloModal = 'Editar Setor'
+            else
+                $scope.tituloModal = 'Novo Setor'
+
+            angular.element('#modalEdicao').modal('show');
         }
     }
 

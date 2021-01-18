@@ -62,8 +62,6 @@ namespace PVT.UI.Admin
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         }
 
-
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
