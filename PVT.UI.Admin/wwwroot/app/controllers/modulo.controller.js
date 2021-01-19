@@ -17,25 +17,26 @@
         };
 
         $scope.AdicionarModulo = (modulo) => {
-            let promessa
+            let tarefa
             console.log(modulo)
             if (!modulo.ID) {
                 modulo.DATA_CRIACAO = new Date(Date.now());
                 modulo.ID_GESTOR = '';
                 modulo.USUARIO_CRIACAO = '';
                 modulo.STATUS = true;
-                promessa = $http.post('/modulo/AdicionarModulo', modulo);
+                tarefa = $http.post('/modulo/AdicionarModulo', modulo);
 
             } else {
-                promessa = $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
+                tarefa = $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
             }
-            promessa.then(data => {
-                console.log(data);
+
+            tarefa.then(data => {
+              
                 $scope.BuscarModulos();
                 angular.element('#modalEdicao').modal('hide');
             })
                 .catch(erro => { console.log(erro) });
-            console.log(modulo);
+          
         }
 
         $scope.AbrirModalEditar = (modulo) => {

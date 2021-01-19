@@ -429,3 +429,4 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\PVT.U
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\PVT.UI.Admin.pdb
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\PVT.UI.Admin.genruntimeconfig.cache
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Modulo\Index.cshtml.g.cs
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Gestor\Index.cshtml.g.cs
