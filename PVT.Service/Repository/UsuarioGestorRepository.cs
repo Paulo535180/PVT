@@ -20,13 +20,25 @@ namespace PVT.Service.Repository
         {
 
             return await _connection.QueryAsync<UsuarioGestor>($@"
-                select UUSUARIO.NOME as Nome,
-                PVT_MODULO.*
+                SELECT 
+                UUSUARIO.NOME AS NOME_GESTOR,
+                PVT_USUARIO_GESTOR. *
 
-                from PVT_MODULO
+                FROM PVT_USUARIO_GESTOR
 
+                INNER JOIN UUSUARIO ON UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO");
+        }
 
-                INNER JOIN PVT_USUARIO_GESTOR on PVT_USUARIO_GESTOR.ID = PVT_MODULO.ID_USUARIO_GESTOR
+        public async Task<IEnumerable<dynamic>> ListagemGestoresPorSetor(int idSetor)
+        {
+
+            return await _connection.QueryAsync($@"
+                SELECT 
+                UUSUARIO.NOME AS NOME_GESTOR,
+                PVT_USUARIO_GESTOR. *
+
+                FROM PVT_USUARIO_GESTOR
+
                 INNER JOIN UUSUARIO ON UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO");
         }
 

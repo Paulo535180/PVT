@@ -2,6 +2,15 @@
     ViewBag.Title = "Home";
 }
 <div ng-controller="gestor">
+
+    <div class="page-header justify-content">
+        <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetor"></select>
+        <div>
+            <button class="btn btn-primary" ng-click="AbrirModalEditar()">Cadastrar Gestor</button>
+        </div>
+    </div>
+
+
     <div class="row layout-top-spacing">
         <div class="container-fluid">
             <div class="card border-double">
@@ -9,23 +18,21 @@
                     <div class="row">
                         <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
                     </div>
-                    <table class="table table-hover" width="100%" ng-init="BuscarGestores()">
+                    <table class="table table-hover" width="100%">
                         <thead>
                             <tr>
 
                                 <th class="text-center">Id Gestor</th>
                                 <th class="text-center">Nome</th>
-                                <th class="text-center">Responsavel Por:</th>
                                 <th class="text-center">Ativar/Desativar</th>
                                 <th class="text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in ListarGestores | filter: filtro">
+                            <tr ng-repeat="item in ListarGestoresPorSetor | filter: filtro">
 
                                 <td class="text-center">{{item.ID}}</td>
-                                <td class="text-center">{{item.NOME}}</td>
-                                <td class="text-center">{{item.ID_SETOR}}</td>
+                                <td class="text-center">{{item.NOME_GESTOR}}</td>
                                 <td class="text-center">
                                     <label class="switch s-outline s-outline-success  mb-4 mr-2">
                                         <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarModulo(item)">
@@ -80,6 +87,6 @@
 
 @section ScriptSectionRender {
 
-    <script src="~/app/controllers/modulo.controller.js">
+    <script src="~/app/controllers/usuario.gestor.controller.js">
     </script>
 }
