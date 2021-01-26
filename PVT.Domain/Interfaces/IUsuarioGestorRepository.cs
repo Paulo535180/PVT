@@ -8,5 +8,6 @@ namespace PVT.Domain.Interface
     {
         Task<IEnumerable<UsuarioGestor>> ListagemGestores();
         Task<IEnumerable<dynamic>> ListagemGestoresPorSetor(int idSetor);
+        Task<UsuarioGestor> Select(UsuarioGestor usuarioGestor);
     }
 }

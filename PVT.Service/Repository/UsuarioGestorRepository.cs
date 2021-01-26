@@ -39,8 +39,13 @@ namespace PVT.Service.Repository
 
                 FROM PVT_USUARIO_GESTOR
 
-                INNER JOIN UUSUARIO ON UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO");
+                INNER JOIN UUSUARIO ON UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
+                where ID_SETOR = @idSetor", new { idSetor });
         }
 
+        public Task<UsuarioGestor> Select(UsuarioGestor usuarioGestor)
+        {
+            return null;
+        }
     }
 }

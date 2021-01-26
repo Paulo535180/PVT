@@ -1,12 +1,12 @@
 ﻿@{
     ViewBag.Title = "Home";
 }
-<div ng-controller="gestor">
+<div ng-controller="gestor as ctrl">
 
     <div class="page-header justify-content">
         <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetor"></select>
         <div>
-            <button class="btn btn-primary" ng-click="AbrirModalEditar()">Cadastrar Gestor</button>
+            <button class="btn btn-primary" ng-click="AbrirModalEditar()">Vincular Usuário</button>
         </div>
     </div>
 
@@ -62,21 +62,17 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    
                     <form>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Nome:</label>
-                                <input type="text" class="form-control" id="recipient-name" ng-model="modulo.NOME">
+                                <select class="form-control" 
+                                        ng-model="UserSetor.ID_USUARIO" ng-options="item.NOME for item in ListaUsuarios"></select>
                             </div>
-                            <div class="form-group">
-                                <label for="message-text" class="col-form-label">Descrição:</label>
-                                <textarea class="form-control" id="message-text" ng-model="modulo.DESCRICAO"></textarea>
-                            </div>
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" ng-click="AdicionarModulo(modulo)">Enviar</button>
+                            <button type="button" class="btn btn-primary" ng-click="Vincular(UserSetor)">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -86,7 +82,6 @@
 </div>
 
 @section ScriptSectionRender {
-
     <script src="~/app/controllers/usuario.gestor.controller.js">
     </script>
 }
