@@ -6,7 +6,7 @@
     <div class="page-header justify-content">
         <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetor"></select>
         <div>
-            <button class="btn btn-primary" ng-click="AbrirModalEditar()">Vincular Usuário</button>
+            <button class="btn btn-primary" ng-click="AbrirModalEditar(setor)">Vincular Usuário</button>
         </div>
     </div>
 
@@ -24,8 +24,8 @@
 
                                 <th class="text-center">Id Gestor</th>
                                 <th class="text-center">Nome</th>
+                                <th class="text-center">Email</th>
                                 <th class="text-center">Ativar/Desativar</th>
-                                <th class="text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,16 +33,12 @@
 
                                 <td class="text-center">{{item.ID}}</td>
                                 <td class="text-center">{{item.NOME_GESTOR}}</td>
+                                <td class="text-center">{{item.EMAIL}}</td>
                                 <td class="text-center">
                                     <label class="switch s-outline s-outline-success  mb-4 mr-2">
-                                        <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarModulo(item)">
+                                        <input type="checkbox" ng-model="item.STATUS" ng-change="Desativar(item)">
                                         <span class="slider round"></span>
                                     </label>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-primary" ng-click="AbrirModalEditar(item)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
-                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -67,12 +63,12 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <select class="form-control" 
-                                        ng-model="UserSetor.ID_USUARIO" ng-options="item.NOME for item in ListaUsuarios"></select>
+                                        ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios"></select>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" ng-click="Vincular(UserSetor)">Enviar</button>
+                            <button type="button" class="btn btn-primary" ng-click="Adicionar(UserSetor)">Enviar</button>
                         </div>
                     </form>
                 </div>

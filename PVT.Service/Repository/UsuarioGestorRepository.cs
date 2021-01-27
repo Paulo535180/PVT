@@ -5,6 +5,7 @@ using PVT.Service.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace PVT.Service.Repository
             return await _connection.QueryAsync<UsuarioGestor>($@"
                 SELECT 
                 UUSUARIO.NOME AS NOME_GESTOR,
-                PVT_USUARIO_GESTOR. *
+                PVT_USUARIO_GESTOR.*
 
                 FROM PVT_USUARIO_GESTOR
 
@@ -31,11 +32,10 @@ namespace PVT.Service.Repository
 
         public async Task<IEnumerable<dynamic>> ListagemGestoresPorSetor(int idSetor)
         {
-
             return await _connection.QueryAsync($@"
                 SELECT 
                 UUSUARIO.NOME AS NOME_GESTOR,
-                PVT_USUARIO_GESTOR. *
+                PVT_USUARIO_GESTOR.*
 
                 FROM PVT_USUARIO_GESTOR
 
@@ -43,9 +43,12 @@ namespace PVT.Service.Repository
                 where ID_SETOR = @idSetor", new { idSetor });
         }
 
-        public Task<UsuarioGestor> Select(UsuarioGestor usuarioGestor)
+
+        public async Task<UsuarioGestor> ObterUsuarioGestor(UsuarioGestor usuario)
         {
-            return null;
+             var teste = await _connection.QueryFirstOrDefaultAsync<UsuarioGestor>($@"select * from PVT_USUARIO_GESTOR where ID_USUARIO = @ID_USUARIO AND ID_SETOR = @ID_SETOR", usuario);
+
+            return teste;
         }
     }
 }

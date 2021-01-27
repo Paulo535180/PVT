@@ -7,18 +7,10 @@
 
     function gestor($scope, $http) {
 
-        $scope.ListarGestores = [];
         $scope.ListarSetor = [];
         $scope.ListarGestoresPorSetor = [];
+        $scope.Editar = [];
         this.gestor
-
-
-        $scope.BuscarGestor = () => {
-            $http.get('/gestor/listagem').then(resultado => {
-                $scope.ListarGestores = resultado.data;
-                console.log(resultado)
-            }).catch(erro => { console.log(erro) });
-        }
 
         $scope.BuscarSetores = () => {
             $http.get('/setor/listagem').then(resultado => {
@@ -34,11 +26,10 @@
             }).catch(erron => { console.log(erro) });
         }
 
-        $scope.Vincular = (UserGestor) => {
+        $scope.Adicionar = (UserGestor) => {
             let promessa
-            promessa = $http.get('/gestor/Adcionar', UserGestor)
+            promessa = $http.post('/gestor/Adicionar', UserGestor)
             promessa.then(data => {
-                console.log(data);
                 $scope.BuscarSetores();
                 angular.element('#modalEdicao').modal('hide');
             })
@@ -46,10 +37,17 @@
             console.log(setor);
         }
 
+        $scope.Desativar = (UserGestor) => {
+            let promessa
+            promessa = $http.put('/gestor/Desativar?id='+UserGestor.ID, UserGestor)
+            promessa.then(data => {
+                $scope.Editar();
+                angular.element('#modalEdicao').modal('hide');
+            })
+        }
+
         $scope.AbrirModalEditar = (setor) => {
             $scope.UserSetor = { ID_SETOR: setor.ID };
-
-
             $http.get('/usuario/listagem').then(resultado => {
                 $scope.ListaUsuarios = resultado.data;
                 if (gestor)
@@ -59,7 +57,7 @@
 
                 angular.element('#modalEdicao').modal('show');
 
-            }).catch(erro => { console.log(erro) });
+            }).catch(erro => { console.log(erro)});
 
 
 

@@ -21,8 +21,7 @@ namespace PVT.UI.Admin.Controllers
 
         public IActionResult Index()
         {
-
-           
+  
             return View();
         }
 

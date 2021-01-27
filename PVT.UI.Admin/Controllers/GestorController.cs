@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PVT.Domain.Interface;
 using PVT.Domain.Models;
 using System;
@@ -15,20 +16,16 @@ namespace PVT.UI.Admin.Controllers
     public class GestorController : Controller
     {
         private readonly IUsuarioGestorRepository _context;
-        public GestorController(IUsuarioGestorRepository context)
+        private readonly IUsuarioRepository _usuarioRepository;
+        public GestorController(IUsuarioGestorRepository context, IUsuarioRepository usuarioRepository)
         {
             _context = context;
+            _usuarioRepository = usuarioRepository;
         }
         [HttpGet("")]
         public IActionResult Index()
         {
             return View();
-        }
-
-        [HttpGet("Listagem")]
-        public async Task<IActionResult> Listagem()
-        {
-            return Ok(await _context.ListagemGestores());
         }
 
         [HttpGet("Listagem/{idSetor:int}")]
@@ -38,46 +35,69 @@ namespace PVT.UI.Admin.Controllers
             return Ok(await _context.ListagemGestoresPorSetor(idSetor));
         }
 
-        [HttpPost("Adcionar")]
-        public async Task<IActionResult> Adcionar([FromBody] UsuarioGestor usuarioGestor)
+        [HttpPost("Adicionar")]
+        public async Task<IActionResult> Adicionar([FromBody] UsuarioGestor usuarioGestorView)
         {
 
-            var userbd = _context.Select(usuarioGestor);
+            var claims = (ClaimsIdentity)User.Identity;
+            var userbd = await _context.ObterUsuarioGestor(usuarioGestorView);
             if (userbd == null)
-                userbd = new UsuarioGestor();
+            {
+                usuarioGestorView.USUARIO_CRIACAO = User.Identity.Name;
+                usuarioGestorView.DATA_CRIACAO = DateTime.Now;
+                usuarioGestorView.STATUS = true;
+                if (ModelState.IsValid)
+                {
+                    return View(usuarioGestorView);
+                }
+                await _context.Insert(usuarioGestorView);
+                return Accepted();
+            }
+            else
+            {
+                userbd.STATUS = true;
+                userbd.USUARIO_ALTERACAO = User.Identity.Name;
+                userbd.DATA_ALTERACAO = DateTime.Now;
+                await _context.Update(userbd);
+                return Accepted();
+            }
+
+        }
+
+        [HttpPut("Desativar")]
+        public async Task<IActionResult> Desativar(int id, [FromBody] UsuarioGestor usuarioGestorView)
+        {
 
             var claims = (ClaimsIdentity)User.Identity;
-            usuarioGestor.USUARIO_CRIACAO = User.Identity.Name;
-            usuarioGestor.DATA_CRIACAO = DateTime.Now;
-            
+            usuarioGestorView.USUARIO_ALTERACAO = User.Identity.Name;
+            usuarioGestorView.DATA_ALTERACAO = DateTime.Now;
 
+            if (id != usuarioGestorView.ID)
+            {
+                return Conflict();
+            }
 
             if (ModelState.IsValid)
             {
-                return View(usuarioGestor);
+                try
+                {
+                    await _context.Update(usuarioGestorView);
+
+                    return Accepted();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GestorExists(usuarioGestorView.ID))
+                    {
+                        return NotFound();
+                    }
+                }
             }
-            await _context.Insert(usuarioGestor);
-            return Accepted();
+            return UnprocessableEntity();
         }
-
-        //[HttpGet("Vincular")]
-        //public async Task<IActionResult> VincularGestor([FromQuery] int ID)
-        //{
-
-        //    var claims = (ClaimsIdentity)User.Identity;
-
-        //    //usuarioGestor.USUARIO_CRIACAO = User.Identity.Name;
-        //    //usuarioGestor.DATA_CRIACAO = DateTime.Now;
-
-
-
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    return View(usuarioGestor);
-        //    //}
-        //    //await _context.Insert(usuarioGestor);
-        //    return Accepted();
-        //}
-
+        private bool GestorExists(int id)
+        {
+            return _context.SelectId(id) != null;
+        }
     }
 }

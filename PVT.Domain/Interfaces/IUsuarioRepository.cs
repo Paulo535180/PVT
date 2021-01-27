@@ -6,6 +6,7 @@ namespace PVT.Domain.Interface
 {
     public interface IUsuarioRepository
     {
+        Task<IList<Usuario>> Listagem();
         Task<Usuario> ValidarLogin(Usuario usuario);
 
     }
