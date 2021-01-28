@@ -4,7 +4,7 @@
 <div ng-controller="gestor as ctrl">
 
     <div class="page-header justify-content">
-        <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetor"></select>
+        <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetores"></select>
         <div>
             <button class="btn btn-primary" ng-click="AbrirModalEditar(setor)">Vincular Usuário</button>
         </div>

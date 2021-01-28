@@ -423,3 +423,10 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PVT
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PVT.UI.Admin.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PVT.UI.Admin.pdb
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PVT.UI.Admin.genruntimeconfig.cache
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\libman.json
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Gestor\Index.cshtml.g.cs
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Modulo\Index.cshtml.g.cs
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Setor\Index.cshtml.g.cs

@@ -35,12 +35,12 @@ namespace PVT.Service.Repository
             return await _connection.QueryAsync($@"
                 SELECT 
                 UUSUARIO.NOME AS NOME_GESTOR,
+                UUSUARIO.EMAIL as EMAIL,
                 PVT_USUARIO_GESTOR.*
-
                 FROM PVT_USUARIO_GESTOR
 
                 INNER JOIN UUSUARIO ON UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
-                where ID_SETOR = @idSetor", new { idSetor });
+                where ID_SETOR = @idSetor and STATUS = 1", new { idSetor });
         }
 
 
