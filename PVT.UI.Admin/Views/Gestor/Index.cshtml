@@ -4,7 +4,9 @@
 <div ng-controller="gestor as ctrl">
 
     <div class="page-header justify-content">
-        <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetores"></select>
+        <div class="col-md-5">
+                <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetores"><option value="">Selecione um Setor para continuar</option></select>
+        </div>
         <div>
             <button class="btn btn-primary" ng-click="AbrirModalEditar(setor)">Vincular Usuário</button>
         </div>
@@ -68,7 +70,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" ng-click="Adicionar(UserSetor)">Enviar</button>
+                            <button type="button" class="btn btn-primary" ng-click="Adicionar(UserSetor)">Salvar</button>
                         </div>
                     </form>
                 </div>

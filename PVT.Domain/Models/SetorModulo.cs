@@ -7,7 +7,5 @@ namespace PVT.Domain.Models
     {
         public int ID_MODULO { get; set; }
         public int ID_SETOR { get; set; }
-        //public Modulo Modulo { get; set; }
-        //public Setor Setor { get; set; }
     }
 }

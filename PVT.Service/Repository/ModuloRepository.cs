@@ -18,6 +18,11 @@ namespace PVT.Service.Repository
         {
         }
 
+        public Task<object> ListagemGestoresPorSetor(int idSetor)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<dynamic>> ListagemModulos()
         {
 

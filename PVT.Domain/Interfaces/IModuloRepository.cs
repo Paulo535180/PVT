@@ -7,6 +7,7 @@ namespace PVT.Domain.Interface
     public interface IModuloRepository : IRepository<Modulo>
     {
         Task<IEnumerable<dynamic>> ListagemModulos();
+        Task<object> ListagemGestoresPorSetor(int idSetor);
     }
 
 }

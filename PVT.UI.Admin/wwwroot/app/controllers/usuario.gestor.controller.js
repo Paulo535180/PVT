@@ -32,6 +32,11 @@
             promessa.then(data => {
                 angular.element('#modalEdicao').modal('hide');
                 $scope.BuscarGestoresPorSetor($scope.setor);
+                Swal.fire(
+                    'Salvo com Sucesso',
+                    '',
+                    'success'
+                );
             })
                 .catch(erro => { console.log(erro) });
         }

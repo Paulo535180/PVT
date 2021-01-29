@@ -23,6 +23,13 @@
             }).catch(erro => { console.log(erro) });
         };
 
+        $scope.BuscarModuloPorSetor = (setor) => {
+            $scope.setor = setor;
+            $http.get('/modulo/listagem/' + setor.ID).then(resultado => {
+                $scope.ListarGestoresPorSetor = resultado.data;
+            }).catch(erron => { console.log(erro) });
+        }
+
         $scope.AdicionarModulo = (modulo) => {
             let tarefa
             if (!modulo.ID) {
@@ -34,15 +41,17 @@
             } else {
                 tarefa = $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
             }
-
             tarefa.then(data => {
                 $scope.BuscarModulos();
                 angular.element('#modalEdicao').modal('hide');
+                Swal.fire(
+                    'Salvo com Sucesso',
+                    '',
+                    'success'
+                );
             })
                 .catch(erro => { console.log(erro) });
-          
         }
-
         $scope.AbrirModalEditar = (modulo) => {
             $scope.modulo = { ...modulo };
             if (modulo)

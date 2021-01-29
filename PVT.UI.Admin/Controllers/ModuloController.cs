@@ -13,10 +13,12 @@ namespace PVT.UI.Admin.Controllers
     [Authorize]
     public class ModuloController : Controller
     {
-        private readonly IModuloRepository _context;
-        public ModuloController(IModuloRepository context)
+        private readonly IModuloRepository _modulo;
+        private readonly ISetorModuloRepository _setorModuloRepository;
+        public ModuloController(IModuloRepository modulo, ISetorModuloRepository setorModulo)
         {
-            _context = context;
+            _modulo = modulo;
+            _setorModuloRepository = setorModulo;
         }
 
         public IActionResult Index()
@@ -26,7 +28,13 @@ namespace PVT.UI.Admin.Controllers
 
         public async Task<IActionResult> Listagem()
         {
-            return Ok(await _context.ListagemModulos());
+            return Ok(await _modulo.ListagemModulos());
+        }
+
+        public async Task<IActionResult> ListagemPorSetor(int idSetor)
+        {
+
+            return Ok(await _modulo.ListagemGestoresPorSetor(idSetor));
         }
 
         [HttpPost]
@@ -36,8 +44,19 @@ namespace PVT.UI.Admin.Controllers
             modulo.USUARIO_CRIACAO = User.Identity.Name;
             modulo.ID_USUARIO_GESTOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
             modulo.DATA_CRIACAO = DateTime.Now;
+            
             if (ModelState.IsValid) return View(modulo);
-            await _context.Insert(modulo);
+            await _modulo.Insert(modulo);
+
+            var setorModulo = new SetorModulo
+            {
+                ID_MODULO = modulo.ID,
+                ID_SETOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value),
+                DATA_CRIACAO = DateTime.Now,
+                USUARIO_CRIACAO = User.Identity.Name,
+            };
+            await _setorModuloRepository.Insert(setorModulo);
+
             return Created("/Modulo/Index", modulo);
         }
 
@@ -57,7 +76,7 @@ namespace PVT.UI.Admin.Controllers
             {
                 try
                 {
-                    await _context.Update(modulo);
+                    await _modulo.Update(modulo);
 
                     return Accepted();
                 }
@@ -73,7 +92,7 @@ namespace PVT.UI.Admin.Controllers
         }
         private bool ModuloExists(int id)
         {
-            return _context.SelectId(id) != null;
+            return _modulo.SelectId(id) != null;
         }
     }
 }

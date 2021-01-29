@@ -60,6 +60,7 @@ namespace PVT.UI.Admin
             services.AddScoped<ITipoAulaRepository, TipoAulaRepository>();
             services.AddScoped<IUsuarioGestorRepository, UsuarioGestorRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<ISetorModuloRepository, SetorModuloRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -31,12 +31,15 @@
                 promessa = $http.put('/setor/EditarSetor?id=' + setor.ID, setor)
             }
             promessa.then(data => {
-                console.log(data);
                 $scope.BuscarSetores();
                 angular.element('#modalEdicao').modal('hide');
+                Swal.fire(
+                    'Salvo com Sucesso',
+                    '',
+                    'success'
+                );
             })
                 .catch(erro => { console.log(erro) });
-            console.log(setor);
         }
 
         $scope.AbrirModalEditar = (setor) => {
