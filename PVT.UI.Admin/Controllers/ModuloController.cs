@@ -25,16 +25,22 @@ namespace PVT.UI.Admin.Controllers
         {
             return View();
         }
+        public IActionResult MeusModulos()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> Listagem()
         {
             return Ok(await _modulo.ListagemModulos());
         }
 
-        public async Task<IActionResult> ListagemPorSetor(int idSetor)
+        [HttpGet]
+        public async Task<IActionResult> ListagemPorUser()
         {
-
-            return Ok(await _modulo.ListagemGestoresPorSetor(idSetor));
+            var claims = (ClaimsIdentity)User.Identity;
+            var gestor =  Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
+            return Ok(await _modulo.ListagemModulosPorUser(gestor));
         }
 
         [HttpPost]

@@ -1,7 +1,5 @@
-﻿@using System.Security.Claims;
-
-@{
-    ViewBag.Title = "Módulos";
+﻿@{
+    ViewBag.Title = "Meus Módulos";
 
 }
 
@@ -19,35 +17,37 @@
                     <div class="row">
                         <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
                     </div>
-                    <table class="table table-hover" width="100%" ng-init="BuscarModulos()">
+                    <table class="table table-hover" width="100%" ng-init="BuscarModuloPorUsuario()">
                         <thead>
                             <tr>
 
-                                <th class="text-center">Nome</th>
-                                <th class="text-center">Descricao</th>
-                                <th class="text-center">Responsável</th>
+                                <th class="text-center">NOME</th>
+                                <th class="text-center">DESCRICAO</th>
+                                <th class="text-center">AUTOR MODULO</th>
+                                <th class="text-center">CRIACAO</th>
                                 <th class="text-center">Ativar/Desativar</th>
                                 <th class="text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                                <tr ng-repeat="item in ListarModulos | filter: filtro">
+                            <tr ng-repeat="item in ListarModulosPorUsuario | filter: filtro">
 
-                                    <td class="text-center">{{item.NOME}}</td>
-                                    <td class="text-center">{{item.DESCRICAO}}</td>
-                                    <td class="text-center">{{item.Responsavel}}</td>
-                                    <td class="text-center">
-                                        <label class="switch s-outline s-outline-success  mb-4 mr-2">
-                                            <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarModulo(item)">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </td>
-                                    <td class="text-center">
-                                        <button type="button" id="salvar" class="btn btn-primary" ng-click="AbrirModalEditar(item)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
-                                        </button>
-                                    </td>
-                                </tr>
+                                <td class="text-center">{{item.NOME}}</td>
+                                <td class="text-center">{{item.DESCRICAO}}</td>
+                                <td class="text-center">{{item.AUTOR_MODULO}}</td>
+                                <td class="text-center">{{item.CRIACAO}}</td>
+                                <td class="text-center">
+                                    <label class="switch s-outline s-outline-success  mb-4 mr-2">
+                                        <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarModulo(item)">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" id="salvar" class="btn btn-primary" ng-click="AbrirModalEditar(item)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
+                                    </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

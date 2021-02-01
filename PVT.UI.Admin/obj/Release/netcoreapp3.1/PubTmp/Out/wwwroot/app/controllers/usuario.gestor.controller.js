@@ -32,6 +32,11 @@
             promessa.then(data => {
                 angular.element('#modalEdicao').modal('hide');
                 $scope.BuscarGestoresPorSetor($scope.setor);
+                Swal.fire(
+                    'Salvo com Sucesso',
+                    '',
+                    'success'
+                );
             })
                 .catch(erro => { console.log(erro) });
         }
@@ -50,9 +55,9 @@
             $http.get('/usuario/listagem').then(resultado => {
                 $scope.ListaUsuarios = resultado.data;
                 if (gestor)
-                    $scope.tituloModal = 'Editar Setor ' + setor.NOME
-                else
-                    $scope.tituloModal = 'Novo Setor ' + setor.NOME
+                    $scope.tituloModal = 'Vincular usuario em ' + setor.NOME
+                //else
+                //    $scope.tituloModal = 'Novo vinculo á ' + setor.NOME
 
                 angular.element('#modalEdicao').modal('show');
 

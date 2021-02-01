@@ -10,6 +10,7 @@
     function modulo($scope, $http) {
         $scope.ListarModulos = [];
         $scope.ListarSetores = [];
+        $scope.ListarModulosPorUsuario = [];
 
         $scope.BuscarModulos = () => {
             $http.get('/modulo/listagem').then(resultado => {
@@ -17,11 +18,12 @@
             }).catch(erro => { console.log(erro) });
         };
 
-        $scope.BuscarSetores = () => {
-            $http.get('/setor/listagem').then(resultado => {
-                $scope.ListarSetores = resultado.data;
-            }).catch(erro => { console.log(erro) });
-        };
+        $scope.BuscarModuloPorUsuario = (user) => {
+            $scope.user = user;
+            $http.get('/modulo/ListagemPorUser/').then(resultado => {
+                $scope.ListarModulosPorUsuario = resultado.data;
+            }).catch(erron => { console.log(erro) });
+        }
 
         $scope.AdicionarModulo = (modulo) => {
             let tarefa
@@ -34,15 +36,17 @@
             } else {
                 tarefa = $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
             }
-
             tarefa.then(data => {
                 $scope.BuscarModulos();
                 angular.element('#modalEdicao').modal('hide');
+                Swal.fire(
+                    'Salvo com Sucesso',
+                    '',
+                    'success'
+                );
             })
                 .catch(erro => { console.log(erro) });
-          
         }
-
         $scope.AbrirModalEditar = (modulo) => {
             $scope.modulo = { ...modulo };
             if (modulo)

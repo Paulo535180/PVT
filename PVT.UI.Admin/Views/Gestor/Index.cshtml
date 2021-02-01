@@ -1,15 +1,10 @@
 ﻿@{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Gestores";
 }
 <div ng-controller="gestor as ctrl">
 
     <div class="page-header justify-content">
-        <div class="col-md-5">
-                <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetores"><option value="">Selecione um Setor para continuar</option></select>
-        </div>
-        <div>
-            <button class="btn btn-primary" ng-click="AbrirModalEditar(setor)">Vincular Usuário</button>
-        </div>
+        <h3>@ViewBag.Title</h3>
     </div>
 
 
@@ -17,6 +12,16 @@
         <div class="container-fluid">
             <div class="card border-double">
                 <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-5 mb-4">
+                            <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetores"><option value="">Selecione um Setor para continuar</option></select>
+                        </div>
+                        <div class="col-md-7 mb-3 text-right">
+                            <button class="btn btn-primary" ng-click="AbrirModalEditar(setor)">Vincular Usuário</button>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
                     </div>

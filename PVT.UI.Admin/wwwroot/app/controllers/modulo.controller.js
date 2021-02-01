@@ -10,6 +10,7 @@
     function modulo($scope, $http) {
         $scope.ListarModulos = [];
         $scope.ListarSetores = [];
+        $scope.ListarModulosPorUsuario = [];
 
         $scope.BuscarModulos = () => {
             $http.get('/modulo/listagem').then(resultado => {
@@ -17,16 +18,10 @@
             }).catch(erro => { console.log(erro) });
         };
 
-        $scope.BuscarSetores = () => {
-            $http.get('/setor/listagem').then(resultado => {
-                $scope.ListarSetores = resultado.data;
-            }).catch(erro => { console.log(erro) });
-        };
-
-        $scope.BuscarModuloPorSetor = (setor) => {
-            $scope.setor = setor;
-            $http.get('/modulo/listagem/' + setor.ID).then(resultado => {
-                $scope.ListarGestoresPorSetor = resultado.data;
+        $scope.BuscarModuloPorUsuario = (user) => {
+            $scope.user = user;
+            $http.get('/modulo/ListagemPorUser/').then(resultado => {
+                $scope.ListarModulosPorUsuario = resultado.data;
             }).catch(erron => { console.log(erro) });
         }
 

@@ -13,14 +13,27 @@ namespace PVT.Service.Repository
     public class ModuloRepository : GenericRepository<Modulo>, IModuloRepository
     {
 
-        
+
         public ModuloRepository(MyDbContext _context, IDbConnection _connection) : base(_context, _connection)
         {
         }
 
-        public Task<object> ListagemGestoresPorSetor(int idSetor)
+        public async Task<IEnumerable<dynamic>> ListagemModulosPorUser(int idUser)
         {
-            throw new NotImplementedException();
+            return await _connection.QueryAsync($@"
+                Select 
+                PVT_MODULO.ID as ID,
+                PVT_MODULO.NOME as NOME,
+                PVT_MODULO.DESCRICAO AS DESCRICAO,
+                PVT_MODULO.USUARIO_CRIACAO AS AUTOR_MODULO,
+                PVT_MODULO.DATA_CRIACAO as CRIACAO
+
+                from PVT_MODULO
+
+                INNER JOIN PVT_USUARIO_GESTOR ON PVT_USUARIO_GESTOR.ID = PVT_MODULO.ID_USUARIO_GESTOR
+                INNER JOIN UUSUARIO ON PVT_USUARIO_GESTOR.ID_USUARIO = UUSUARIO.ID
+                INNER JOIN PVT_SETOR_MODULO ON PVT_MODULO.ID = PVT_SETOR_MODULO.ID_MODULO
+                WHERE PVT_MODULO.ID_USUARIO_GESTOR = @idUser", new { idUser });
         }
 
         public async Task<IEnumerable<dynamic>> ListagemModulos()

@@ -53,10 +53,3 @@
         }
     }
 })();
-
-
-
-//Listagem
-//Ativar / Desativar
-//Inclusao
-//Editar
