@@ -47,6 +47,33 @@
             })
                 .catch(erro => { console.log(erro) });
         }
+
+        $scope.AlterarStatus = (modulo) =>
+        {
+            Swal.fire({
+                title: 'Você deseja ' + (modulo.STATUS?'Desativar': 'Ativar')+ ' o Módulo?',
+                text: "Ativar ou Desativar o Módulo da listagem",
+                icon: 'danger',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                } else {
+                    modulo.STATUS =!modulo.STATUS
+                }
+                
+            })
+
+        }
+
+
         $scope.AbrirModalEditar = (modulo) => {
             $scope.modulo = { ...modulo };
             if (modulo)

@@ -37,9 +37,8 @@ namespace PVT.UI.Admin.Controllers
 
         [HttpPost("Adicionar")]
         public async Task<IActionResult> Adicionar([FromBody] UsuarioGestor usuarioGestorView)
-        {
+       {
 
-            
             var userbd = await _context.ObterUsuarioGestor(usuarioGestorView);
             if (userbd == null)
             {

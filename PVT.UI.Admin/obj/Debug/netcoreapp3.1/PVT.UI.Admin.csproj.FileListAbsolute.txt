@@ -419,6 +419,7 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Login\Index.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Modulo\Index.cshtml.g.cs
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Modulo\MeusModulos.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Setor\Index.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
@@ -430,4 +431,3 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\PVT.U
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\PVT.UI.Admin.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\PVT.UI.Admin.pdb
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\PVT.UI.Admin.genruntimeconfig.cache
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Debug\netcoreapp3.1\Razor\Views\Modulo\MeusModulos.cshtml.g.cs

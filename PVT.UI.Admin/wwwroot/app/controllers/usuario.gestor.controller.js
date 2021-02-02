@@ -51,20 +51,16 @@
 
         $scope.AbrirModalEditar = (setor) => {
             $scope.UserSetor = { ID_SETOR: setor.ID };
-            
             $http.get('/usuario/listagem').then(resultado => {
                 $scope.ListaUsuarios = resultado.data;
                 if (gestor)
-                    $scope.tituloModal = 'Vincular usuario em ' + setor.NOME
-                //else
-                //    $scope.tituloModal = 'Novo vinculo á ' + setor.NOME
+                    $scope.tituloModal = 'Editar Setor ' + setor.NOME
+                else
+                    $scope.tituloModal = 'Novo Setor ' + setor.NOME
 
                 angular.element('#modalEdicao').modal('show');
 
             }).catch(erro => { console.log(erro) });
-
-
-
         }
 
     }

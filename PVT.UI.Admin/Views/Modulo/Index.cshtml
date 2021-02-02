@@ -37,10 +37,7 @@
                                     <td class="text-center">{{item.DESCRICAO}}</td>
                                     <td class="text-center">{{item.Responsavel}}</td>
                                     <td class="text-center">
-                                        <label class="switch s-outline s-outline-success  mb-4 mr-2">
-                                            <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarModulo(item)">
-                                            <span class="slider round"></span>
-                                        </label>
+                                        <button class="btn btn-primary mb-2" ng-click="AlterarStatus(item)">Status</button>
                                     </td>
                                     <td class="text-center">
                                         <button type="button" id="salvar" class="btn btn-primary" ng-click="AbrirModalEditar(item)">

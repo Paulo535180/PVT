@@ -35,15 +35,22 @@
                                 <td class="text-center">{{item.DATA_CRIACAO | date : 'dd/MM/yyyy'}}</td>
                                 <td class="text-center">{{item.USUARIO_CRIACAO}}</td>
                                 <td class="text-center">
-                                        <label class="switch s-outline s-outline-success  mb-4 mr-2">
-                                            <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarSetor(item)">
-                                            <span class="slider round"></span>
-                                        </label>
+                                    <label class="switch s-outline s-outline-success  mb-4 mr-2">
+                                        <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarSetor(item)">
+                                        <span class="slider round"></span>
+                                    </label>
                                 </td>
                                 <td class="text-center">
+
                                     <button type="button" class="btn btn-primary" ng-click="AbrirModalEditar(item)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
                                     </button>
+
+                                    <button type="button" class="btn btn-primary" ng-click="AbriModalAdicionarGestor(item)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16"><path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" /></svg> Adicionar Gestor
+                                    </button>
+
+                                    <button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -53,7 +60,7 @@
         </div>
 
 
-        @* Modal *@
+        @* Modal de editar o Setor *@
         <div class="modal fade" id="modalEdicao" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -82,11 +89,39 @@
                 </div>
             </div>
         </div>
+
+        @* Modal de vincular usuario ao Setor *@
+        <div class="modal fade" id="modalVinculoGestor" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{tituloModalVinculo}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+
+                        @* Select com os usuarios disponiveis para vinculo *@
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <select class="form-control"
+                                        ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios"></select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" ng-click="AdicionarGestor(UserSetor)">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 @section ScriptSectionRender {
-
+    <script src="~/app/service/setores.service.js"></script>
     <script src="~/app/controllers/setor.controller.js">
     </script>
 }
