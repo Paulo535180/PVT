@@ -5,21 +5,32 @@
         .module('PjrPadrao')
         .controller('setor', setor);
 
-    setor.$inject = ['$scope', '$http'];
+    setor.$inject = ['$scope', '$http', 'setorService'];
 
     function setor($scope, $http, setoresService) {
 
         $scope.ListagemSetores = [];
         $scope.filtro = '';
         $scope.ListarGestoresPorSetor = [];
-        this.setor
+        $scope.ListagemSetorPorId = [];
 
-        $scope.BuscarSetores = () => {
-            $http.get('/setor/listagem').then(resultado => {
-                $scope.ListagemSetores = resultado.data;
-            }).catch(erro => { console.log(erro) });
+
+        //~----- Método que Lista todos os Setores -----//
+        $scope.BuscarSetores = async () => {
+            let resultado = await setoresService.getSetores();
+            $scope.ListagemSetores = resultado.data;
+            $scope.$apply();
         };
 
+        //----- Método Buscar um Gestor por setor -----//
+        $scope.BuscarGestoresPorSetor = (setor) => {
+            $scope.setor = setor;
+            $http.get('/gestor/listagem/' + setor.ID).then(resultado => {
+                $scope.ListarGestoresPorSetor = resultado.data;
+            }).catch(erron => { console.log(erro) });
+        }
+
+        //----- Método de Adicionar um Setor -----//
         $scope.AdicionarSetor = (setor) => {
             let promessa
             if (!setor.ID) {
@@ -44,13 +55,7 @@
                 .catch(erro => { console.log(erro) });
         }
 
-        $scope.BuscarGestoresPorSetor = (setor) => {
-            $scope.setor = setor;
-            $http.get('/gestor/listagem/' + setor.ID).then(resultado => {
-                $scope.ListarGestoresPorSetor = resultado.data;
-            }).catch(erron => { console.log(erro) });
-        }
-
+        //----- Método Adicionar um Gestor -----//
         $scope.AdicionarGestor = (UserGestor) => {
             let promessa
             console.log($scope.setor)
@@ -67,7 +72,6 @@
                 .catch(erro => { console.log(erro) });
         }
 
-
         //----- Modal Editar Setor -----//
         $scope.AbrirModalEditar = (setor) => {
             $scope.setor = { ...setor };
@@ -82,11 +86,23 @@
         //----- Modal Vincular Usuario Gestor -----//
         $scope.AbriModalAdicionarGestor = (setor) => {
             $scope.UserSetor = { ID_SETOR: setor.ID };
+            console.log(setor)
             $http.get('/usuario/listagem').then(resultado => {
                 $scope.ListaUsuarios = resultado.data;
                 $scope.setor = { setor };
                 $scope.tituloModalVinculo = 'Adicionar Gestor'
                 angular.element('#modalVinculoGestor').modal('show');
+            }).catch(erro => { console.log(erro) });
+        }
+
+
+        //----- Modal Principal Setor -----//
+        $scope.AbrirModalPrincipal = (setor) => {
+            $scope.Setor = { ID_SETOR: setor.ID };
+            $http.get('/setor/ListagemPorSetor/' + setor.ID).then(resultado => {
+                $scope.ListagemSetorPorId = resultado.data;
+                $scope.tituloModalPrincipal = 'Detalhes Setor'
+                angular.element('#modalPrincipal').modal('show');
             }).catch(erro => { console.log(erro) });
         }
     }

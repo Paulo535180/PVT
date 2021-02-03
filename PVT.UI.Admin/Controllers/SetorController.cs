@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace PVT.UI.Admin.Controllers
 {
-
     [Authorize]
     public class SetorController : Controller
     {
@@ -27,6 +26,12 @@ namespace PVT.UI.Admin.Controllers
             return Ok(await _context.SelectAll());
         }
 
+
+        public async Task<IActionResult> ListagemPorSetor(Setor setor)
+        {
+
+            return Ok(await _context.ListagemSetorPorId(setor));
+        }
         
         [HttpPost]
         public async Task<IActionResult> AdicionarSetor([FromBody] Setor setor)

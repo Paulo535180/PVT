@@ -50,7 +50,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16"><path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" /></svg> Adicionar Gestor
                                     </button>
 
-                                    <button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button>
+                                    <button type="button" class="btn btn-primary" ng-click="AbrirModalPrincipal(item)"><i class="fas fa-eye"></i>Visualizar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -101,7 +101,6 @@
                         </button>
                     </div>
                     <form>
-
                         @* Select com os usuarios disponiveis para vinculo *@
                         <div class="modal-body">
                             <div class="form-group">
@@ -117,10 +116,70 @@
                 </div>
             </div>
         </div>
+
+        @* Modal Principal Setores *@
+        <div class="modal fade" id="modalPrincipal" tabindex="-1" role="dialog" aria-labelledby="modalPrincipal" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="detalhesSetorLink" data-toggle="pill" href="#detalhesSetor" role="tab" aria-controls="detalhesSetor" aria-selected="true">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="detalhesGestoresLink" data-toggle="pill" href="#detalhesGestores" role="tab" aria-controls="detalhesGestores" aria-selected="false">Perfil</a>
+                            </li>
+
+                        </ul>
+
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="detalhesSetor" role="tabpanel" aria-labelledby="detalhesSetor">
+                                <table class="table table-hover" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Nome</th>
+                                            <th class="text-center">Descricao</th>
+                                            <th class="text-center">Data Criacão</th>
+                                            <th class="text-center">Usuario Criação</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">{{ListagemSetorPorId.NOME}}</td>
+                                            <td class="text-center">{{ListagemSetorPorId.DESCRICAO}}</td>
+                                            <td class="text-center">{{ListagemSetorPorId.DATA_CRIACAO | date : 'dd/MM/yyyy'}}</td>
+                                            <td class="text-center">{{ListagemSetorPorId.USUARIO_CRIACAO}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="detalhesGestores" role="tabpanel" aria-labelledby="detalhesGestores">teste2</div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
 @section ScriptSectionRender {
+
+    <script src="~/app/factory/httpPadrao.factory.js"></script>
     <script src="~/app/service/setores.service.js"></script>
     <script src="~/app/controllers/setor.controller.js">
     </script>
