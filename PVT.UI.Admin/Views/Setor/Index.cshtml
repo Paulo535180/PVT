@@ -2,11 +2,16 @@
     ViewBag.Title = "Setores";
 
 }
+<style>
+    #modalVinculoGestor {
+        z-index: 3000;
+    }
+</style>
 
 <div ng-controller="setor">
     <div class="page-header justify-content">
         <h3>@ViewBag.Title</h3>
-        <button class="btn btn-primary" ng-click="AbrirModalEditar()">Cadastrar Setor</button>
+        <button class="btn btn-primary" ng-click="AbrirModalNovo()">Cadastrar Setor</button>
     </div>
 
 
@@ -34,23 +39,10 @@
                                 <td class="text-center">{{item.DESCRICAO}}</td>
                                 <td class="text-center">{{item.DATA_CRIACAO | date : 'dd/MM/yyyy'}}</td>
                                 <td class="text-center">{{item.USUARIO_CRIACAO}}</td>
-                                <td class="text-center">
-                                    <label class="switch s-outline s-outline-success  mb-4 mr-2">
-                                        <input type="checkbox" ng-model="item.STATUS" ng-change="AdicionarSetor(item)">
-                                        <span class="slider round"></span>
-                                    </label>
+                                <td class="text-center"><button type="button" ng-class="botaoClass(item.STATUS)" ng-click="Desativar(item)"><i class="fas fa-check"></i></button>
                                 </td>
                                 <td class="text-center">
-
-                                    <button type="button" class="btn btn-primary" ng-click="AbrirModalEditar(item)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
-                                    </button>
-
-                                    <button type="button" class="btn btn-primary" ng-click="AbriModalAdicionarGestor(item)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16"><path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" /></svg> Adicionar Gestor
-                                    </button>
-
-                                    <button type="button" class="btn btn-primary" ng-click="AbrirModalPrincipal(item)"><i class="fas fa-eye"></i>Visualizar</button>
+                                    <button type="button" class="btn btn-primary" ng-click="AbrirModalEditar(item)"><i class="fas fa-eye"></i>Visualizar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -90,6 +82,8 @@
             </div>
         </div>
 
+
+
         @* Modal de vincular usuario ao Setor *@
         <div class="modal fade" id="modalVinculoGestor" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -101,7 +95,6 @@
                         </button>
                     </div>
                     <form>
-                        @* Select com os usuarios disponiveis para vinculo *@
                         <div class="modal-body">
                             <div class="form-group">
                                 <select class="form-control"
@@ -124,10 +117,12 @@
                     <div class="modal-header">
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="detalhesSetorLink" data-toggle="pill" href="#detalhesSetor" role="tab" aria-controls="detalhesSetor" aria-selected="true">Home</a>
+                                <a class="nav-link" id="detalhesSetorLink" data-toggle="pill" href="#detalhesSetor" role="tab" aria-controls="detalhesSetor" aria-selected="true">Setor</a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link" id="detalhesGestoresLink" data-toggle="pill" href="#detalhesGestores" role="tab" aria-controls="detalhesGestores" aria-selected="false">Perfil</a>
+                                <a class="nav-link" id="detalhesGestoresLink" ng-click="BuscarGestoresPorSetor(setor)"
+                                   data-toggle="pill" href="#detalhesGestores" role="tab" aria-controls="detalhesGestores" aria-selected="false">Gestores</a>
                             </li>
 
                         </ul>
@@ -140,40 +135,61 @@
 
                     <div class="modal-body">
                         <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="detalhesSetor" role="tabpanel" aria-labelledby="detalhesSetor">
+
+                            <div class="tab-pane fade" id="detalhesSetor" role="tabpanel" aria-labelledby="detalhesSetor">
+                                <form>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Nome:</label>
+                                            <input type="text" class="form-control" id="recipient-name" ng-model="setor.NOME">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Descrição:</label>
+                                            <textarea class="form-control" id="message-text" ng-model="setor.DESCRICAO"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade" id="detalhesGestores" role="tabpanel" aria-labelledby="detalhesGestores">
+                                <div class="col-md-12 mb-3 text-right">
+                                    <button class="btn btn-primary" ng-click="AbriModalAdicionarGestor(setor)">Vincular Usuário</button>
+                                </div>
                                 <table class="table table-hover" width="100%">
                                     <thead>
                                         <tr>
+
+                                            <th class="text-center">Id Gestor</th>
                                             <th class="text-center">Nome</th>
-                                            <th class="text-center">Descricao</th>
-                                            <th class="text-center">Data Criacão</th>
-                                            <th class="text-center">Usuario Criação</th>
-                                            
+                                            <th class="text-center">Email</th>
+                                            <th class="text-center">Ativar/Desativar</th>
+
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="text-center">{{ListagemSetorPorId.NOME}}</td>
-                                            <td class="text-center">{{ListagemSetorPorId.DESCRICAO}}</td>
-                                            <td class="text-center">{{ListagemSetorPorId.DATA_CRIACAO | date : 'dd/MM/yyyy'}}</td>
-                                            <td class="text-center">{{ListagemSetorPorId.USUARIO_CRIACAO}}</td>
+                                        <tr ng-repeat="item in ListarGestoresPorSetor | filter: filtro">
+
+                                            <td class="text-center">{{item.ID}}</td>
+                                            <td class="text-center">{{item.NOME_GESTOR}}</td>
+                                            <td class="text-center">{{item.EMAIL}}</td>
+                                            <td class="text-center">
+                                                <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="Desativar(item)"><i class="fas fa-check"></i></button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane fade" id="detalhesGestores" role="tabpanel" aria-labelledby="detalhesGestores">teste2</div>
                         </div>
                     </div>
-
-
                     <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
-                        <button type="button" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" ng-click="AdicionarSetor(setor)">Salvar</button>
+
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
