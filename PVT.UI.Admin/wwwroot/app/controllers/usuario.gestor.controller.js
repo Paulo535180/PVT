@@ -41,12 +41,54 @@
                 .catch(erro => { console.log(erro) });
         }
 
-        $scope.Desativar = (UserGestor) => {
-            let promessa
-            promessa = $http.put('/gestor/Desativar?id=' + UserGestor.ID, UserGestor)
-            promessa.then(data => {
-                $scope.BuscarGestoresPorSetor($scope.setor);
-            });
+        //$scope.Desativar = (UserGestor) => {
+        //    let promessa
+        //    promessa = $http.put('/gestor/Desativar?id=' + UserGestor.ID, UserGestor)
+        //    promessa.then(data => {
+        //        $scope.BuscarGestoresPorSetor($scope.setor);
+        //    });
+        //}
+
+        $scope.DesativarGestor = async (UserGestor) => {
+            let resultado
+            Swal.fire({
+                title: 'Você deseja ' + (UserGestor.STATUS ? 'Desativar' : 'Ativar') + ' o Usuário ' + UserGestor.NOME_GESTOR + '?',
+                text: "Ao desativar, o Gestor ficará disponível para outro Setor",
+                icon: 'danger',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Sim!',
+            }).then(async (result) => {
+                console.log(UserGestor)
+                if (result.value) {
+                    UserGestor.STATUS = !UserGestor.STATUS;
+                    resultado = await $http.put('/gestor/Desativar?id=' + UserGestor.ID, UserGestor);
+
+                    if (resultado.status < 400) {
+                        angular.element('#modalVinculoGestor').modal('hide');
+                        await $scope.BuscarGestoresPorSetor($scope.setor);
+                        Swal.fire(
+                            'Salvo com Sucesso',
+                            '',
+                            'success'
+                        );
+                    } else console.log(resultado)
+                }
+                $scope.$apply();
+            })
+        }
+
+        //----- Função que altera a cor do botão -----//
+        $scope.botaoClass = (status) => {
+            let classe = 'btn btn-lg btn-'
+            if (status) {
+                classe += 'success'
+            } else {
+                classe += 'danger'
+            }
+            return classe;
         }
 
         $scope.AbrirModalEditar = (setor) => {

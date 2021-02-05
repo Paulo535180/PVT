@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IvFcQ+vT6zEXu6A9/gbcEGjfeqeVXp0+8L/bolDT5zt1iZ3B/zekB0XufkIliKHwjeFdq4scHusqYx1Mkm9elg==",
+  "dgSpecHash": "nL+kTWoEEu4z5lF+FMWxkkf6RecM4ko6Q3aZTi49iYl/a78Wf7+dXWVyux1Pugm4OjM7NMY5SXS8XFIOARIL+w==",
   "success": true,
   "projectFilePath": "C:\\Users\\paulo.aguiar\\Desktop\\PVT\\PVT\\PVT.UI.User\\PVT.UI.User.csproj",
   "expectedPackageFiles": [
@@ -8,8 +8,7 @@
     "C:\\Users\\paulo.aguiar\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.1\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.1.nupkg.sha512",
     "C:\\Users\\paulo.aguiar\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\paulo.aguiar\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
-    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
-    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.10\\microsoft.netcore.app.host.win-x64.3.1.10.nupkg.sha512"
+    "C:\\Users\\paulo.aguiar\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512"
   ],
   "logs": []
 }

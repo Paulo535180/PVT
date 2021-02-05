@@ -15,7 +15,7 @@
         $scope.ListagemSetorPorId = [];
 
 
-        //~----- Método que Lista todos os Setores -----//
+        //----- Método que Lista todos os Setores -----//
         $scope.BuscarSetores = async () => {
             let resultado = await setoresService.getSetores();
             $scope.ListagemSetores = resultado.data;
@@ -55,7 +55,25 @@
         }
 
 
-        //----- Método Desativar STATUS -----//
+        //----- Método Adicionar um Gestor -----//
+        $scope.AdicionarGestor = async (UserGestor) => {
+            let resultado
+            console.log(UserGestor);
+            resultado = await $http.post('/gestor/Adicionar', UserGestor);
+
+            if (resultado.status < 400) {
+                angular.element('#modalVinculoGestor').modal('hide');
+                await $scope.BuscarGestoresPorSetor($scope.setor);
+                Swal.fire(
+                    'Salvo com Sucesso',
+                    '',
+                    'success'
+                );
+            } else console.log(resultado)
+        }
+
+
+        //----- Método Editar STATUS Setor -----//
         $scope.Desativar = async (setor) => {
             Swal.fire({
                 title: 'Você deseja ' + (setor.STATUS ? 'Desativar' : 'Ativar') + ' o Setor?',
@@ -67,7 +85,6 @@
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Sim!',
             }).then(async (result) => {
-                console.log(result)
                 if (result.value) {
                     setor.STATUS = !setor.STATUS;
                     await $scope.AdicionarSetor(setor);
@@ -76,25 +93,41 @@
             })
         }
 
+        //----- Método Editar Status Usuario gestor -----//
+        $scope.DesativarGestor = async (UserGestor) => {
+            let resultado
+            Swal.fire({
+                title: 'Você deseja ' + (UserGestor.STATUS ? 'Desativar' : 'Ativar') + ' o Usuário ' + UserGestor.NOME_GESTOR + '?',
+                text: "Ao desativar, o Gestor ficará disponível para outro Setor",
+                icon: 'danger',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Sim!',
+            }).then(async (result) => {
+                console.log(UserGestor)
+                if (result.value) {
+                    UserGestor.STATUS = !UserGestor.STATUS;
+                    resultado = await $http.put('/gestor/Desativar?id=' + UserGestor.ID, UserGestor);
 
-        //----- Método Adicionar um Gestor -----//
-        $scope.AdicionarGestor = (UserGestor) => {
-            let promessa
-            promessa = $http.post('/gestor/Adicionar', UserGestor)
-            promessa.then(data => {
-                angular.element('#modalVinculoGestor').modal('hide');
-                $scope.BuscarGestoresPorSetor($scope.setor);
-                Swal.fire(
-                    'Salvo com Sucesso',
-                    '',
-                    'success'
-                );
+                    if (resultado.status < 400) {
+                        angular.element('#modalVinculoGestor').modal('hide');
+                        await $scope.BuscarGestoresPorSetor($scope.setor);
+                        Swal.fire(
+                            'Salvo com Sucesso',
+                            '',
+                            'success'
+                        );
+                    } else console.log(resultado)
+                }
+                $scope.$apply();
             })
-                .catch(erro => { console.log(erro) });
         }
 
+
         //----- Modal Editar Setor -----//
-        $scope.AbrirModalEditar = (setor) => {
+        $scope.AbrirModalVisualizar = (setor) => {
             $scope.setor = { ...setor };
             if (setor)
                 $scope.tituloModal = 'Editar Setor'
@@ -105,17 +138,8 @@
             angular.element('#detalhesSetorLink').tab('show');
         }
 
-        //----- Modal Editar -----//
-        $scope.AbrirModalNovo = (setor) => {
-            $scope.setor = { ...setor };
-            if (setor)
-                $scope.tituloModal = 'Editar Setor'
-            else
-                $scope.tituloModal = 'Novo Setor'
 
-            angular.element('#modalEdicao').modal('show');
-        }
-
+        //----- Função que altera a cor do botão -----//
         $scope.botaoClass = (status) => {
             let classe = 'btn btn-lg btn-'
             if (status) {
@@ -124,6 +148,17 @@
                 classe += 'danger'
             }
             return classe;
+        }
+
+        //----- Modal Adicionar Setor -----//
+        $scope.AbrirModalNovo = (setor) => {
+            $scope.setor = { ...setor };
+            if (setor)
+                $scope.tituloModal = 'Editar Setor'
+            else
+                $scope.tituloModal = 'Novo Setor'
+
+            angular.element('#modalEdicao').modal('show');
         }
 
         //----- Modal Vincular Usuario Gestor -----//

@@ -41,12 +41,7 @@
                                 <td class="text-center">{{item.ID}}</td>
                                 <td class="text-center">{{item.NOME_GESTOR}}</td>
                                 <td class="text-center">{{item.EMAIL}}</td>
-                                <td class="text-center">
-                                    <label class="switch s-outline s-outline-success  mb-4 mr-2">
-                                        <input type="checkbox" ng-model="item.STATUS" ng-change="Desativar(item)">
-                                        <span class="slider round"></span>
-                                    </label>
-                                </td>
+                                <td class="text-center"><button type="button" ng-class="botaoClass(item.STATUS)" ng-click="DesativarGestor(item)"><i class="fas fa-check"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -85,6 +80,5 @@
 </div>
 
 @section ScriptSectionRender {
-    <script src="~/app/controllers/usuario.gestor.controller.js">
-    </script>
+    <script src="~/app/controllers/usuario.gestor.controller.js"></script>
 }
