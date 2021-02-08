@@ -13,6 +13,7 @@
         this.gestor
 
         $scope.BuscarSetores = () => {
+            console.log(BuscarSetores);
             $http.get('/setor/listagem').then(resultado => {
                 $scope.ListarSetores = resultado.data;
             }).catch(erro => { console.log(erro) });
@@ -20,34 +21,37 @@
 
         $scope.BuscarGestoresPorSetor = (setor) => {
             $scope.setor = setor;
-            $http.get('/gestor/listagem/' + setor.ID).then(resultado => {
+            $http.get('/gestor/GestorPorSetor/').then(resultado => {
                 $scope.ListarGestoresPorSetor = resultado.data;
             }).catch(erron => { console.log(erro) });
         }
 
-        $scope.Adicionar = (UserGestor) => {
+        //Método que vincula um Gestor ao novo Setor
+        $scope.Adicionar = (idUsuario) => {
             let promessa
-            console.log($scope.setor)
-            promessa = $http.post('/gestor/Adicionar', UserGestor)
+            promessa = $http.post('/gestor/AdicionarGestor/', idUsuario)
             promessa.then(data => {
-                angular.element('#modalEdicao').modal('hide');
+                angular.element('#modalVinculoGestor').modal('hide');
                 $scope.BuscarGestoresPorSetor($scope.setor);
                 Swal.fire(
                     'Salvo com Sucesso',
                     '',
                     'success'
                 );
+                
             })
                 .catch(erro => { console.log(erro) });
         }
 
-        //$scope.Desativar = (UserGestor) => {
-        //    let promessa
-        //    promessa = $http.put('/gestor/Desativar?id=' + UserGestor.ID, UserGestor)
-        //    promessa.then(data => {
-        //        $scope.BuscarGestoresPorSetor($scope.setor);
-        //    });
-        //}
+        $scope.AdicionarGestor = async (setor) => {
+            $scope.UserSetor = { ID_SETOR: setor.ID };
+            $http.get('/usuario/listagem').then(resultado => {
+                $scope.ListaUsuarios = resultado.data;
+                $scope.tituloModalVinculo = 'Adicionar Gestor'
+                angular.element('#modalVinculoGestor').modal('show');
+            }).catch(erro => { console.log(erro) });
+        }
+
 
         $scope.DesativarGestor = async (UserGestor) => {
             let resultado
@@ -61,7 +65,6 @@
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Sim!',
             }).then(async (result) => {
-                console.log(UserGestor)
                 if (result.value) {
                     UserGestor.STATUS = !UserGestor.STATUS;
                     resultado = await $http.put('/gestor/Desativar?id=' + UserGestor.ID, UserGestor);
@@ -91,19 +94,38 @@
             return classe;
         }
 
-        $scope.AbrirModalEditar = (setor) => {
-            $scope.UserSetor = { ID_SETOR: setor.ID };
+        $scope.AbrirModalVisualizar = (setor) => {
+            $scope.setor = { ...setor };
+            if (setor)
+                $scope.tituloModal = 'Editar Setor'
+            else
+                $scope.tituloModal = 'Novo Setor'
+
+            angular.element('#modalPrincipal').modal('show');
+            angular.element('#detalhesSetorLink').tab('show');
+        }
+
+        $scope.AbriModalAdicionarGestor = () => {
             $http.get('/usuario/listagem').then(resultado => {
                 $scope.ListaUsuarios = resultado.data;
-                if (gestor)
-                    $scope.tituloModal = 'Editar Setor ' + setor.NOME
-                else
-                    $scope.tituloModal = 'Novo Setor ' + setor.NOME
-
-                angular.element('#modalEdicao').modal('show');
-
+                $scope.tituloModalVinculo = 'Adicionar Gestor'
+                angular.element('#modalVinculoGestor').modal('show');
             }).catch(erro => { console.log(erro) });
         }
+
+        //$scope.AbrirModalEditar = (setor) => {
+        //    $scope.UserSetor = { ID_SETOR: setor.ID };
+        //    $http.get('/usuario/listagem').then(resultado => {
+        //        $scope.ListaUsuarios = resultado.data;
+        //        if (gestor)
+        //            $scope.tituloModal = 'Editar Setor ' + setor.NOME
+        //        else
+        //            $scope.tituloModal = 'Novo Setor ' + setor.NOME
+
+        //        angular.element('#modalEdicao').modal('show');
+
+        //    }).catch(erro => { console.log(erro) });
+        //}
 
     }
 })();

@@ -22,12 +22,7 @@ namespace PVT.Service.Repository
         {
             return await _connection.QueryAsync($@"
                 Select 
-                PVT_MODULO.ID as ID,
-                PVT_MODULO.NOME as NOME,
-                PVT_MODULO.DESCRICAO AS DESCRICAO,
-                PVT_MODULO.USUARIO_CRIACAO AS AUTOR_MODULO,
-                PVT_MODULO.DATA_CRIACAO as CRIACAO
-
+                PVT_MODULO.*
                 from PVT_MODULO
 
                 INNER JOIN PVT_USUARIO_GESTOR ON PVT_USUARIO_GESTOR.ID = PVT_MODULO.ID_USUARIO_GESTOR

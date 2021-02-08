@@ -43,10 +43,23 @@ namespace PVT.Service.Repository
                 where ID_SETOR = @idSetor and STATUS = 1", new { idSetor });
         }
 
+        public async Task<IEnumerable<dynamic>> ListagemGestoresPorSetor(int idSetor, int idGestor)
+        {
+            return await _connection.QueryAsync($@"
+                SELECT 
+                UUSUARIO.NOME AS NOME_GESTOR,
+                UUSUARIO.EMAIL as EMAIL,
+				
+                PVT_USUARIO_GESTOR.*
+                FROM PVT_USUARIO_GESTOR
+
+                INNER JOIN UUSUARIO ON UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
+                where ID_SETOR = @idSetor and STATUS = 1  and PVT_USUARIO_GESTOR.ID <> @idGestor ", new { idSetor, idGestor });
+        }
 
         public async Task<UsuarioGestor> ObterUsuarioGestor(UsuarioGestor usuario)
         {
-             var teste = await _connection.QueryFirstOrDefaultAsync<UsuarioGestor>($@"select * from PVT_USUARIO_GESTOR where ID_USUARIO = @ID_USUARIO AND ID_SETOR = @ID_SETOR", usuario);
+            var teste = await _connection.QueryFirstOrDefaultAsync<UsuarioGestor>($@"select * from PVT_USUARIO_GESTOR where ID_USUARIO = @ID_USUARIO AND ID_SETOR = @ID_SETOR", usuario);
 
             return teste;
         }

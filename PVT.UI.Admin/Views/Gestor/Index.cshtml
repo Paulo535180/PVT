@@ -1,83 +1,79 @@
 ﻿@{
-    ViewBag.Title = "Gestores";
+    ViewBag.Title = "Gestores do Setor";
 }
 <div ng-controller="gestor as ctrl">
 
     <div class="page-header justify-content">
         <h3>@ViewBag.Title</h3>
+        <div class="col-md-7 mb-3 text-right">
+            <button class="btn btn-primary" ng-click="AbriModalAdicionarGestor()">Vincular Gestor</button>
+        </div>
     </div>
 
 
     <div class="row layout-top-spacing">
         <div class="container-fluid">
             <div class="card border-double">
-                <div class="card-body">
 
-                    <div class="row">
-                        <div class="col-md-5 mb-4">
-                            <select class="form-control" ng-init="BuscarSetores()" ng-change="BuscarGestoresPorSetor(setor)" ng-model="setor" ng-options="item.NOME for item in ListarSetores"><option value="">Selecione um Setor para continuar</option></select>
-                        </div>
-                        <div class="col-md-7 mb-3 text-right">
-                            <button class="btn btn-primary" ng-click="AbrirModalEditar(setor)">Vincular Usuário</button>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
-                    </div>
-                    <table class="table table-hover" width="100%">
-                        <thead>
-                            <tr>
-
-                                <th class="text-center">Id Gestor</th>
-                                <th class="text-center">Nome</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Ativar/Desativar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in ListarGestoresPorSetor | filter: filtro">
-
-                                <td class="text-center">{{item.ID}}</td>
-                                <td class="text-center">{{item.NOME_GESTOR}}</td>
-                                <td class="text-center">{{item.EMAIL}}</td>
-                                <td class="text-center"><button type="button" ng-class="botaoClass(item.STATUS)" ng-click="DesativarGestor(item)"><i class="fas fa-check"></i></button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="row">
+                    <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
                 </div>
+                <table class="table table-hover" width="100%" ng-init="BuscarGestoresPorSetor()">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Id Gestor</th>
+                            <th class="text-center">Nome</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Ativar/Desativar</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in ListarGestoresPorSetor | filter: filtro">
+
+                            <td class="text-center">{{item.ID}}</td>
+                            <td class="text-center">{{item.NOME_GESTOR}}</td>
+                            <td class="text-center">{{item.EMAIL}}</td>
+                            <td class="text-center"><button type="button" ng-class="botaoClass(item.STATUS)" ng-click="DesativarGestor(item)"><i class="fas fa-check"></i></button></td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
 
 
-        @* Modal *@
-        <div class="modal fade" id="modalEdicao" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{tituloModal}}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form>
-                        <div class="modal-body">
-                            <div class="form-group">
-                              
-                                <select class="form-control" 
-                                        ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios"></select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" ng-click="Adicionar(UserSetor)">Salvar</button>
-                        </div>
-                    </form>
+    @* Modal Vincular Usuario Gestor *@
+    <div class="modal fade" id="modalVinculoGestor" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{tituloModalVinculo}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <select class="form-control" ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios">
+                                <option value="">Selecione um Gestor para Adicionar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" ng-click="Adicionar(UserSetor.ID_USUARIO)">Salvar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 @section ScriptSectionRender {
     <script src="~/app/controllers/usuario.gestor.controller.js"></script>

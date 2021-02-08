@@ -74,7 +74,7 @@
 
 
         //----- Método Editar STATUS Setor -----//
-        $scope.Desativar = async (setor) => {
+        $scope.AlterarStatus = async (setor) => {
             Swal.fire({
                 title: 'Você deseja ' + (setor.STATUS ? 'Desativar' : 'Ativar') + ' o Setor?',
                 text: "Ativar ou Desativar o Setor da listagem",
@@ -94,11 +94,11 @@
         }
 
         //----- Método Editar Status Usuario gestor -----//
-        $scope.DesativarGestor = async (UserGestor) => {
+        $scope.AlterarStatusGestor = async (UserGestor) => {
             let resultado
             Swal.fire({
                 title: 'Você deseja ' + (UserGestor.STATUS ? 'Desativar' : 'Ativar') + ' o Usuário ' + UserGestor.NOME_GESTOR + '?',
-                text: "Ao desativar, o Gestor ficará disponível para outro Setor",
+                text: "Ao desativar, o Gestor ficará disponível para outro Setor!",
                 icon: 'danger',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -135,6 +135,7 @@
                 $scope.tituloModal = 'Novo Setor'
 
             angular.element('#modalPrincipal').modal('show');
+            
             angular.element('#detalhesSetorLink').tab('show');
         }
 

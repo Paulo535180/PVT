@@ -25,16 +25,19 @@
             }).catch(erron => { console.log(erro) });
         }
 
-        $scope.AdicionarModulo = (modulo) => {
-            let tarefa
+        $scope.AdicionarModulo = async (modulo) => {
+            let resultado
             if (!modulo.ID) {
                 modulo.DATA_CRIACAO = new Date(Date.now());
                 modulo.ID_GESTOR = '';
                 modulo.USUARIO_CRIACAO = '';
                 modulo.STATUS = true;
-                tarefa = $http.post('/modulo/AdicionarModulo', modulo);
-            } else {
-                tarefa = $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
+                resultado = await $http.post('/modulo/AdicionarModulo', modulo);
+            } else 
+                resultado = $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
+            
+            if (resultado.status < 400) {
+                await $scope.BuscarModulos();
             }
             tarefa.then(data => {
                 $scope.BuscarModulos();
@@ -48,27 +51,34 @@
                 .catch(erro => { console.log(erro) });
         }
 
-        $scope.AlterarStatus = (modulo) =>
-        {
+        $scope.botaoClass = (status) => {
+            let classe = 'btn btn-lg btn-'
+            console.log(status)
+            if (status) {
+                classe += 'success'
+            } else {
+                classe += 'danger'
+            }
+            return classe;
+        }
+
+
+        $scope.AlterarStatus = async (modulo) => {
             Swal.fire({
-                title: 'Você deseja ' + (modulo.STATUS?'Desativar': 'Ativar')+ ' o Módulo?',
-                text: "Ativar ou Desativar o Módulo da listagem",
+                title: 'Você deseja ' + (modulo.STATUS ? 'Desativar' : 'Ativar') + ' o Setor?',
+                text: "Ativar ou Desativar o Setor da listagem",
                 icon: 'danger',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                } else {
-                    modulo.STATUS =!modulo.STATUS
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Sim!',
+            }).then(async (result) => {
+                if (result.value) {
+                    modulo.STATUS = !modulo.STATUS;
+                    await $scope.AdicionarModulo(modulo);
                 }
-                
+                $scope.$apply();
             })
 
         }

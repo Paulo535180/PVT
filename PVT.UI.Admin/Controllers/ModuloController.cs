@@ -36,7 +36,7 @@ namespace PVT.UI.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListagemPorUser()
+        public async Task<IActionResult> ListagemPorUser(Modulo modulo)
         {
             var claims = (ClaimsIdentity)User.Identity;
             var gestor =  Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
@@ -70,6 +70,7 @@ namespace PVT.UI.Admin.Controllers
         [HttpPut]
         public async Task<IActionResult> EditarModulo(int id, [FromBody] Modulo modulo)
         {
+            
             modulo.USUARIO_ALTERACAO = User.Identity.Name;
             modulo.DATA_ALTERACAO = DateTime.Now;
 
