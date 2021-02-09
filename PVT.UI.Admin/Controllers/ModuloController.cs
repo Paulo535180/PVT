@@ -36,12 +36,21 @@ namespace PVT.UI.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListagemPorUser(Modulo modulo)
+        public async Task<IActionResult> ListagemPorUser()
         {
             var claims = (ClaimsIdentity)User.Identity;
             var gestor =  Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
             return Ok(await _modulo.ListagemModulosPorUser(gestor));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ListagemPorSetor()
+        {
+            var claims = (ClaimsIdentity)User.Identity;
+            var setor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value);
+            return Ok(await _modulo.ListagemModulosPorSetor(setor));
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AdicionarModulo([FromBody] Modulo modulo)
@@ -97,9 +106,18 @@ namespace PVT.UI.Admin.Controllers
             }
             return UnprocessableEntity();
         }
-        private bool ModuloExists(int id)
+
+        [HttpGet]
+        public async Task<IActionResult> Buscamodulo(int id)
+        {
+            return Ok(await _modulo.SelectId(id));
+        }
+
+            private bool ModuloExists(int id)
         {
             return _modulo.SelectId(id) != null;
         }
+
+
     }
 }

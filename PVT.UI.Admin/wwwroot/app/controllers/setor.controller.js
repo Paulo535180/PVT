@@ -27,7 +27,7 @@
             $scope.setor = setor;
             $http.get('/gestor/listagem/' + setor.ID).then(resultado => {
                 $scope.ListarGestoresPorSetor = resultado.data;
-            }).catch(erron => { console.log(erro) });
+            }).catch(erro => { console.log(erro) });
         }
 
         //----- Método de Adicionar um Setor -----//
@@ -142,7 +142,7 @@
 
         //----- Função que altera a cor do botão -----//
         $scope.botaoClass = (status) => {
-            let classe = 'btn btn-lg btn-'
+            let classe = 'btn btn-sm btn-'
             if (status) {
                 classe += 'success'
             } else {

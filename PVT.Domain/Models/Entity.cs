@@ -5,6 +5,11 @@ namespace PVT.Domain.Models
 {
     public abstract class Entity
     {
+        protected Entity()
+        {
+            STATUS = true;
+        }
+
         [Key]
         public int ID { get; set; }
 

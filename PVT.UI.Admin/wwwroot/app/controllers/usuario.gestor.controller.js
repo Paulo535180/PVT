@@ -85,7 +85,7 @@
 
         //----- Função que altera a cor do botão -----//
         $scope.botaoClass = (status) => {
-            let classe = 'btn btn-lg btn-'
+            let classe = 'btn btn-sm btn-'
             if (status) {
                 classe += 'success'
             } else {
