@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Meus Módulos";
+    ViewBag.Title = "Módulos ";
 
 }
 
 <div ng-controller="modulo">
     <div class="page-header justify-content">
-        <h3>@ViewBag.Title</h3>
-        <button class="btn btn-primary" ng-click="AbrirModalEditar()">Cadastrar Módulo</button>
+        <h3>@ViewBag.Title @ViewBag.Setor</h3>
+        <button class="btn btn-primary" ng-click="AbrirNovoCadastro()">Cadastrar Módulo</button>
     </div>
 
 
@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
                     </div>
-                    <table class="table table-hover" width="100%" ng-init="BuscarModuloPorSetor()">
+                    <table class="table table-hover" width="100%" ng-init="Listagem()">
                         <thead>
                             <tr>
 
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in ListarModulosPorSetor | filter: filtro">
+                            <tr ng-repeat="item in Modulos | filter: {RESPONSAVEL:filtro}">
                                 <td class="text-center">{{item.NOME_SETOR}}</td>
                                 <td class="text-center">{{item.NOME}}</td>
                                 <td class="text-center">{{item.DESCRICAO}}</td>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" ng-click="AdicionarModulo(modulo)">Salvar</button>
+                            <button type="button" class="btn btn-primary" ng-click="Finalizar(modulo)">Salvar</button>
                         </div>
                     </form>
                 </div>

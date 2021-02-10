@@ -10,7 +10,7 @@
     function setor($scope, $http, setoresService) {
 
         $scope.ListagemSetores = [];
-        $scope.filtro = '';
+        //$scope.filtro = '';
         $scope.ListarGestoresPorSetor = [];
         $scope.ListagemSetorPorId = [];
 
@@ -54,7 +54,6 @@
                 console.log(promessa)
         }
 
-
         //----- Método Adicionar um Gestor -----//
         $scope.AdicionarGestor = async (UserGestor) => {
             let resultado
@@ -71,6 +70,7 @@
                 );
             } else console.log(resultado)
         }
+
 
 
         //----- Método Editar STATUS Setor -----//

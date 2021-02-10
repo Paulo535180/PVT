@@ -48,17 +48,13 @@ namespace PVT.UI.Admin.Controllers
         [HttpPost("Adicionar")]
         public async Task<IActionResult> Adicionar([FromBody] UsuarioGestor usuarioGestorView)
         {
-
             var userbd = await _gestor.ObterUsuarioGestor(usuarioGestorView);
             if (userbd == null)
             {
                 usuarioGestorView.USUARIO_CRIACAO = User.Identity.Name;
                 usuarioGestorView.DATA_CRIACAO = DateTime.Now;
                 usuarioGestorView.STATUS = true;
-                if (ModelState.IsValid)
-                {
-                    return View(usuarioGestorView);
-                }
+                
                 await _gestor.Insert(usuarioGestorView);
                 return Accepted();
             }
@@ -87,27 +83,6 @@ namespace PVT.UI.Admin.Controllers
             };
             return await Adicionar(usuarioGestorView);
 
-            //var userbd = await _gestor.ObterUsuarioGestor(usuarioGestorView);
-            //if (userbd == null)
-            //{
-            //    usuarioGestorView.USUARIO_CRIACAO = User.Identity.Name;
-            //    usuarioGestorView.DATA_CRIACAO = DateTime.Now;
-            //    usuarioGestorView.STATUS = true;
-            //    if (ModelState.IsValid)
-            //    {
-            //        return View(usuarioGestorView);
-            //    }
-            //    await _gestor.Insert(usuarioGestorView);
-            //    return Accepted();
-            //}
-            //else
-            //{
-            //    userbd.STATUS = true;
-            //    userbd.USUARIO_ALTERACAO = User.Identity.Name;
-            //    userbd.DATA_ALTERACAO = DateTime.Now;
-            //    await _gestor.Update(userbd);
-            //    return Accepted();
-            //}
         }
 
         [HttpPut("Desativar")]

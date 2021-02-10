@@ -57,10 +57,28 @@ namespace PVT.Service.Repository
             from PVT_MODULO
             inner join PVT_SETOR_MODULO on PVT_SETOR_MODULO.ID_MODULO = PVT_MODULO.ID
             inner join PVT_SETOR on PVT_SETOR_MODULO.ID_SETOR = PVT_SETOR.ID 
-            inner join PVT_USUARIO_GESTOR on PVT_USUARIO_GESTOR.ID_SETOR = PVT_SETOR.ID 
+            inner join PVT_USUARIO_GESTOR on PVT_USUARIO_GESTOR.ID = PVT_MODULO.ID_USUARIO_GESTOR 
             inner join UUSUARIO on UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
 
             where PVT_SETOR.ID = @idSetor", new { idSetor });
+        }
+
+        public async Task<IEnumerable<dynamic>> ListagemSetorModulosPorUsuario(int IdSetor)
+        {
+            return await _connection.QueryAsync($@"
+            SELECT
+            PVT_MODULO.*,
+            UUSUARIO.NOME as RESPONSAVEL,
+            PVT_SETOR_MODULO.ID as ID_SETOR_MODULO,
+            PVT_SETOR_MODULO.ID_SETOR,
+            PVT_SETOR.NOME AS NOME_SETOR
+            from PVT_MODULO
+            inner join PVT_SETOR_MODULO on PVT_SETOR_MODULO.ID_MODULO = PVT_MODULO.ID
+            inner join PVT_SETOR on PVT_SETOR_MODULO.ID_SETOR = PVT_SETOR.ID 
+            inner join PVT_USUARIO_GESTOR on PVT_USUARIO_GESTOR.ID = PVT_MODULO.ID_USUARIO_GESTOR 
+            inner join UUSUARIO on UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
+
+            where PVT_SETOR_MODULO.ID_SETOR = @idSetor and PVT_SETOR_MODULO.STATUS = 1", new { IdSetor });
         }
     }
 }

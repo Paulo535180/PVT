@@ -8,34 +8,29 @@
     modulo.$inject = ['$scope', '$http'];
 
     function modulo($scope, $http) {
-        $scope.ListarModulos = [];
-        $scope.ListarSetores = [];
-        $scope.ListarModulosPorUsuario = [];
-        $scope.ListarModulosPorSetor = [];
-
+        $scope.Modulos = [];
         //----- Busca todos os Módulos -----//
-        $scope.BuscarModulos = () => {
-            $http.get('/modulo/listagem').then(resultado => {
-                $scope.ListarModulos = resultado.data;
-            }).catch(erro => { console.log(erro) });
-        };
+        //$scope.BuscarModulos = () => {
+        //    $http.get('/modulo/listagem').then(resultado => {
+        //        $scope.Modulos = resultado.data;
+        //    }).catch(erro => { console.log(erro) });
+        //};
 
         //----- Busca todos os Módulos de cada Usuario -----//
-        $scope.BuscarModuloPorUsuario = (user) => {
-            $scope.user = user;
-            $http.get('/modulo/ListagemPorUser/').then(resultado => {
-                $scope.ListarModulosPorUsuario = resultado.data;
-            }).catch(erro => { console.log(erro) });
-        }
-
-        $scope.BuscarModuloPorSetor = () => {
+        //$scope.BuscarModuloPorUsuario = (user) => {
+        //    $scope.user = user;
+        //    $http.get('/modulo/ListagemPorUser/').then(resultado => {
+        //        $scope.ListarModulosPorUsuario = resultado.data;
+        //    }).catch(erro => { console.log(erro) });
+        //}
+        $scope.Listagem = () => {
             $http.get('/modulo/ListagemPorSetor/').then(resultado => {
-                $scope.ListarModulosPorSetor = resultado.data;
+                $scope.Modulos = resultado.data;
             }).catch(erro => { console.log(erro) });
         }
 
         //----- Adicionar um Módulo -----//
-        $scope.AdicionarModulo = async (modulo) => {
+        $scope.Finalizar = async (modulo) => {
             let resultado
             if (!modulo.ID) {
                 modulo.DATA_CRIACAO = new Date(Date.now());
@@ -46,9 +41,8 @@
             } else
                 resultado = await $http.put('/modulo/EditarModulo?id=' + modulo.ID, modulo)
             if (resultado.status < 400) {
-                await $scope.BuscarModuloPorSetor();
+                await $scope.Listagem();
                 angular.element('#modalEdicao').modal('hide');
-
                 Swal.fire(
                     'Salvo com Sucesso',
                     '',
@@ -69,6 +63,10 @@
             return classe;
         }
 
+        $scope.Status = async (modulo) => {
+            resultado = await $http.put('/modulo/AlterarStatus/', modulo)
+        }
+
         //----- Método que altera o Status -----//
         $scope.AlterarStatus = async (modulo) => {
             Swal.fire({
@@ -83,9 +81,9 @@
             }).then(async (result) => {
                 if (result.value) {
                     modulo.STATUS = !modulo.STATUS;
-                    await $scope.AdicionarModulo(modulo);
+                    await $scope.Finalizar(modulo);
                 }
-                await $scope.BuscarModuloPorSetor();
+                await $scope.Listagem();
                 $scope.$apply();
             })
 
@@ -93,16 +91,21 @@
         //----- Abrir Modal de edição -----//
         $scope.AbrirModalEditar = async (modulo) => {
             console.log(modulo)
-            if (modulo) {
-                let resultado = await $http.get('/modulo/Buscamodulo/' + modulo.ID_MODULO);
-                $scope.modulo = { ...resultado.data };
-                $scope.$apply();
-            } else {
-                $scope.modulo = undefined;
-            }if ($scope.modulo)
-                $scope.tituloModal = 'Editar Setor'
-            else
-                $scope.tituloModal = 'Novo Setor'
+            //if (modulo) {
+            //    let resultado = await $http.get('/modulo/Buscamodulo/' + modulo.ID_MODULO);
+            //    $scope.modulo = { ...resultado.data };
+            //    $scope.$apply();
+            //} else {
+            //    $scope.modulo = undefined;
+            //}
+            $scope.modulo = { ...modulo };
+            $scope.tituloModal = 'Editar Módulo'
+            angular.element('#modalEdicao').modal('show');
+        }
+
+        //----- Modal Novo Módulo -----//
+        $scope.AbrirNovoCadastro = () => {
+            $scope.tituloModal = 'Novo Módulo'
             angular.element('#modalEdicao').modal('show');
         }
     }

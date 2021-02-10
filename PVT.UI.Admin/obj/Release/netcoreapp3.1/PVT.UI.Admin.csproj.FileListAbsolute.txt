@@ -428,6 +428,5 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\Mic
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Gestor\Index.cshtml.g.cs
-C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Modulo\Index.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Setor\Index.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Modulo\MeusModulos.cshtml.g.cs

@@ -9,6 +9,10 @@
     {
       "library": "angular-datatables@0.6.4",
       "destination": "wwwroot/lib/angular-datatables/"
+    },
+    {
+      "library": "datatables.net@1.10.23",
+      "destination": "wwwroot/lib/datatables.net/"
     }
-  ]   
+  ]
 }

@@ -25,15 +25,22 @@ namespace PVT.UI.Admin.Controllers
         {
             return View();
         }
-        public IActionResult MeusModulos()
+        public async Task<IActionResult> MeusModulos([FromServices] ISetorRepository _setorRepository)
         {
+            var claims = (ClaimsIdentity)User.Identity;
+            var setor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value);
+            var Setor = await  _setorRepository.SelectId(setor);
+            ViewBag.Setor = Setor.NOME;
             return View();
+
         }
 
         public async Task<IActionResult> Listagem()
         {
             return Ok(await _modulo.ListagemModulos());
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> ListagemPorUser()
@@ -42,6 +49,7 @@ namespace PVT.UI.Admin.Controllers
             var gestor =  Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
             return Ok(await _modulo.ListagemModulosPorUser(gestor));
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ListagemPorSetor()
@@ -75,11 +83,34 @@ namespace PVT.UI.Admin.Controllers
             return Created("/Modulo/Index", modulo);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> AlterarStatus ([FromBody] Modulo modulo)
+        {
+            var claims = (ClaimsIdentity)User.Identity;
+
+            if (modulo.ID_USUARIO_GESTOR == Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value))
+            {
+                modulo.STATUS = !modulo.STATUS;
+                return await EditarModulo(modulo.ID, modulo);
+            }
+            else
+            {
+                var setorModulo = new SetorModulo
+                {
+                    ID_MODULO = modulo.ID,
+                    ID_SETOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value),
+                };
+                setorModulo = await _setorModuloRepository.BuscarSetorModulo(setorModulo);
+                setorModulo.STATUS = !setorModulo.STATUS;
+                await _setorModuloRepository.Update(setorModulo);                
+            }
+            return Accepted("/Modulo/Index", modulo);
+        }
+
 
         [HttpPut]
         public async Task<IActionResult> EditarModulo(int id, [FromBody] Modulo modulo)
         {
-            
             modulo.USUARIO_ALTERACAO = User.Identity.Name;
             modulo.DATA_ALTERACAO = DateTime.Now;
 
@@ -90,6 +121,7 @@ namespace PVT.UI.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                
                 try
                 {
                     await _modulo.Update(modulo);

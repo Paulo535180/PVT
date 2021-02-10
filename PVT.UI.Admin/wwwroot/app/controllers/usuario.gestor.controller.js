@@ -43,15 +43,6 @@
                 .catch(erro => { console.log(erro) });
         }
 
-        $scope.AdicionarGestor = async (setor) => {
-            $scope.UserSetor = { ID_SETOR: setor.ID };
-            $http.get('/usuario/listagem').then(resultado => {
-                $scope.ListaUsuarios = resultado.data;
-                $scope.tituloModalVinculo = 'Adicionar Gestor'
-                angular.element('#modalVinculoGestor').modal('show');
-            }).catch(erro => { console.log(erro) });
-        }
-
 
         $scope.DesativarGestor = async (UserGestor) => {
             let resultado
@@ -105,6 +96,7 @@
             angular.element('#detalhesSetorLink').tab('show');
         }
 
+        //Método abiri modal e Lista os Usuario Disponiveis
         $scope.AbriModalAdicionarGestor = () => {
             $http.get('/usuario/listagem').then(resultado => {
                 $scope.ListaUsuarios = resultado.data;
@@ -112,20 +104,5 @@
                 angular.element('#modalVinculoGestor').modal('show');
             }).catch(erro => { console.log(erro) });
         }
-
-        //$scope.AbrirModalEditar = (setor) => {
-        //    $scope.UserSetor = { ID_SETOR: setor.ID };
-        //    $http.get('/usuario/listagem').then(resultado => {
-        //        $scope.ListaUsuarios = resultado.data;
-        //        if (gestor)
-        //            $scope.tituloModal = 'Editar Setor ' + setor.NOME
-        //        else
-        //            $scope.tituloModal = 'Novo Setor ' + setor.NOME
-
-        //        angular.element('#modalEdicao').modal('show');
-
-        //    }).catch(erro => { console.log(erro) });
-        //}
-
     }
 })();
