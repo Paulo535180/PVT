@@ -430,3 +430,4 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\bin\Release\netcoreapp3.1\New
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Gestor\Index.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Setor\Index.cshtml.g.cs
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Modulo\MeusModulos.cshtml.g.cs
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Razor\Views\Curso\Index.cshtml.g.cs

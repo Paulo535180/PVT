@@ -64,7 +64,7 @@
         }
 
         $scope.Status = async (modulo) => {
-            resultado = await $http.put('/modulo/AlterarStatus/', modulo)
+            resultado = await $http.put('/modulo/Alterar,Status/', modulo)
         }
 
         //----- Método que altera o Status -----//
@@ -82,7 +82,11 @@
                 if (result.value) {
                     modulo.STATUS = !modulo.STATUS;
                     await $scope.Finalizar(modulo);
-                }
+                } Swal.fire(
+                    'Salvo com Sucesso',
+                    '',
+                    'success'
+                );
                 await $scope.Listagem();
                 $scope.$apply();
             })
@@ -91,13 +95,6 @@
         //----- Abrir Modal de edição -----//
         $scope.AbrirModalEditar = async (modulo) => {
             console.log(modulo)
-            //if (modulo) {
-            //    let resultado = await $http.get('/modulo/Buscamodulo/' + modulo.ID_MODULO);
-            //    $scope.modulo = { ...resultado.data };
-            //    $scope.$apply();
-            //} else {
-            //    $scope.modulo = undefined;
-            //}
             $scope.modulo = { ...modulo };
             $scope.tituloModal = 'Editar Módulo'
             angular.element('#modalEdicao').modal('show');

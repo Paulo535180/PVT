@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Cursos";
+}
+
+<div ng-controller="curso">
+    
+    <div class="page-header justify-content">
+        <h3>@ViewBag.Title</h3>
+        <div class="col-md-7 mb-3 text-right">
+            <button class="btn btn-primary btn-sm" ng-click="AbrirCadastroNovo()">Novo Curso</button>
+        </div>
+    </div>
+        
+    <div class="row layout-top-spacing" ng-init="Listagem()">
+        <div class="container-fluid">
+            <div class="card border-double">
+                <table id="DtResult" datatable="ng" dt-options="dtOptions"
+                       class="table table-hover dataTable"
+                       style="width: 100%" role="grid">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Id</th>
+                            <th class="text-center">Curso</th>
+                            <th class="text-center">Descrição</th>
+                            <th class="text-center">Prioridade</th>
+                            <th class="text-center">Modulo</th>
+                            <th class="text-center">Ativar/Desativar</th>
+                            <th class="text-center">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in Tabela">
+                            <td class="text-center">{{item.ID}}</td>
+                            <td class="text-center">{{item.NOME}}</td>
+                            <td class="text-center">{{item.DESCRICAO}}</td>
+                            <td class="text-center">{{item.PRIORIDADE}}</td>
+
+                            <td class="text-center">{{item.NOME_MODULO}}</td>
+                            <td class="text-center">
+                                <button type="button"
+                                        ng-class="botaoClass(item.STATUS)"
+                                        ng-click="DesativarCurso(item)">
+                                    <i class="fas fa-check" ng-show="item.STATUS"></i>
+                                    <i class="fas fa-times" ng-show="!item.STATUS"></i>
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                <button type="button"
+                                        class="btn btn-primary btn-sm"
+                                        title="Editar Curso"
+                                        ng-click="AbrirItemSelecionado(item)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @* Modal cadastrar novo Curso *@
+    <div class="modal fade" id="ModalRegistro" tabindex="-1" role="dialog" aria-labelledby="ModalRegistroLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{tituloModal}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Curso:</label>
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome do curso"
+                                           ng-model="curso.NOME">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Prioridade:</label>
+                                    <input type="number" class="form-control" id="recipient-name" ng-model="curso.PRIORIDADE">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Modulo:</label>
+                                    <select class="form-control" ng-model="curso.ID_MODULO" ng-options="item.ID as item.NOME for item in Modulos">
+                                        <option value="">Selecione um Modulo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Descrição:</label>
+                                <textarea class="form-control" id="message-text" ng-model="curso.DESCRICAO"></textarea>
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" ng-click="Finalizar(curso)">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section ScriptSectionRender {
+    <script src="~/app/factory/httpPadrao.factory.js"></script>
+    <script src="~/app/service/modulo.service.js"></script>
+    <script src="~/app/service/curso.service.js"></script>
+    <script src="~/app/controllers/curso.controller.js"></script>
+}

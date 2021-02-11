@@ -1,9 +1,12 @@
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\PVT.UI.Admin.exe
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\app.js
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\controllers\curso.controller.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\controllers\modulo.controller.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\controllers\setor.controller.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\controllers\usuario.gestor.controller.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\factory\httpPadrao.factory.js
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\service\curso.service.js
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\service\modulo.service.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\service\setores.service.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\assets\css\apps\contacts.css
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\assets\css\apps\invoice.css
