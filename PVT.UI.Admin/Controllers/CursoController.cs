@@ -71,7 +71,10 @@ namespace PVT.UI.Admin.Controllers
         /// <returns></returns>
         [HttpPost("")]
         public async Task<IActionResult> Inserir([FromBody] Curso curso)
+
         {
+            var claims = (ClaimsIdentity)User.Identity;
+            curso.USUARIO_CRIACAO = User.Identity.Name;
             if (!ModelState.IsValid)
                 return UnprocessableEntity(); //--> erro 422, view está invalida de acordo com o Modelo
 
@@ -85,7 +88,6 @@ namespace PVT.UI.Admin.Controllers
         /// Metodo PUT
         /// Alterar unm novo curso
         /// </summary>
-
         /// <returns></returns>
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int Id, [FromBody] Curso curso)

@@ -68,7 +68,7 @@
         $scope.DesativarCurso = async (item) => {
             console.log(item);
             Swal.fire({
-                title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Setor?',
+                title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Curso?',
                 text: "Ativar ou Desativar o Setor da listagem",
                 icon: 'danger',
                 showCancelButton: true,
@@ -110,7 +110,6 @@
                 curso = { ...curso, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "User Web" }
                 resultado = await cursoservice.inserir(curso);
             }
-
             else
                 resultado = await cursoservice.alterar(curso);
             console.log(resultado);
@@ -123,8 +122,6 @@
                 return
             }
             angular.element("#ModalRegistro").modal("hide");
-
-
             $scope.$apply();
             await $scope.Listagem()
         }

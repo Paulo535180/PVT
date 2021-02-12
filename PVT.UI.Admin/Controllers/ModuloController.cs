@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace PVT.UI.Admin.Controllers
 {
+    [Route("Modulo")]
     [Authorize]
     public class ModuloController : Controller
     {
@@ -21,37 +22,42 @@ namespace PVT.UI.Admin.Controllers
             _setorModuloRepository = setorModulo;
         }
 
+        [HttpGet("")]
         public IActionResult Index()
         {
             return View();
         }
-        public async Task<IActionResult> MeusModulos([FromServices] ISetorRepository _setorRepository)
-        {
-            var claims = (ClaimsIdentity)User.Identity;
-            var setor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value);
-            var Setor = await  _setorRepository.SelectId(setor);
-            ViewBag.Setor = Setor.NOME;
-            return View();
 
-        }
 
+        [HttpGet("Listagem")]
         public async Task<IActionResult> Listagem()
         {
             return Ok(await _modulo.ListagemModulos());
         }
 
 
+        [HttpGet("MeusModulos")]
+        public async Task<IActionResult> MeusModulos([FromServices] ISetorRepository _setorRepository)
+        {
+            var claims = (ClaimsIdentity)User.Identity;
+            var setor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value);
+            var Setor = await _setorRepository.SelectId(setor);
+            ViewBag.Setor = Setor.NOME;
+            return View();
 
-        [HttpGet]
+        }
+
+
+        [HttpGet("ListagemPorUser")]
         public async Task<IActionResult> ListagemPorUser()
         {
             var claims = (ClaimsIdentity)User.Identity;
-            var gestor =  Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
+            var gestor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
             return Ok(await _modulo.ListagemModulosPorUser(gestor));
         }
 
 
-        [HttpGet]
+        [HttpGet("ListagemPorSetor")]
         public async Task<IActionResult> ListagemPorSetor()
         {
             var claims = (ClaimsIdentity)User.Identity;
@@ -60,15 +66,15 @@ namespace PVT.UI.Admin.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("")]
         public async Task<IActionResult> AdicionarModulo([FromBody] Modulo modulo)
         {
             var claims = (ClaimsIdentity)User.Identity;
             modulo.USUARIO_CRIACAO = User.Identity.Name;
             modulo.ID_USUARIO_GESTOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
             modulo.DATA_CRIACAO = DateTime.Now;
-            
-            if (ModelState.IsValid) return View(modulo);
+
+            if (!ModelState.IsValid) return UnprocessableEntity();
             await _modulo.Insert(modulo);
 
             var setorModulo = new SetorModulo
@@ -83,32 +89,34 @@ namespace PVT.UI.Admin.Controllers
             return Created("/Modulo/Index", modulo);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> AlterarStatus ([FromBody] Modulo modulo)
-        {
-            var claims = (ClaimsIdentity)User.Identity;
+        //[HttpPut("")]
+        //public async Task<IActionResult> AlterarStatus([FromBody] Modulo modulo)
+        //{
+        //    var claims = (ClaimsIdentity)User.Identity;
 
-            if (modulo.ID_USUARIO_GESTOR == Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value))
-            {
-                modulo.STATUS = !modulo.STATUS;
-                return await EditarModulo(modulo.ID, modulo);
-            }
-            else
-            {
-                var setorModulo = new SetorModulo
-                {
-                    ID_MODULO = modulo.ID,
-                    ID_SETOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value),
-                };
-                setorModulo = await _setorModuloRepository.BuscarSetorModulo(setorModulo);
-                setorModulo.STATUS = !setorModulo.STATUS;
-                await _setorModuloRepository.Update(setorModulo);                
-            }
-            return Accepted("/Modulo/Index", modulo);
-        }
+        //    if (modulo.ID_USUARIO_GESTOR == Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value))
+        //    {
+        //        modulo.STATUS = !modulo.STATUS;
+        //        return await EditarModulo(modulo.ID, modulo);
+        //    }
+        //    else
+        //    {
+        //        var setorModulo = new SetorModulo
+        //        {
+        //            ID_MODULO = modulo.ID,
+        //            ID_SETOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value),
+        //        };
+        //        setorModulo = await _setorModuloRepository.BuscarSetorModulo(setorModulo);
+        //        setorModulo.STATUS = !setorModulo.STATUS;
+        //        await _setorModuloRepository.Update(setorModulo);
+        //    }
+        //    return Accepted("/Modulo/Index", modulo);
+        //}
 
 
-        [HttpPut]
+
+
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> EditarModulo(int id, [FromBody] Modulo modulo)
         {
             modulo.USUARIO_ALTERACAO = User.Identity.Name;
@@ -121,7 +129,7 @@ namespace PVT.UI.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 try
                 {
                     await _modulo.Update(modulo);
@@ -139,17 +147,40 @@ namespace PVT.UI.Admin.Controllers
             return UnprocessableEntity();
         }
 
-        [HttpGet]
+        [HttpGet("Buscamodulo")]
         public async Task<IActionResult> Buscamodulo(int id)
         {
             return Ok(await _modulo.SelectId(id));
         }
 
-            private bool ModuloExists(int id)
+        private bool ModuloExists(int id)
         {
             return _modulo.SelectId(id) != null;
         }
 
+
+
+
+
+        [HttpPatch("{Id:int}/AlterarStatus")]
+        public async Task<IActionResult> AlterarStatus(int Id, [FromServices] IUsuarioGestorRepository usuarioGestorRepository)
+        {
+            var claims = (ClaimsIdentity)User.Identity;
+            var modulo = await _modulo.SelectId(Id);
+            var usuarioGestor = await usuarioGestorRepository.SelectId(modulo.ID_USUARIO_GESTOR);
+            var Idsetor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value);
+            var idGestor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
+            modulo.USUARIO_ALTERACAO = User.Identity.Name;
+            modulo.DATA_ALTERACAO = DateTime.Now;
+
+            
+
+            modulo.STATUS = !modulo.STATUS;
+
+            await _modulo.Update(modulo);
+
+            return StatusCode(202); //--> 202 aceito
+        }
 
     }
 }

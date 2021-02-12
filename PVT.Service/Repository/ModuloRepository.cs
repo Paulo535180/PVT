@@ -56,11 +56,11 @@ namespace PVT.Service.Repository
             PVT_SETOR.NOME AS NOME_SETOR
             from PVT_MODULO
             inner join PVT_SETOR_MODULO on PVT_SETOR_MODULO.ID_MODULO = PVT_MODULO.ID
-            inner join PVT_SETOR on PVT_SETOR_MODULO.ID_SETOR = PVT_SETOR.ID 
             inner join PVT_USUARIO_GESTOR on PVT_USUARIO_GESTOR.ID = PVT_MODULO.ID_USUARIO_GESTOR 
+			inner join PVT_SETOR on PVT_USUARIO_GESTOR.ID_SETOR = PVT_SETOR.ID 
             inner join UUSUARIO on UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
-
-            where PVT_SETOR.ID = @idSetor", new { idSetor });
+			where (PVT_SETOR_MODULO.ID_SETOR = @idSetor and PVT_SETOR_MODULO.STATUS = 1  and PVT_MODULO.STATUS = 1)
+	        or (PVT_USUARIO_GESTOR.ID_SETOR = @idSetor)", new { idSetor });
         }
 
         public async Task<IEnumerable<dynamic>> ListagemSetorModulosPorUsuario(int IdSetor)

@@ -28,11 +28,49 @@
             if (resultado.status > 200)
                 return { erro: true, mensagem: resultado.data }
 
+            
             console.log(resultado)
             let lista = resultado.data.filter(x => x.STATUS);
 
             return { erro: false, data: lista }
 
+        }
+
+        this.inserir = async (modulo) => {
+
+            let resultado = await httpPadrao.post("/Modulo", modulo);
+
+            if (resultado.status === 422)
+                return { erro: true, mensagem: "As informações de curso são invalidas" }
+            if (resultado.status > 300)
+                return { erro: true, mensagem: resultado.data }
+
+            return { erro: false }
+        }
+
+        this.alterar = async (modulo) => {
+
+            console.log(modulo)
+
+            let resultado = await httpPadrao.put("/Modulo/" + modulo.ID,modulo);
+
+            if (resultado.status === 409)
+                return { erro: true, mensagem: "A rota não condiz com o registro" }
+            if (resultado.status === 422)
+                return { erro: true, mensagem: "As informações de módulo são invalidas" }
+            if (resultado.status > 300)
+                return { erro: true, mensagem: resultado.data }
+
+            return { erro: false, data: resultado.data }
+        }
+
+
+
+        this.alterarStatus = async (id) => {
+            let resultado = await httpPadrao.patch("/Modulo/" + id + "/AlterarStatus")
+            if (resultado.status > 300)
+                return { erro: true, mensagem: resultado.data }
+            return { erro: false }
         }
 
 
