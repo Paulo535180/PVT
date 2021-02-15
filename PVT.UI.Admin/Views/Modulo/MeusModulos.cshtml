@@ -1,11 +1,15 @@
-﻿@{
-    ViewBag.Title = "Módulos ";
+﻿@using System.Security.Claims;
 
+@{
+    ViewBag.Title = "Módulos ";
+    var claims = (ClaimsIdentity)User.Identity;
+    var gestor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
 }
 
 <div ng-controller="modulo">
     <div class="page-header justify-content">
         <h3>@ViewBag.Title @ViewBag.Setor</h3>
+        <button class="btn btn-primary" ng-click="AbrirModalVincularModulo()">Vincular Módulo</button>
         <button class="btn btn-primary" ng-click="AbrirCadastrarNovo()">Cadastrar Módulo</button>
     </div>
 
@@ -39,11 +43,18 @@
                                 <td class="text-center">{{item.DESCRICAO}}</td>
                                 <td class="text-center">{{item.RESPONSAVEL}}</td>
                                 <td class="text-center">{{item.DATA_CRIACAO}}</td>
-                                <td class="text-center"><button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)"><i class="fas fa-check"></i></button></td>
                                 <td class="text-center">
-                                    <button type="button" id="salvar" class="btn btn-primary" ng-click="AbrirItemSelecionado(item)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
+                                    <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)">
+                                        <i class="fas fa-check" ng-show="item.STATUS"></i>
+                                        <i class="fas fa-times" ng-show="!item.STATUS"></i>
                                     </button>
+                                </td>
+                                <td class="text-center">
+                                    
+                                    
+                                        <button type="button" id="salvar" class="btn btn-primary" ng-click="AbrirItemSelecionado(item)" ng-disabled="item.ID_USUARIO_GESTOR != '@gestor'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
+                                        </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -77,6 +88,36 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                             <button type="button" class="btn btn-primary" ng-click="Finalizar(modulo)">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        @* Modal de Novo Vinculo *@
+        <div class="modal fade" id="ModalVinculoModulo" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Vínculo de Módulo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Modulo:</label>
+                                <select class="form-control" ng-model="modulo.ID_MODULO" ng-options="item.ID as item.NOME for item in NaoVinculados">
+                                    <option value="">Selecione um Modulo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" ng-click="VincularModulo(modulo)">Salvar</button>
                         </div>
                     </form>
                 </div>

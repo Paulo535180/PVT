@@ -63,6 +63,19 @@ namespace PVT.Service.Repository
 	        or (PVT_USUARIO_GESTOR.ID_SETOR = @idSetor)", new { idSetor });
         }
 
+        public async Task<IEnumerable<dynamic>> ListagemModulosSemVinculo(int idSetor)
+        {
+            return await _connection.QueryAsync($@"
+           select PVT_MODULO.NOME,
+            PVT_MODULO.ID
+            
+            from PVT_MODULO
+
+            WHERE PVT_MODULO.STATUS = 1
+            and
+            ID not in (select ID_MODULO from PVT_SETOR_MODULO where ID_SETOR = @idSetor)" , new { idSetor });
+        }
+
         public async Task<IEnumerable<dynamic>> ListagemSetorModulosPorUsuario(int IdSetor)
         {
             return await _connection.QueryAsync($@"

@@ -84,7 +84,7 @@
                     'Salvo com Sucesso',
                     '',
                     'success'
-                )
+                ) 
                 console.log(item)
                 await $scope.Listagem();
                 $scope.$apply();

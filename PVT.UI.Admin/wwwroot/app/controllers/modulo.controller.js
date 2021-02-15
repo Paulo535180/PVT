@@ -1,4 +1,6 @@
-﻿(function () {
+﻿
+
+(function () {
     'use strict';
 
     angular
@@ -8,19 +10,6 @@
     modulo.$inject = ['$scope', '$http', 'moduloservice'];
 
     function modulo($scope, $http, moduloservice) {
-        $scope.Tabela
-        $scope.modulo
-        $scope.tituloModal
-        $scope.Modulos
-        $scope.dtOptions
-
-        //-----Modal Abrir novo Cadastro -----//
-        $scope.AbrirCadastrarNovo = () => {
-            $scope.modulo = undefined;
-            $scope.tituloModal = "Novo Módulo"
-            angular.element('#ModalRegistro').modal('show');
-        }
-
 
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
         let obterModulos = async () => {
@@ -37,6 +26,47 @@
             return resultado.data;
         }
 
+
+        $scope.Tabela
+        $scope.modulo
+        $scope.tituloModal
+        $scope.NaoVinculados
+        $scope.dtOptions
+
+        //-----Modal Abrir novo Cadastro -----//
+        $scope.AbrirCadastrarNovo = () => {
+            $scope.modulo = undefined;
+            $scope.tituloModal = "Novo Módulo"
+            angular.element('#ModalRegistro').modal('show');
+        }
+
+        //-----Modal Vincular Novo Módulo-----//
+        $scope.AbrirModalVincularModulo = async () => {
+            let resultado = await moduloservice.ListagemNaoVinculados();
+            $scope.NaoVinculados = await resultado.data;
+            console.log(resultado)
+            $scope.tituloModal = "Novo Vinculo"
+            $scope.$apply();
+            angular.element('#ModalVinculoModulo').modal('show');
+        }
+
+        //----- Função de Vincular módulo a Setor -----//
+        $scope.VincularModulo = async (modulo) => {
+            $scope.modulo = undefined;
+            console.log(modulo)
+            let resultado = await moduloservice.inserirVinculo(modulo.ID_MODULO)
+            console.log(resultado);
+            await $scope.Listagem();
+            $scope.$apply();
+            angular.element('#ModalVinculoModulo').modal('hide');
+            Swal.fire(
+                'Salvo com Sucesso',
+                '',
+                'success'
+            )
+        }
+
+
         //----- Listagem dos Módulos -----//
         $scope.Listagem = async () => {
             let resultado = await obterModulos();
@@ -46,16 +76,14 @@
         }
 
         //----- Abrir Modal de edição -----//
-        $scope.AbrirItemSelecionado = async (item) => {
+        $scope.AbrirItemSelecionado = (item) => {
             console.log(typeof item) //--> object
             console.log(item)
             $scope.modulo = item;
             $scope.tituloModal = "Editar Módulo"
-            $scope.Modulos = await obterModulos();
-            $scope.$apply();
             angular.element("#ModalRegistro").modal("show");
         }
-        
+
 
 
         $scope.AlterarStatus = async (item) => {
@@ -71,11 +99,10 @@
                 confirmButtonText: 'Sim!',
             }).then(async (result) => {
                 if (result.value) {
-
                     let resultado = await moduloservice.alterarStatus(item.ID);
                     if (resultado.erro) {
                         Swal.fire(
-                            'Não foi possivel alterar o status',
+                            'Você não pode fazer alterações neste Módulo',
                             '',
                             'error'
                         )

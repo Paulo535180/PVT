@@ -65,6 +65,14 @@ namespace PVT.UI.Admin.Controllers
             return Ok(await _modulo.ListagemModulosPorSetor(setor));
         }
 
+        [HttpGet("ListagemModulosSemVinculo")]
+        public async Task<IActionResult> ListagemModulosSemVinculos()
+        {
+            var claims = (ClaimsIdentity)User.Identity;
+            var setor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value);
+            return Ok(await _modulo.ListagemModulosSemVinculo(setor));
+        }
+
 
         [HttpPost("")]
         public async Task<IActionResult> AdicionarModulo([FromBody] Modulo modulo)
@@ -87,6 +95,33 @@ namespace PVT.UI.Admin.Controllers
             await _setorModuloRepository.Insert(setorModulo);
 
             return Created("/Modulo/Index", modulo);
+        }
+
+        [HttpPost("{Id:int}/VincularModulo")]
+        public async Task<IActionResult> VincularModulo (int Id)
+        {
+            var claims = (ClaimsIdentity)User.Identity;
+            var novoSetorModulo = new SetorModulo
+            {
+                ID_MODULO = Id,
+                ID_SETOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value),
+            };
+            var setorModulo = await _setorModuloRepository.BuscarSetorModulo(novoSetorModulo);
+
+            if(setorModulo == null)
+            {
+                novoSetorModulo.DATA_CRIACAO = DateTime.Now;
+                novoSetorModulo.USUARIO_CRIACAO = User.Identity.Name;
+                novoSetorModulo.STATUS = true;
+                await _setorModuloRepository.Insert(novoSetorModulo);
+            }
+            else {
+                setorModulo.STATUS = true;
+                setorModulo.DATA_ALTERACAO = DateTime.Now;
+                setorModulo.USUARIO_CRIACAO = User.Identity.Name;
+                await _setorModuloRepository.Update(setorModulo);
+            };
+            return Created("/Modulo/Index", setorModulo);
         }
 
         //[HttpPut("")]
@@ -159,9 +194,6 @@ namespace PVT.UI.Admin.Controllers
         }
 
 
-
-
-
         [HttpPatch("{Id:int}/AlterarStatus")]
         public async Task<IActionResult> AlterarStatus(int Id, [FromServices] IUsuarioGestorRepository usuarioGestorRepository)
         {
@@ -173,11 +205,25 @@ namespace PVT.UI.Admin.Controllers
             modulo.USUARIO_ALTERACAO = User.Identity.Name;
             modulo.DATA_ALTERACAO = DateTime.Now;
 
-            
+            if (usuarioGestor.ID_SETOR != Idsetor)
+            {
+                var setorModulo = new SetorModulo
+                {
+                    ID_MODULO = modulo.ID,
+                    ID_SETOR = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.GroupSid).Value),
+                };
+                setorModulo = await _setorModuloRepository.BuscarSetorModulo(setorModulo);
+                setorModulo.STATUS = !setorModulo.STATUS;
+                await _setorModuloRepository.Update(setorModulo);
+            }
 
-            modulo.STATUS = !modulo.STATUS;
+            else if (modulo.ID_USUARIO_GESTOR == idGestor)
+            {
+                modulo.STATUS = !modulo.STATUS;
 
-            await _modulo.Update(modulo);
+                await _modulo.Update(modulo);
+            }
+            else return BadRequest();
 
             return StatusCode(202); //--> 202 aceito
         }

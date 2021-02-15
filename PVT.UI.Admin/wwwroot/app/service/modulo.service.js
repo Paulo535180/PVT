@@ -36,9 +36,34 @@
 
         }
 
+        this.ListagemNaoVinculados = async () => {
+
+            let resultado = await httpPadrao.get("/modulo/ListagemModulosSemVinculo");
+
+            if (resultado.status > 200)
+                return { erro: true, mensagem: resultado.data }
+
+            console.log(resultado)
+
+            return { erro: false, data: resultado.data }
+
+        }
+
         this.inserir = async (modulo) => {
 
             let resultado = await httpPadrao.post("/Modulo", modulo);
+
+            if (resultado.status === 422)
+                return { erro: true, mensagem: "As informações de curso são invalidas" }
+            if (resultado.status > 300)
+                return { erro: true, mensagem: resultado.data }
+
+            return { erro: false }
+        }
+
+        this.inserirVinculo = async (id) => {
+
+            let resultado = await httpPadrao.post("/Modulo/" + id + "/VincularModulo");
 
             if (resultado.status === 422)
                 return { erro: true, mensagem: "As informações de curso são invalidas" }
