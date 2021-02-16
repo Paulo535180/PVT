@@ -16,6 +16,7 @@
 
             if (resultado.status > 200)
                 return { erro: true, mensagem: resultado.data }
+            
 
             return { erro: false, data: resultado.data }
 
@@ -23,7 +24,7 @@
 
         this.ListagemAtivos = async () => {
 
-            let resultado = await httpPadrao.get("/modulo/ListagemPorSetor");
+            let resultado = await httpPadrao.get("/modulo/ListagemPorUserLogado");
 
             if (resultado.status > 200)
                 return { erro: true, mensagem: resultado.data }

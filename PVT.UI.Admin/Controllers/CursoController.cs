@@ -92,12 +92,16 @@ namespace PVT.UI.Admin.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int Id, [FromBody] Curso curso)
         {
+            
             if (Id != curso.ID)
                 return Conflict(); //--> erro 409, ID diferente do Corpo
 
             if (!ModelState.IsValid)
                 return UnprocessableEntity(); //--> erro 409, view está invalida de acordo com o Modelo
 
+            
+            curso.USUARIO_ALTERACAO = User.Identity.Name;
+            curso.DATA_ALTERACAO = DateTime.Now;
             await _cursorepository.Update(curso);
 
             return StatusCode(202); //--> 202 aceito

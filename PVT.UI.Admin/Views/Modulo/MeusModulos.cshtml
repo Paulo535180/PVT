@@ -8,7 +8,7 @@
 
 <div ng-controller="modulo">
     <div class="page-header justify-content">
-        <h3>@ViewBag.Title @ViewBag.Setor</h3>
+        <h3>@ViewBag.Title de @ViewBag.Setor</h3>
         <button class="btn btn-primary" ng-click="AbrirModalVincularModulo()">Vincular Módulo</button>
         <button class="btn btn-primary" ng-click="AbrirCadastrarNovo()">Cadastrar Módulo</button>
     </div>
@@ -18,11 +18,7 @@
         <div class="container-fluid">
             <div class="card border-double">
                 <div class="card-body">
-                    @*<div class="row">
-                            <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
-                        </div>*@
-
-                    <table id="DtResult" datatable="ng" dt-options="dtOptions"
+                    <table datatable="ng" dt-options="dtOptions"
                            class="table table-hover dataTable"
                            style="width: 100%" role="grid" ng-init="Listagem()">
                         <thead>
@@ -37,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in Tabela | filter: {RESPONSAVEL:filtro}">
+                            <tr ng-repeat="item in Tabela">
                                 <td class="text-center">{{item.NOME_SETOR}}</td>
                                 <td class="text-center">{{item.NOME}}</td>
                                 <td class="text-center">{{item.DESCRICAO}}</td>
@@ -50,11 +46,11 @@
                                     </button>
                                 </td>
                                 <td class="text-center">
-                                    
-                                    
-                                        <button type="button" id="salvar" class="btn btn-primary" ng-click="AbrirItemSelecionado(item)" ng-disabled="item.ID_USUARIO_GESTOR != '@gestor'">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
-                                        </button>
+
+
+                                    <button type="button" id="salvar" class="btn btn-primary" ng-click="AbrirItemSelecionado(item)" ng-disabled="item.ID_USUARIO_GESTOR != '@gestor'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

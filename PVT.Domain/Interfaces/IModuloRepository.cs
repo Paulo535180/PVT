@@ -10,6 +10,7 @@ namespace PVT.Domain.Interface
         Task<IEnumerable<dynamic>> ListagemModulosPorUser(int idUser);
         Task<IEnumerable<dynamic>> ListagemModulosPorSetor(int idSetor);
         Task<IEnumerable<dynamic>> ListagemModulosSemVinculo(int idSetor);
+        Task<IEnumerable<dynamic>> ListagemModulosDoUsuarioLogado(int idUser);
     }
 
 }

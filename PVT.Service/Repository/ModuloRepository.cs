@@ -60,20 +60,20 @@ namespace PVT.Service.Repository
 			inner join PVT_SETOR on PVT_USUARIO_GESTOR.ID_SETOR = PVT_SETOR.ID 
             inner join UUSUARIO on UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
 			where (PVT_SETOR_MODULO.ID_SETOR = @idSetor and PVT_SETOR_MODULO.STATUS = 1  and PVT_MODULO.STATUS = 1)
-	        or (PVT_USUARIO_GESTOR.ID_SETOR = @idSetor)", new { idSetor });
+	        or (PVT_USUARIO_GESTOR.ID_SETOR = @idSetor and PVT_SETOR_MODULO.ID_SETOR = @idSetor)", new { idSetor });
         }
 
         public async Task<IEnumerable<dynamic>> ListagemModulosSemVinculo(int idSetor)
         {
             return await _connection.QueryAsync($@"
-           select PVT_MODULO.NOME,
+          select PVT_MODULO.NOME,
             PVT_MODULO.ID
             
             from PVT_MODULO
 
             WHERE PVT_MODULO.STATUS = 1
             and
-            ID not in (select ID_MODULO from PVT_SETOR_MODULO where ID_SETOR = @idSetor)" , new { idSetor });
+            ID not in (select ID_MODULO from PVT_SETOR_MODULO where ID_SETOR = @idSetor AND STATUS=1)" , new { idSetor });
         }
 
         public async Task<IEnumerable<dynamic>> ListagemSetorModulosPorUsuario(int IdSetor)
@@ -92,6 +92,19 @@ namespace PVT.Service.Repository
             inner join UUSUARIO on UUSUARIO.ID = PVT_USUARIO_GESTOR.ID_USUARIO 
 
             where PVT_SETOR_MODULO.ID_SETOR = @idSetor and PVT_SETOR_MODULO.STATUS = 1", new { IdSetor });
+        }
+
+        public async Task<IEnumerable<dynamic>> ListagemModulosDoUsuarioLogado(int idUser)
+        {
+            return await _connection.QueryAsync($@"
+                 Select 
+                PVT_MODULO.*
+                from PVT_MODULO
+
+                INNER JOIN PVT_USUARIO_GESTOR ON PVT_USUARIO_GESTOR.ID = PVT_MODULO.ID_USUARIO_GESTOR
+                INNER JOIN UUSUARIO ON PVT_USUARIO_GESTOR.ID_USUARIO = UUSUARIO.ID
+                
+                WHERE PVT_MODULO.ID_USUARIO_GESTOR = @idUser and PVT_MODULO.STATUS=1", new { idUser });
         }
     }
 }

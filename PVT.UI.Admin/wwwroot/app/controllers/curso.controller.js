@@ -14,7 +14,8 @@
         $scope.tituloModal
         $scope.Modulos
         $scope.dtOptions
-
+        $scope.disciplina
+        $scope.Cursos
 
         //Metodos
         $scope.Listagem = async () => {
@@ -32,7 +33,7 @@
             $scope.$apply();
         }
 
-
+         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
         let obterModulos = async () => {
             let resultado = await moduloservice.ListagemAtivos();
             if (resultado.erro) {
@@ -46,7 +47,7 @@
             return resultado.data;
         }
 
-
+        //----- Abre a modal para cadastrar um novo curso -----//
         $scope.AbrirCadastroNovo = async () => {
             $scope.curso = undefined;
             $scope.tituloModal = "Novo Curso"
@@ -55,6 +56,16 @@
             angular.element("#ModalRegistro").modal("show");
         }
 
+        //----- Abre a modal para gerenciar as diciplinas e aulas de um curso -----//
+        $scope.AbrirGerenciarCurso = (item) => {
+            console.log(item)
+            $scope.disciplina = undefined
+            $scope.tituloModal = "Gerenciamento do Curso"
+            angular.element("#modalGerenciarCurso").modal("show");
+        }
+
+
+        //----- Muda a cor do botão -----//
         $scope.botaoClass = (status) => {
             let classe = 'btn btn-sm btn-'
             if (status) {
@@ -65,6 +76,7 @@
             return classe;
         }
 
+        //----- Método que desativa o status do curso -----//
         $scope.DesativarCurso = async (item) => {
             console.log(item);
             Swal.fire({
@@ -93,8 +105,8 @@
         )}
 
 
+        //----- Abre a modal para editar um item -----//
         $scope.AbrirItemSelecionado = async (item) => {
-            console.log(typeof item) //--> object
             console.log(item)
             $scope.curso = item;
             $scope.tituloModal = "Editar Curso"
@@ -103,6 +115,7 @@
             angular.element("#ModalRegistro").modal("show");
         }
 
+        //----- Finaliza a função de salvar do curso -----//
         $scope.Finalizar = async (curso) => {
             console.log(curso)
             let resultado
@@ -118,9 +131,13 @@
                     `Não foi possível ${(!curso.ID) ? "inserir" : "alterar"} o curso`,
                     resultado.mensagem,
                     'error'
-                );
+                ); 
                 return
-            }
+            } Swal.fire(
+                'Salvo com Sucesso',
+                '',
+                'success'
+            )
             angular.element("#ModalRegistro").modal("hide");
             $scope.$apply();
             await $scope.Listagem()

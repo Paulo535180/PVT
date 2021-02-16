@@ -3,14 +3,14 @@
 }
 
 <div ng-controller="curso">
-    
+
     <div class="page-header justify-content">
         <h3>@ViewBag.Title</h3>
         <div class="col-md-7 mb-3 text-right">
             <button class="btn btn-primary btn-sm" ng-click="AbrirCadastroNovo()">Novo Curso</button>
         </div>
     </div>
-        
+    @* Listagem dos Meus Cursos *@
     <div class="row layout-top-spacing" ng-init="Listagem()">
         <div class="container-fluid">
             <div class="card border-double">
@@ -25,7 +25,7 @@
                             <th class="text-center">Prioridade</th>
                             <th class="text-center">Modulo</th>
                             <th class="text-center">Ativar/Desativar</th>
-                            <th class="text-center">Editar</th>
+                            <th class="text-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +50,12 @@
                                         title="Editar Curso"
                                         ng-click="AbrirItemSelecionado(item)">
                                     <i class="fas fa-eye"></i>
+                                </button>
+                                <button type="button"
+                                        class="btn btn-primary btn-sm"
+                                        title="Adicionar Conteúdo"
+                                        ng-click="AbrirGerenciarCurso(item.ID)">
+                                    <i class="fas fa-plus-square"></i>
                                 </button>
                             </td>
                         </tr>
@@ -94,10 +100,10 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                            <div class="form-group">
-                                <label for="message-text" class="col-form-label">Descrição:</label>
-                                <textarea class="form-control" id="message-text" ng-model="curso.DESCRICAO"></textarea>
-                            </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Descrição:</label>
+                                    <textarea class="form-control" id="message-text" ng-model="curso.DESCRICAO"></textarea>
+                                </div>
                             </div>
 
                         </div>
@@ -107,6 +113,90 @@
                         <button type="button" class="btn btn-primary" ng-click="Finalizar(curso)">Salvar</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+
+    @* Modal Gerenciar Curso *@
+    <div class="modal fade" id="modalGerenciarCurso" tabindex="-1" role="dialog" aria-labelledby="modalPrincipal" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" id="disciplina" data-toggle="pill" href="#disciplina" role="tab" aria-controls="disciplina" aria-selected="true">Disciplina</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="aula" ng-click="BuscarGestoresPorSetor(setor)"
+                               data-toggle="pill" href="#aula" role="tab" aria-controls="aula" aria-selected="false">Aulas</a>
+                        </li>
+
+                    </ul>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+
+
+
+                <div class="modal-body">
+                    <div class="tab-content" id="pills-tabContent">
+
+                        <div class="tab-pane fade" id="detalhesSetor" role="tabpanel" aria-labelledby="detalhesSetor">
+                            <form>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="col-form-label">Nome:</label>
+                                        <input type="text" class="form-control" id="recipient-name" ng-model="setor.NOME">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Descrição:</label>
+                                        <textarea class="form-control" id="message-text" ng-model="setor.DESCRICAO"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="detalhesGestores" role="tabpanel" aria-labelledby="detalhesGestores">
+                            <div class="col-md-12 mb-3 text-right">
+                                <button class="btn btn-primary btn-sm" ng-click="AbriModalAdicionarGestor(setor)">Vincular Usuário</button>
+                            </div>
+                            <table class="table table-hover" width="100%">
+                                <thead>
+                                    <tr>
+
+                                        <th class="text-center">Id Gestor</th>
+                                        <th class="text-center">Nome</th>
+                                        <th class="text-center">Email</th>
+                                        <th class="text-center">Ativar/Desativar</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in ListarGestoresPorSetor | filter: filtro">
+
+                                        <td class="text-center">{{item.ID}}</td>
+                                        <td class="text-center">{{item.NOME_GESTOR}}</td>
+                                        <td class="text-center">{{item.EMAIL}}</td>
+                                        <td class="text-center">
+                                            <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusGestor(item)"><i class="fas fa-check"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarSetor(setor)">Salvar</button>
+
+                </div>
             </div>
         </div>
     </div>
