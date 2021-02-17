@@ -1,15 +1,11 @@
-﻿
-
-(function () {
-    'use strict';
-
+﻿(function () {
     angular
         .module('PjrPadrao')
         .controller('modulo', modulo);
 
-    modulo.$inject = ['$scope', '$http', 'moduloservice'];
+    modulo.$inject = ['$scope', 'moduloservice'];
 
-    function modulo($scope, $http, moduloservice) {
+    function modulo($scope, moduloservice) {
 
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
         let obterModulos = async () => {
@@ -25,7 +21,6 @@
             }
             return resultado.data;
         }
-
 
         $scope.Tabela
         $scope.modulo
@@ -164,5 +159,4 @@
             return classe;
         }
     }
-
 })();

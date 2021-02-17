@@ -3,11 +3,11 @@
 
     angular
         .module('PjrPadrao')
-        .service('cursoservice', cursoservice);
+        .service('disciplinaservice', disciplinaservice);
 
-    cursoservice.$inject = ['httpPadrao'];
+    disciplinaservice.$inject = ['httpPadrao'];
 
-    function cursoservice(httpPadrao) {
+    function disciplinaservice(httpPadrao) {
         this.Listagem = async () => {
             let resultado = await httpPadrao.get("/Curso/listagem");
 
@@ -17,14 +17,14 @@
             return { erro: false, data: resultado.data }
         }
 
-        this.inserir = async (curso) => {
+        this.inserir = async (disciplina) => {
 
             //Regra
 
-            let resultado = await httpPadrao.post("/Curso", curso);
+            let resultado = await httpPadrao.post("/Disciplina", disciplina);
 
             if (resultado.status === 422)
-                return { erro: true, mensagem: "As informações de curso são invalidas" }
+                return { erro: true, mensagem: "As informações de disciplina são invalidas" }
             if (resultado.status > 300)
                 return { erro: true, mensagem: resultado.data }
 

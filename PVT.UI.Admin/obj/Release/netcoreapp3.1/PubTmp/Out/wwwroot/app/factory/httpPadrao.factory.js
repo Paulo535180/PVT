@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('PjrPadrao', [])
+    angular.module('PjrPadrao')
         .factory("httpPadrao", http);
 
     http.$inject = ['$http'];
