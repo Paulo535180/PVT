@@ -6,7 +6,7 @@
     var gestor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value);
 }
 
-<div ng-controller="modulo">
+<div ng-controller="modulo as ctrl">
     <div class="page-header justify-content">
         <h3>@ViewBag.Title de @ViewBag.Setor</h3>
         <button class="btn btn-primary" ng-click="AbrirModalVincularModulo()">Vincular Módulo</button>
@@ -20,6 +20,7 @@
                 <div class="card-body">
                     <table datatable="ng" dt-options="dtOptions"
                            class="table table-hover dataTable"
+                           id="DtResult"
                            style="width: 100%" role="grid" ng-init="Listagem()">
                         <thead>
                             <tr>
@@ -125,6 +126,5 @@
 @section ScriptSectionRender {
     <script src="~/app/factory/httpPadrao.factory.js"></script>
     <script src="~/app/service/modulo.service.js"></script>
-    <script src="~/app/controllers/modulo.controller.js">
-    </script>
+    <script src="~/app/controllers/modulo.controller.js"></script>
 }

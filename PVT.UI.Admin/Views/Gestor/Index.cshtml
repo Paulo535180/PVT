@@ -15,11 +15,11 @@
         <div class="container-fluid">
             <div class="card border-double">
 
-                <div class="row">
+                @*<div class="row">
                     <div class="col-md-12"><form><input class="form-control" placeholder="Pesquisar" ng-model="filtro" /></form></div>
-                </div>
+                </div>*@
 
-                <table class="table table-hover" width="100%" ng-init="BuscarGestoresPorSetor()">
+                <table datatable="ng" dt-options="dtOptions" class="table table-hover" width="100%" ng-init="BuscarGestoresPorSetor()">
                     <thead>
                         <tr>
                             <th class="text-center">Id Gestor</th>
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in ListarGestoresPorSetor | filter: filtro">
+                        <tr ng-repeat="item in ListarGestoresPorSetor">
 
                             <td class="text-center">{{item.ID}}</td>
                             <td class="text-center">{{item.NOME_GESTOR}}</td>

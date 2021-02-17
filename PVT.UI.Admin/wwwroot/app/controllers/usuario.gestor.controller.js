@@ -1,7 +1,7 @@
 ﻿(function () {
-    'use strict';
-
-    angular.module('PjrPadrao').controller('gestor', gestor);
+    angular
+        .module('PjrPadrao')
+        .controller('gestor', gestor);
 
     gestor.$inject = ['$scope', '$http'];
 
@@ -38,7 +38,7 @@
                     '',
                     'success'
                 );
-                
+
             })
                 .catch(erro => { console.log(erro) });
         }
