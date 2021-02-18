@@ -2,6 +2,12 @@
     ViewBag.Title = "Cursos";
 }
 
+<style>
+    #modalAdicionarDisciplina {
+        z-index: 3000;
+    }
+</style>
+
 <div ng-controller="curso">
 
     <div class="page-header justify-content">
@@ -34,7 +40,6 @@
                             <td class="text-center">{{item.NOME}}</td>
                             <td class="text-center">{{item.DESCRICAO}}</td>
                             <td class="text-center">{{item.PRIORIDADE}}</td>
-
                             <td class="text-center">{{item.NOME_MODULO}}</td>
                             <td class="text-center">
                                 <button type="button"
@@ -54,7 +59,7 @@
                                 <button type="button"
                                         class="btn btn-primary btn-sm"
                                         title="Adicionar Conteúdo"
-                                        ng-click="AbrirGerenciarCurso(item.ID)">
+                                        ng-click="AbrirGerenciarCurso(item)">
                                     <i class="fas fa-plus-square"></i>
                                 </button>
                             </td>
@@ -119,19 +124,19 @@
 
 
     @* Modal Gerenciar Curso *@
-    <div class="modal fade" id="modalGerenciarCurso" tabindex="-1" role="dialog" aria-labelledby="modalPrincipal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal  fade" id="modalGerenciarCurso" tabindex="-1" role="dialog" aria-labelledby="modalPrincipal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-
                         <li class="nav-item">
-                            <a class="nav-link" id="disciplinaLink" data-toggle="pill" href="#disciplina" role="tab" aria-controls="disciplina" aria-selected="true">Disciplina</a>
+                            <a class="nav-link" id="disciplinaLink" ng-click="BuscarDisciplinasPorCurso(curso.ID)" aria-selected="true"
+                               data-toggle="pill" href="#disciplina" role="tab" aria-controls="disciplina">Disciplina</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" id="aulaLink" ng-click="BuscarDisciplinas(setor)"
-                               data-toggle="pill" href="#aula" role="tab" aria-controls="aula" aria-selected="false">Aulas</a>
+                            <a class="nav-link" id="aulaLink" ng-click="" aria-selected="false"
+                               data-toggle="pill" href="#aula" role="tab" aria-controls="aula">Aulas</a>
                         </li>
 
                     </ul>
@@ -145,36 +150,38 @@
 
                 <div class="modal-body">
                     <div class="tab-content" id="pills-tabContent">
-
                         <div class="tab-pane fade" id="disciplina" role="tabpanel" aria-labelledby="disciplina">
-                            <form>
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Disciplina</label>
-                                            <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome da Disciplina"
-                                                   ng-model="disciplina.NOME">
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Prioridade:</label>
-                                            <input type="number" class="form-control" id="recipient-name" ng-model="disciplina.PRIORIDADE">
-                                        </div>
-                                    </div>
+                            <div class="col-md-12 mb-3 text-right">
+                                <button class="btn btn-primary btn-sm" ng-click="AbrirModalCadastroDisciplina(curso.ID)">Nova Disciplina</button>
+                            </div>
 
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Descrição:</label>
-                                            <textarea class="form-control" id="message-text" ng-model="disciplina.DESCRICAO"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
 
+                            <table id="DtResult" datatable="ng" dt-options="dtOptions"
+                                   class="table table-hover dataTable"
+                                   style="width: 100%" role="grid">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Nome</th>
+                                        <th class="text-center">Descrição</th>
+                                        <th class="text-center">Prioridade</th>
+                                        <th class="text-center">Ativar/Desativar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in TabelaDisciplinasPorCurso">
+
+                                        <td class="text-center">{{item.NOME}}</td>
+                                        <td class="text-center">{{item.DESCRICAO}}</td>
+                                        <td class="text-center">{{item.PRIORIDADE}}</td>
+                                        <td class="text-center">
+                                            <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusGestor(item)"><i class="fas fa-check"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
-                        <div class="tab-pane fade" id="detalhesGestores" role="tabpanel" aria-labelledby="detalhesGestores">
+                        <div class="tab-pane fade" id="aula" role="tabpanel" aria-labelledby="aula">
                             <div class="col-md-12 mb-3 text-right">
                                 <button class="btn btn-primary btn-sm" ng-click="AbriModalAdicionarGestor(setor)">Vincular Usuário</button>
                             </div>
@@ -203,6 +210,49 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        @* Modal Adicionar Disciplina *@
+                        <div class="modal fade" id="modalAdicionarDisciplina" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarDisciplina" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Adicionar Disciplina</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Nome da Disciplina:</label>
+                                                        <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome da disciplina"
+                                                               ng-model="disciplina.NOME">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="message-text" class="col-form-label">Descrição:</label>
+                                                        <textarea class="form-control" id="message-text" ng-model="disciplina.DESCRICAO"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Prioridade:</label>
+                                                        <input type="number" class="form-control" id="recipient-name" ng-model="disciplina.PRIORIDADE">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)">Salvar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -213,6 +263,7 @@
             </div>
         </div>
     </div>
+
 
 </div>
 

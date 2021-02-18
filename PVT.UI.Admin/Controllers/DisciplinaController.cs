@@ -26,11 +26,10 @@ namespace PVT.UI.Admin.Controllers
             return View();
         }
 
-        [HttpGet("Listagem")]
-        public async Task<IActionResult> Listagem()
+        [HttpGet("Listagem/{idCurso:int}")]
+        public async Task<IActionResult> Listagem(int idCurso)
         {
-            var claims = (ClaimsIdentity)User.Identity;
-            return Ok(await _disciplinaRepository.SelectAll());
+            return Ok(await _disciplinaRepository.Listagem(idCurso));
         }
 
         [HttpGet("{id:int}")]

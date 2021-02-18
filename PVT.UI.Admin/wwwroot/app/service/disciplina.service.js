@@ -8,8 +8,19 @@
     disciplinaservice.$inject = ['httpPadrao'];
 
     function disciplinaservice(httpPadrao) {
-        this.Listagem = async () => {
-            let resultado = await httpPadrao.get("/Curso/listagem");
+
+        this.Listagem = async (curso) => {
+            let resultado = await httpPadrao.get("/Disciplina/Listagem/" + curso.ID);
+
+            if (resultado.status > 200)
+                return { erro: true, mensagem: resultado.data }
+
+            return { erro: false, data: resultado.data }
+        }
+
+
+        this.ListagemPorCurso = async (idCurso) => {
+            let resultado = await httpPadrao.get("/Disciplina/Listagem/" + idCurso);
 
             if (resultado.status > 200)
                 return { erro: true, mensagem: resultado.data }
@@ -44,6 +55,14 @@
                 return { erro: true, mensagem: resultado.data }
 
             return { erro: false, data: resultado.data }
+        }
+
+
+        this.alterarStatus = async (id) => {
+            let resultado = await httpPadrao.patch("/Disciplina/" + id + "/AlterarStatus")
+            if (resultado.status > 300)
+                return { erro: true, mensagem: resultado.data }
+            return { erro: false }
         }
     }
 })();

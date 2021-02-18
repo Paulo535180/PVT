@@ -71,7 +71,6 @@ namespace PVT.UI.Admin.Controllers
         /// <returns></returns>
         [HttpPost("")]
         public async Task<IActionResult> Inserir([FromBody] Curso curso)
-
         {
             var claims = (ClaimsIdentity)User.Identity;
             curso.USUARIO_CRIACAO = User.Identity.Name;
