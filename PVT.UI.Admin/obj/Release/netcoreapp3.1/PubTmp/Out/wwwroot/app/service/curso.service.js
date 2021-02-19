@@ -8,6 +8,8 @@
     cursoservice.$inject = ['httpPadrao'];
 
     function cursoservice(httpPadrao) {
+
+
         this.Listagem = async () => {
             let resultado = await httpPadrao.get("/Curso/listagem");
 

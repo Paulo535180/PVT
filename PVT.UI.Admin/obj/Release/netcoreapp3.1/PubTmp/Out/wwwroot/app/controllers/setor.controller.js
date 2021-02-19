@@ -179,7 +179,7 @@
             $scope.Setor = { ID_SETOR: setor.ID };
             $http.get('/setor/ListagemPorSetor/' + setor.ID).then(resultado => {
                 $scope.ListagemSetorPorId = resultado.data;
-                $scope.tituloModalPrincipal = 'Detalhes Setor'
+                //$scope.tituloModalPrincipal = 'Detalhes Setor'
                 angular.element('#modalPrincipal').modal('show');
             }).catch(erro => { console.log(erro) });
         }

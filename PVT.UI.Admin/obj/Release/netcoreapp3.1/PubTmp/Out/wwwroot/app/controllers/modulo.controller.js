@@ -7,6 +7,13 @@
 
     function modulo($scope, moduloservice) {
 
+        $scope.Tabela
+        $scope.modulo
+        $scope.tituloModal
+        $scope.NaoVinculados
+        $scope.dtOptions
+
+
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
         let obterModulos = async () => {
             let resultado = await moduloservice.Listagem();
@@ -22,11 +29,6 @@
             return resultado.data;
         }
 
-        $scope.Tabela
-        $scope.modulo
-        $scope.tituloModal
-        $scope.NaoVinculados
-        $scope.dtOptions
 
         //-----Modal Abrir novo Cadastro -----//
         $scope.AbrirCadastrarNovo = () => {
@@ -60,7 +62,6 @@
                 'success'
             )
         }
-
 
         //----- Listagem dos Módulos -----//
         $scope.Listagem = async () => {
