@@ -18,7 +18,7 @@ namespace PVT.Service.Repository
 
         }
 
-        public async Task<IEnumerable<dynamic>> Listagem (int idDisciplina)
+        public async Task<IEnumerable<dynamic>> ListagemPorDisciplina (int idDisciplina)
         {
             return await _connection.QueryAsync($@"
                    select * from PVT_AULA where ID_DISCIPLINA = @idDisciplina", new { idDisciplina });

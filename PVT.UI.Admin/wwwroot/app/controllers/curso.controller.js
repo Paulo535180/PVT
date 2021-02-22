@@ -19,8 +19,7 @@
         //$scope.disciplina
         //$scope.Cursos
 
-        cursocontroller.dtOptionsModal =
-            DTOptionsBuilder.newOptions()
+        this.dtOptionsModalDisciplinasAulas = DTOptionsBuilder.newOptions()
                 .withOption('bLengthChange', false)
                 .withOption('searching', true)
                 .withDisplayLength(5)
@@ -88,6 +87,14 @@
             $scope.$apply();
         }
 
+        //----- Listagem das Aulas -----//
+        $scope.ListarAulasPorDisciplina = async (idDisciplina) => {
+            let resultado = await aulaservice.ListagemPorDisciplina(idDisciplina)
+            $scope.TabelaAulasPorDisciplina = resultado.data;
+            $scope.$apply();
+            console.log(resultado)
+        }
+
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
         let obterModulos = async () => {
             let resultado = await moduloservice.ListagemAtivos();
@@ -148,10 +155,12 @@
             $scope.disciplina = { ID_CURSO: idCurso };
             angular.element("#modalAdicionarDisciplina").modal("show");
         }
+
         //----- Modal de Aulas -----//
         $scope.AbrirModalAdicionarAula = async (idDisciplina) => {
+            console.log(idDisciplina)
             $scope.TiposDeAula = await obterTipoAula();
-            $scope.aula = { ID_DISCIPLINA: idDisciplina};
+            $scope.aula = { ID_DISCIPLINA: idDisciplina };
             $scope.$apply();
             angular.element("#modalAdicionarAula").modal("show");
         }
@@ -159,7 +168,8 @@
         //----- Método adicionar Aula -----//
         $scope.AdicionarAula = async (aula) => {
             let resultado
-            aula = { ...aula, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "user web" }
+            console.log(aula)
+            aula = { ...aula, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "user web", /*ARQUIVO: "TESTE.COM", VIDEO: "TESTE.COM/YOUTUBE", TEXTO: "MU"*/ }
             resultado = await aulaservice.inserir(aula)
             if (resultado.erro) {
                 Swal.fire(
@@ -303,6 +313,7 @@
 
         //----- Altera o Status da Disciplina -----//
         $scope.AlterarStatusDisciplina = async (item) => {
+            console.log(item)
             Swal.fire({
                 title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Módulo?',
                 text: "Ativar ou Desativar o Módulo da listagem",
@@ -331,11 +342,12 @@
                     }
                 }
                 console.log(item)
-                await $scope.ListagemDisciplinasPorCurso();
+                await $scope.ListagemDisciplinasPorCurso(item.ID_CURSO);
                 $scope.$apply();
             }
 
             )
         }
+
     }
 })();

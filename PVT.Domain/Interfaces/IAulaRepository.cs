@@ -6,7 +6,7 @@ namespace PVT.Domain.Interface
 {
     public interface IAulaRepository : IRepository<Aula>
     {
-        Task<IEnumerable<dynamic>> Listagem(int idDisciplina);
+        Task<IEnumerable<dynamic>> ListagemPorDisciplina(int idDisciplina);
     }
 
 }

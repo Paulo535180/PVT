@@ -20,6 +20,10 @@ namespace PVT.Domain.Models
         [Required]
         public int ORDEM_AULA { get; set; }
 
+        public string TEXTO { get; set; }
+        public string VIDEO { get; set; }
+        public string ARQUIVO { get; set; }
+
         //----- Aqui eu digo que a minha Aula tem um tipo de aula -----//
         //public TipoAula TipoAula { get; set; }
 

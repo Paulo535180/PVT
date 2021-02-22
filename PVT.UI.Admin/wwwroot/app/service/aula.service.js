@@ -40,7 +40,7 @@
         this.inserir = async (aula) => {
 
             let resultado = await httpPadrao.post("/Aula", aula);
-
+            console.log(aula)
             if (resultado.status === 422)
                 return { erro: true, mensagem: "As informações de curso são invalidas" }
             if (resultado.status > 300)
