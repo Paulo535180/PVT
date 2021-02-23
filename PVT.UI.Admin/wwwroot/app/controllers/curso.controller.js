@@ -69,6 +69,7 @@
                 return
             }
             $scope.TabelaDisciplinasPorCurso = resultado.data;
+            console.log($scope.TabelaDisciplinasPorCurso)
             $scope.$apply();
         }
 
@@ -134,12 +135,12 @@
         }
 
         //----- Abre a modal para editar um item -----//
-        $scope.AbrirItemSelecionado = async (item) => {
-            $scope.curso = item;
+        $scope.AbrirItemSelecionado = async (curso) => {
+            $scope.curso = curso;
             $scope.tituloModal = "Editar Curso"
             $scope.Modulos = await obterModulos();
             $scope.$apply();
-            angular.element("#ModalRegistro").modal("show");
+            angular.element("#editarCursoLink").tab("show");
         }
 
         //----- Abre a modal para gerenciar as diciplinas e aulas de um curso -----//

@@ -52,12 +52,6 @@
                             <td class="text-center">
                                 <button type="button"
                                         class="btn btn-primary btn-sm"
-                                        title="Editar Curso"
-                                        ng-click="AbrirItemSelecionado(item)">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button type="button"
-                                        class="btn btn-primary btn-sm"
                                         title="Adicionar Conteúdo"
                                         ng-click="AbrirGerenciarCurso(item)">
                                     <i class="fas fa-cogs"></i>
@@ -130,193 +124,245 @@
                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link" id="disciplinaLink" ng-click="ListagemDisciplinasPorCurso(curso.ID)" aria-selected="true"
-                               data-toggle="pill" href="#disciplina" aria-controls="disciplina"><h3>Curso: {{curso.NOME}}</h3></a>
+                               data-toggle="pill" href="#disciplina" aria-controls="disciplina">Disciplina e Aulas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="editarCursoLink" ng-click="AbrirItemSelecionado(curso)" aria-selected="true"
+                               data-toggle="pill" href="#editarCurso" aria-controls="editarCurso">Editar Curso</a>
                         </li>
                     </ul>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
+
+
+
                 <div class="modal-body">
                     <div class="tab-content" id="pills-tabContent">
 
-                        <div class="col-md-12 text-right">
-                            <button class="btn btn-primary btn-sm" ng-click="AbrirModalCadastroDisciplina(curso.ID)">Nova Disciplina</button>
-                        </div>
+                        <div class="tab-pane fade" id="disciplina" role="tabpanel" aria-labelledby="disciplina">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-primary btn-sm" ng-click="AbrirModalCadastroDisciplina(curso.ID)">Nova Disciplina</button>
+                            </div>
 
-                        <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
-                               class="table table-hover dataTable"
-                               style="margin: 1px; font-size: 11px !important; display: table;" role="grid">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Nome</th>
-                                    <th class="text-center">Descrição</th>
-                                    <th class="text-center">Prioridade</th>
-                                    <th class="text-center">Ativar/Desativar</th>
-                                </tr>
-                            </thead>
+                            <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
+                                   class="table table-hover dataTable"
+                                   style="margin: 1px; font-size: 11px !important; display: table;" role="grid">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Nome</th>
+                                        <th class="text-center">Descrição</th>
+                                        <th class="text-center">Prioridade</th>
+                                        <th class="text-center">Ativar/Desativar</th>
+                                        <th class="text-center">Ações</th>
 
-                            <tbody>
-                                <tr ng-repeat="item in TabelaDisciplinasPorCurso" ng-click="ListarAulasPorDisciplina(item.ID)">
-                                    <td class="text-center">{{item.NOME}}</td>
-                                    <td class="text-center">{{item.DESCRICAO}}</td>
-                                    <td class="text-center">{{item.PRIORIDADE}}</td>
-                                    <td class="text-center">
-                                        <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
-                                        <button class="btn btn-primary btn-sm" ng-click="AbrirModalAdicionarAula(item.ID)">Nova Aula</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </tr>
+                                </thead>
 
-
-                        @* Modal Adicionar Disciplina *@
-                        <div class="modal fade" id="modalAdicionarDisciplina" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarDisciplina" aria-hidden="true" data-backdrop="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Adicionar Disciplina</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <div class="form-group">
-                                                        <label for="recipient-name" class="col-form-label">Nome da Disciplina:</label>
-                                                        <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome da disciplina"
-                                                               ng-model="disciplina.NOME">
+                                <tbody>
+                                    <tr ng-repeat="item in TabelaDisciplinasPorCurso" ng-click="ListarAulasPorDisciplina(item.ID)">
+                                        <td class="text-center">{{item.NOME}}</td>
+                                        <td class="text-center">{{item.DESCRICAO}}</td>
+                                        <td class="text-center">{{item.PRIORIDADE}}</td>
+                                        <td class="text-center">
+                                            <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
+                                            
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-primary btn-sm" ng-click="AbrirModalAdicionarAula(item.ID)">Nova Aula</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @* Modal Adicionar Disciplina *@
+                            <div class="modal fade" id="modalAdicionarDisciplina" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarDisciplina" aria-hidden="true" data-backdrop="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Disciplina</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label">Nome da Disciplina:</label>
+                                                            <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome da disciplina"
+                                                                   ng-model="disciplina.NOME">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="message-text" class="col-form-label">Descrição:</label>
-                                                        <textarea class="form-control" id="message-text" ng-model="disciplina.DESCRICAO"></textarea>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label for="message-text" class="col-form-label">Descrição:</label>
+                                                            <textarea class="form-control" id="message-text" ng-model="disciplina.DESCRICAO"></textarea>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-4">
-                                                    <div class="form-group">
-                                                        <label for="recipient-name" class="col-form-label">Prioridade:</label>
-                                                        <input type="number" class="form-control" id="recipient-name" ng-model="disciplina.PRIORIDADE">
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label">Prioridade:</label>
+                                                            <input type="number" class="form-control" id="recipient-name" ng-model="disciplina.PRIORIDADE">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                                            <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)">Salvar</button>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                                                <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        @* Modal adicionar aula *@
-                        <div class="modal fade" id="modalAdicionarAula" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarAula" aria-hidden="true" data-backdrop="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Adicionar Aula</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form>
-                                        <div class="modal-body" ng-init="ListagemTiposAula()">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="recipient-name" class="col-form-label">Tipo de Aula:</label>
-                                                        <select class="form-control" ng-model="aula.ID_TIPO_AULA" ng-options="item.ID as item.NOME for item in TiposDeAula">
-                                                            <option value="">Selecione um Tipo de aula</option>
-                                                        </select>
+                            @* Modal adicionar aula *@
+                            <div class="modal fade" id="modalAdicionarAula" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarAula" aria-hidden="true" data-backdrop="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Aula</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form>
+                                            <div class="modal-body" ng-init="ListagemTiposAula()">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label">Tipo de Aula:</label>
+                                                            <select class="form-control" ng-model="aula.ID_TIPO_AULA" ng-options="item.ID as item.NOME for item in TiposDeAula">
+                                                                <option value="">Selecione um Tipo de aula</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                @* UPLOAD DE ARQUIVO *@
-                                                <div class="col-12" ng-show="aula.ID_TIPO_AULA == 2">
-                                                    <div class="form-group">
-                                                        <input type="file" file-model="myFile" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" />
-                                                        <button ng-click="uploadFile()">Enviar</button>
-                                                    </div>
-                                                </div>
-                                                @* Tipo de Texto na Aula *@
-                                                <div class="col-12" ng-show="aula.ID_TIPO_AULA == 4">
-                                                    <div class="form-group">
-                                                        <label for="message-text" class="col-form-label">Texto da Aula:</label>
-                                                        <textarea class="form-control" id="message-text" ng-model="aula.TEXTO"></textarea>
-                                                    </div>
-                                                </div>
 
 
+                                                    @* UPLOAD DE ARQUIVO *@
+                                                    <div class="col-12" ng-show="aula.ID_TIPO_AULA == 7">
+                                                        <div class="form-group">
+                                                            <input type="file" ng-model="aula.ARQUIVO" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" />
+                                                            <button ng-click="uploadFile()">Enviar</button>
+                                                        </div>
+                                                    </div>
 
-                                                <div class="col-8">
-                                                    <div class="form-group">
-                                                        <label for="recipient-name" class="col-form-label">Nome da Aula:</label>
-                                                        <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome da aula"
-                                                               ng-model="aula.NOME">
+                                                    @* Tipo de Texto na Aula *@
+                                                    <div class="col-12" ng-show="aula.ID_TIPO_AULA == 5">
+                                                        <div class="form-group">
+                                                            <label for="message-text" class="col-form-label">Texto da Aula:</label>
+                                                            <textarea class="form-control" id="message-text" ng-model="aula.TEXTO"></textarea>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="message-text" class="col-form-label">Descrição:</label>
-                                                        <textarea class="form-control" id="message-text" ng-model="aula.DESCRICAO"></textarea>
+
+
+                                                    <div class="col-8">
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label">Nome da Aula:</label>
+                                                            <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome da aula"
+                                                                   ng-model="aula.NOME">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-4">
-                                                    <div class="form-group">
-                                                        <label for="recipient-name" class="col-form-label">Ordem da Aula:</label>
-                                                        <input type="number" class="form-control" id="recipient-name" ng-model="aula.ORDEM_AULA">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label for="message-text" class="col-form-label">Descrição:</label>
+                                                            <textarea class="form-control" id="message-text" ng-model="aula.DESCRICAO"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label">Ordem da Aula:</label>
+                                                            <input type="number" class="form-control" id="recipient-name" ng-model="aula.ORDEM_AULA">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                                            <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)">Salvar</button>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                                                <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+
+                            @* Collapse aulas *@
+                        <div class="row">{{TabelaDisciplinasPorCurso.NOME}}</div>
+                            <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
+                                   class="table table-hover dataTable"
+                                   style="width: 100%" role="grid">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Nome</th>
+                                        <th class="text-center">Descrição</th>
+                                        <th class="text-center">Video</th>
+                                        <th class="text-center">Texto</th>
+                                        <th class="text-center">Arquivo</th>
+                                        <th class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr ng-repeat="item in TabelaAulasPorDisciplina">
+                                        <td class="text-center">{{item.NOME}}</td>
+                                        <td class="text-center">{{item.DESCRICAO}}</td>
+                                        <td class="text-center">{{item.VIDEO}}</td>
+                                        <td class="text-center">{{item.TEXTO}}</td>
+                                        <td class="text-center">{{item.ARQUIVO}}</td>
+                                        <td class="text-center">
+                                            <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            @* fim collapse aulas *@
                         </div>
-
-
-                        @* Collapse aulas *@
-
-                        <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
-                               class="table table-hover dataTable"
-                               style="width: 100%" role="grid">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Nome</th>
-                                    <th class="text-center">Descrição</th>
-                                    <th class="text-center">Video</th>
-                                    <th class="text-center">Texto</th>
-                                    <th class="text-center">Arquivo</th>
-                                    <th class="text-center">Status</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr ng-repeat="item in TabelaAulasPorDisciplina">
-                                    <td class="text-center">{{item.NOME}}</td>
-                                    <td class="text-center">{{item.DESCRICAO}}</td>
-                                    <td class="text-center">{{item.VIDEO}}</td>
-                                    <td class="text-center">{{item.TEXTO}}</td>
-                                    <td class="text-center">{{item.ARQUIVO}}</td>
-                                    <td class="text-center">
-                                        <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        @* fim collapse aulas *@
-
-
+                        <div class="tab-pane fade" id="editarCurso" role="tabpanel" aria-labelledby="editarCurso">
+                            <form>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Curso:</label>
+                                                <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome do curso"
+                                                       ng-model="curso.NOME">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Prioridade:</label>
+                                                <input type="number" class="form-control" id="recipient-name" ng-model="curso.PRIORIDADE">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Modulo:</label>
+                                                <select class="form-control" ng-model="curso.ID_MODULO" ng-options="item.ID as item.NOME for item in Modulos">
+                                                    <option value="">Selecione um Modulo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Descrição:</label>
+                                                <textarea class="form-control" id="message-text" ng-model="curso.DESCRICAO"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                                    <button type="button" class="btn btn-primary" ng-click="Finalizar(curso)">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>

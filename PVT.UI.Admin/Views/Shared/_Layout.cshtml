@@ -27,11 +27,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <link href="~/plugins/table/datatable/datatables.css" rel="stylesheet" />
     <link href="~/lib/angular-datatables/dist/css/angular-datatables.css" rel="stylesheet" />
-
-
     <link rel="stylesheet" type="text/css" href="/assets/css/forms/theme-checkbox-radio.css">
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
+    <style>
+        #modalVinculoGestor {
+            z-index: 3000;
+        }
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 2px 2px !important;
+        }
+    </style>
 </head>
 <body class="alt-menu sidebar-noneoverflow" ng-app="PjrPadrao">
     <!-- BEGIN LOADER -->
@@ -57,7 +63,7 @@
 
         <div class="overlay"></div>
         <div class="search-overlay"></div>
-
+        
         <!--  BEGIN TOPBAR  -->
         <div class="topbar-nav header navbar" role="banner">
             <nav id="topbar" class="navbar navbar-brand">

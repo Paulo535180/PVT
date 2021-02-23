@@ -2,11 +2,6 @@
     ViewBag.Title = "Setores";
 
 }
-<style>
-    #modalVinculoGestor {
-        z-index: 3000;
-    }
-</style>
 
 <div ng-controller="setor">
     <div class="page-header justify-content">
@@ -20,7 +15,7 @@
         @* Começo da table onde eu listo os setores *@
         <div class="container-fluid">
             <div class="card border-double">
-                <div class="card-body">
+                <div class="card-body" style="margin-top:0; border-top-style:solid;padding-top:0; border-top-width:0;padding-bottom:0">
 
                     <table id="DtResult" datatable="ng" dt-options="dtOptions"
                            class="table table-hover dataTable"
