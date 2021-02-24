@@ -2,35 +2,30 @@
     ViewBag.Title = "Cursos";
 }
 
-<style>
-    #modalAdicionarDisciplina {
-        z-index: 3000;
-    }
-</style>
 
 <div ng-controller="curso as ctrl">
 
     <div class="page-header justify-content">
         <h3>@ViewBag.Title</h3>
         <div class="col-md-7 mb-3 text-right">
-            <button class="btn btn-primary btn-sm" ng-click="AbrirCadastroNovo()">Novo Curso</button>
+            <button id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="AbrirCadastroNovo()">Novo Curso</button>
         </div>
     </div>
     @* Listagem dos Meus Cursos *@
     <div class="row layout-top-spacing" ng-init="Listagem()">
         <div class="container-fluid">
-            <div class="card border-double">
+            <div class="card">
                 <table id="DtResult" datatable="ng" dt-options="dtOptions"
                        class="table table-hover dataTable"
-                       style="width: 100%" role="grid">
+                       role="grid">
                     <thead>
                         <tr>
-                            <th class="text-center">Id</th>
+                            <th class="text-center" style="width:5%">Id</th>
                             <th class="text-center">Curso</th>
                             <th class="text-center">Descrição</th>
                             <th class="text-center">Prioridade</th>
                             <th class="text-center">Modulo</th>
-                            <th class="text-center">Ativar/Desativar</th>
+                            <th class="text-center" style="width:5%">Status</th>
                             <th class="text-center">Ações</th>
                         </tr>
                     </thead>
@@ -42,7 +37,8 @@
                             <td class="text-center">{{item.PRIORIDADE}}</td>
                             <td class="text-center">{{item.NOME_MODULO}}</td>
                             <td class="text-center">
-                                <button type="button"
+                                <button id="btnStatus"
+                                        type="button"
                                         ng-class="botaoClass(item.STATUS)"
                                         ng-click="DesativarCurso(item)">
                                     <i class="fas fa-check" ng-show="item.STATUS"></i>
@@ -50,7 +46,8 @@
                                 </button>
                             </td>
                             <td class="text-center">
-                                <button type="button"
+                                <button id="btnPrimaryDanger"
+                                        type="button"
                                         class="btn btn-primary btn-sm"
                                         title="Adicionar Conteúdo"
                                         ng-click="AbrirGerenciarCurso(item)">
@@ -108,8 +105,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" ng-click="Finalizar(curso)">Salvar</button>
+                        <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                        <button id="btnPrimaryDanger" type="button" class="btn btn-primary" ng-click="Finalizar(curso)">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -117,8 +114,8 @@
     </div>
 
     @* Modal Gerenciar Curso *@
-    <div class="modal fade" id="modalGerenciarCurso" tabindex="-1" role="dialog" aria-labelledby="modalPrincipal" aria-hidden="true" data-backdrop="true">
-        <div class="modal-dialog modal-xl" role="document">
+    <div id="modalGerenciarCurso" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPrincipal" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-xl" role="document" style="width:100% !important;">
             <div class="modal-content">
                 <div class="modal-header">
                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -140,12 +137,15 @@
 
 
                 <div class="modal-body">
+
                     <div class="tab-content" id="pills-tabContent">
 
                         <div class="tab-pane fade" id="disciplina" role="tabpanel" aria-labelledby="disciplina">
                             <div class="col-md-12 text-right">
-                                <button class="btn btn-primary btn-sm" ng-click="AbrirModalCadastroDisciplina(curso.ID)">Nova Disciplina</button>
-                            </div>
+                                <div class="row">
+                                <h3>Disciplinas do Curso: {{curso.NOME}}</h3>
+                                <button style="margin-left: 560px;" id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="AbrirModalCadastroDisciplina(curso.ID)">Nova Disciplina</button></div>
+                                </div>
 
                             <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
                                    class="table table-hover dataTable"
@@ -155,23 +155,23 @@
                                         <th class="text-center">Nome</th>
                                         <th class="text-center">Descrição</th>
                                         <th class="text-center">Prioridade</th>
-                                        <th class="text-center">Ativar/Desativar</th>
+                                        <th class="text-center" style="width:5%">Status</th>
                                         <th class="text-center">Ações</th>
 
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr ng-repeat="item in TabelaDisciplinasPorCurso" ng-click="ListarAulasPorDisciplina(item.ID)">
+                                    <tr ng-repeat="item in TabelaDisciplinasPorCurso" ng-click="ListarAulasPorDisciplina(item)">
                                         <td class="text-center">{{item.NOME}}</td>
                                         <td class="text-center">{{item.DESCRICAO}}</td>
                                         <td class="text-center">{{item.PRIORIDADE}}</td>
                                         <td class="text-center">
-                                            <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
-                                            
+                                            <button id="btnStatus" type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
+
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-primary btn-sm" ng-click="AbrirModalAdicionarAula(item.ID)">Nova Aula</button>
+                                            <button id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="AbrirModalAdicionarAula(item.ID)">Nova Aula</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -211,8 +211,8 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                                                <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)">Salvar</button>
+                                                <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                                                <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)">Salvar</button>
                                             </div>
                                         </form>
                                     </div>
@@ -281,8 +281,8 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                                                <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)">Salvar</button>
+                                                <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                                                <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)">Salvar</button>
                                             </div>
                                         </form>
                                     </div>
@@ -290,7 +290,9 @@
                             </div>
 
                             @* Collapse aulas *@
-                        <div class="row">{{TabelaDisciplinasPorCurso.NOME}}</div>
+                        <div class="row">
+                        <h3 class="text-center">Aulas da Disciplina: {{disciplina.NOME}}</h3>
+                        </div>
                             <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
                                    class="table table-hover dataTable"
                                    style="width: 100%" role="grid">
@@ -313,14 +315,13 @@
                                         <td class="text-center">{{item.TEXTO}}</td>
                                         <td class="text-center">{{item.ARQUIVO}}</td>
                                         <td class="text-center">
-                                            <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
+                                            <button id="btnStatus" type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
 
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
 
-                            @* fim collapse aulas *@
                         </div>
                         <div class="tab-pane fade" id="editarCurso" role="tabpanel" aria-labelledby="editarCurso">
                             <form>
@@ -356,18 +357,18 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                                    <button type="button" class="btn btn-primary" ng-click="Finalizar(curso)">Salvar</button>
+                                    <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary" ng-click="Finalizar(curso)">Salvar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)">Salvar</button>
-                </div>
+                @*<div class="modal-footer">
+                        <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                        <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)">Salvar</button>
+                    </div>*@
             </div>
         </div>
     </div>

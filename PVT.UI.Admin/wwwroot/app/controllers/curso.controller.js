@@ -20,10 +20,10 @@
         //$scope.Cursos
 
         this.dtOptionsModalDisciplinasAulas = DTOptionsBuilder.newOptions()
-                .withOption('bLengthChange', false)
-                .withOption('searching', true)
-                .withDisplayLength(5)
-                .withLanguageSource("/js/Portuguese-Brasil.json")
+            .withOption('bLengthChange', false)
+            .withOption('searching', true)
+            .withDisplayLength(5)
+            .withLanguageSource("/js/Portuguese-Brasil.json")
 
 
         //----- Listagem dos cursos -----//
@@ -89,11 +89,14 @@
         }
 
         //----- Listagem das Aulas -----//
-        $scope.ListarAulasPorDisciplina = async (idDisciplina) => {
-            let resultado = await aulaservice.ListagemPorDisciplina(idDisciplina)
+        $scope.ListarAulasPorDisciplina = async (disciplina) => {
+            console.log(disciplina)
+            let resultado = await aulaservice.ListagemPorDisciplina(disciplina.ID)
+            $scope.disciplina = disciplina;
             $scope.TabelaAulasPorDisciplina = resultado.data;
             $scope.$apply();
             console.log(resultado)
+            console.log($scope.TabelaAulasPorDisciplina)
         }
 
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
@@ -153,6 +156,7 @@
 
         //----- Modal de disciplina -----//
         $scope.AbrirModalCadastroDisciplina = async (idCurso) => {
+            
             $scope.disciplina = { ID_CURSO: idCurso };
             angular.element("#modalAdicionarDisciplina").modal("show");
         }
@@ -211,44 +215,47 @@
         }
 
         //----- Mudar status do curso -----//
-        $scope.AlterarStatus = async (item) => {
-            console.log(item);
-            Swal.fire({
-                title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Módulo?',
-                text: "Ativar ou Desativar o Módulo da listagem",
-                icon: 'danger',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Sim!',
-            }).then(async (result) => {
-                if (result.value) {
-                    let resultado = await moduloservice.alterarStatus(item.ID);
-                    if (resultado.erro) {
-                        Swal.fire(
-                            'Você não pode fazer alterações neste Módulo',
-                            '',
-                            'error'
-                        )
-                    } else {
-                        item.STATUS = !item.STATUS;
-                        Swal.fire(
-                            'Salvo com Sucesso',
-                            '',
-                            'success'
-                        )
-                    }
-                }
-                console.log(item)
-                await $scope.Listagem();
-                $scope.$apply();
-            }
+        //$scope.AlterarStatus = async (item) => {
+        //    console.log(item);
+        //    Swal.fire({
+        //        title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Módulo?',
+        //        text: "Ativar ou Desativar o Módulo da listagem",
+        //        icon: 'danger',
+        //        showCancelButton: true,
+        //        confirmButtonColor: '#3085d6',
+        //        cancelButtonColor: '#d33',
+        //        cancelButtonText: 'Cancelar',
+        //        confirmButtonText: 'Sim!',
+        //    }).then(async (result) => {
+        //        if (result.value) {
+        //            let resultado = await moduloservice.alterarStatus(item.ID);
+        //            if (resultado.erro) {
+        //                Swal.fire(
+        //                    'Você não pode fazer alterações neste Módulo',
+        //                    '',
+        //                    'error'
+        //                )
+        //            }
+        //            else {
+        //                item.STATUS = !item.STATUS;
+        //                Swal.fire(
+        //                    'Salvo com Sucesso',
+        //                    '',
+        //                    'success'
+        //                )
+        //            }
+        //        }
+        //        console.log(item)
+        //        await $scope.Listagem();
+        //        $scope.$apply();
+        //    }
 
-            )
-        }
+        //    )
+        //}
 
         //----- Muda a cor do botão -----//
+
+
         $scope.botaoClass = (status) => {
             let classe = 'btn btn-sm btn-'
             if (status) {
@@ -274,11 +281,13 @@
                 if (result.value) {
                     item.STATUS = !item.STATUS;
                     await $scope.Finalizar(item);
-                } Swal.fire(
-                    'Salvo com Sucesso',
-                    '',
-                    'success'
-                )
+                    Swal.fire(
+                        'Salvo com Sucesso',
+                        '',
+                        'success'
+                    )
+                }
+
                 await $scope.Listagem();
                 $scope.$apply();
             }
@@ -307,7 +316,7 @@
                 '',
                 'success'
             )
-            angular.element("#ModalRegistro").modal("hide");
+            angular.element('#disciplinaLink').tab('show');
             $scope.$apply();
             await $scope.Listagem()
         }
