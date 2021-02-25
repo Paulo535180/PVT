@@ -32,7 +32,7 @@
             let resultado = await httpPadrao.get("/TipoAula/Listagem")
 
             if (resultado.status > 200)
-                return { erro: true, mnensagem: resultado.data }
+                return { erro: true, mensagem: resultado.data }
 
             return { erro: false, data: resultado.data }
         }

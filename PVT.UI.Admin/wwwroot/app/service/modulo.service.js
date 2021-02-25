@@ -76,8 +76,6 @@
 
         this.alterar = async (modulo) => {
 
-            console.log(modulo)
-
             let resultado = await httpPadrao.put("/Modulo/" + modulo.ID,modulo);
 
             if (resultado.status === 409)
