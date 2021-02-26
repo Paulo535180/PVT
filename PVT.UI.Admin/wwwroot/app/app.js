@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('PjrPadrao', ['datatables'])
+    angular.module('PjrPadrao', ['datatables', 'datatables.buttons'])
         .run(App);
 
     App.$inject = ['$rootScope', 'DTOptionsBuilder'];
@@ -9,7 +9,6 @@
             .withDisplayLength(10)
             .withOption('bLengthChange', false)
             .withOption('searching', true)
-            .withLanguageSource("/js/Portuguese-Brasil.json")
+            .withLanguageSource("/js/Portuguese-Brasil.json");
     }
-
 })();

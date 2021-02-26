@@ -49,10 +49,10 @@
             return { erro: false }
         }
 
-        this.alterar = async (aula) => {
+        this.alterar = async (curso) => {
 
 
-            let resultado = await httpPadrao.put("/Aula/" + aula.ID, aula);
+            let resultado = await httpPadrao.put("/Curso/" + curso.ID, curso);
 
             if (resultado.status === 409)
                 return { erro: true, mensagem: "A rota não condiz com o registro" }

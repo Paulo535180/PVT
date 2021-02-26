@@ -5,26 +5,15 @@
         .module('PjrPadrao')
         .controller('curso', cursocontroller);
 
-    cursocontroller.$inject = ['$scope', 'cursoservice', 'moduloservice', 'disciplinaservice', 'DTOptionsBuilder'];
+    cursocontroller.$inject = ['$scope', 'cursoservice', 'moduloservice', 'aulaservice', 'disciplinaservice', 'DTOptionsBuilder'];
 
-    function cursocontroller($scope, cursoservice, moduloservice, disciplinaservice, DTOptionsBuilder) {
+    function cursocontroller($scope, cursoservice, moduloservice, aulaservice, disciplinaservice, DTOptionsBuilder) {
 
-        //Atributos
-        $scope.Tabela
-        $scope.TabelaDisciplinas
-        $scope.curso
-        $scope.tituloModal
-        $scope.Modulos
-        $scope.dtOptions
-        $scope.disciplina
-        $scope.Cursos
-
-        cursocontroller.dtOptionsDisciplina =
-            DTOptionsBuilder.newOptions()
-                .withOption('bLengthChange', false)
-                .withOption('searching', true)
-                .withDisplayLength(1)
-                .withLanguageSource("/js/Portuguese-Brasil.json")
+        this.dtOptionsModalDisciplinasAulas = DTOptionsBuilder.newOptions()
+            .withOption('bLengthChange', false)
+            .withOption('searching', true)
+            .withDisplayLength(5)
+            .withLanguageSource("/js/Portuguese-Brasil.json")
 
 
         //----- Listagem dos cursos -----//
@@ -42,7 +31,6 @@
             $scope.$apply();
         }
 
-
         //----- Listagem das disciplinas -----//
         $scope.ListagemDisciplinas = async () => {
             let resultado = await disciplinaservice.Listagem();
@@ -58,9 +46,9 @@
             $scope.$apply();
         }
 
-
         //----- Listando as disciplinas por Id do Curso -----//
-        $scope.BuscarDisciplinasPorCurso = async (idCurso) => {
+        $scope.ListagemDisciplinasPorCurso = async (idCurso) => {
+            console.log(idCurso)
             let resultado = await disciplinaservice.ListagemPorCurso(idCurso);
             if (resultado.erro) {
                 Swal.fire(
@@ -71,13 +59,51 @@
                 return
             }
             $scope.TabelaDisciplinasPorCurso = resultado.data;
+            console.log($scope.TabelaDisciplinasPorCurso)
             $scope.$apply();
         }
 
+        //----- Lista os Tipos de Aula -----//
+        $scope.ListagemTiposAula = async () => {
+            let resultado = await aulaservice.ListagemTipoAula();
+            if (resultado.erro) {
+                Swal.fire(
+                    'Não foi possível listar',
+                    resultado.mensagem,
+                    'error'
+                );
+                return
+            }
+            $scope.TiposDeAula = resultado.data;
+            $scope.$apply();
+        }
+
+        //----- Listagem das Aulas -----//
+        $scope.ListarAulasPorDisciplina = async (disciplina) => {
+            console.log(disciplina)
+            let resultado = await aulaservice.ListagemPorDisciplina(disciplina.ID)
+            $scope.disciplina = disciplina;
+            $scope.TabelaAulasPorDisciplina = resultado.data;
+            $scope.$apply();
+        }
 
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
         let obterModulos = async () => {
             let resultado = await moduloservice.ListagemAtivos();
+            if (resultado.erro) {
+                Swal.fire(
+                    'Não foi possível listar os modulos',
+                    resultado.mensagem,
+                    'error'
+                );
+                return
+            }
+            return resultado.data;
+        }
+
+        //----- Apenas guarda em obterTipoAula o serviço de Listagem dos Tipos de Aula -----//
+        let obterTipoAula = async () => {
+            let resultado = await aulaservice.ListagemTipoAula();
             if (resultado.erro) {
                 Swal.fire(
                     'Não foi possível listar os modulos',
@@ -94,29 +120,76 @@
             $scope.curso = undefined;
             $scope.tituloModal = "Novo Curso"
             $scope.Modulos = await obterModulos()
+            console.log($scope.Modulos)
             $scope.$apply();
             angular.element("#ModalRegistro").modal("show");
+        }
+
+        //----- Abre a modal para editar um item -----//
+        $scope.AbrirItemSelecionado = async (curso) => {
+            $scope.curso = curso;
+            $scope.tituloModal = "Editar Curso"
+            $scope.Modulos = await obterModulos()
+            console.log($scope.Modulos)
+            $scope.$apply();
+            angular.element("#editarCursoLink").tab("show");
         }
 
         //----- Abre a modal para gerenciar as diciplinas e aulas de um curso -----//
         $scope.AbrirGerenciarCurso = async (curso) => {
             $scope.curso = curso;
-            $scope.BuscarDisciplinasPorCurso(curso.ID);
+            $scope.ListagemDisciplinasPorCurso(curso.ID);
             angular.element("#modalGerenciarCurso").modal("show");
             angular.element('#disciplinaLink').tab('show');
         }
 
         //----- Modal de disciplina -----//
         $scope.AbrirModalCadastroDisciplina = async (idCurso) => {
+
             $scope.disciplina = { ID_CURSO: idCurso };
             angular.element("#modalAdicionarDisciplina").modal("show");
+        }
+
+        //----- Modal de Aulas -----//
+        $scope.AbrirModalAdicionarAula = async (idDisciplina) => {
+            console.log(idDisciplina)
+            $scope.TiposDeAula = await obterTipoAula();
+            $scope.aula = { ID_DISCIPLINA: idDisciplina };
+            $scope.$apply();
+            angular.element("#modalAdicionarAula").modal("show");
+        }
+
+        //----- Método adicionar Aula -----//
+        $scope.AdicionarAula = async (aula) => {
+            let resultado
+            console.log(aula)
+            aula = { ...aula, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "user web", /*ARQUIVO: "TESTE.COM", VIDEO: "TESTE.COM/YOUTUBE", TEXTO: "MU"*/ }
+            resultado = await aulaservice.inserir(aula)
+            if (resultado.erro) {
+                Swal.fire(
+                    `Não foi possível ${(!aula.ID) ? "inserir" : "alterar"} o curso`,
+                    resultado.mensagem,
+                    'error'
+                );
+                return
+            } Swal.fire(
+                'Salvo com Sucesso',
+                '',
+                'success'
+            )
+            $scope.$apply();
+            angular.element("#modalAdicionarAula").modal("hide");
         }
 
         //----- Método adicionar Disciplina -----//
         $scope.AdicionarDisciplina = async (disciplina) => {
             let resultado
-            disciplina = { ...disciplina, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "User Web" }
-            resultado = await disciplinaservice.inserir(disciplina);
+            if (!disciplina.ID) {
+                disciplina = { ...disciplina, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "User Web" }
+                resultado = await disciplinaservice.inserir(disciplina);
+            } else {
+                resultado = await disciplinaservice.alterar(disciplina)
+            }
             if (resultado.erro) {
                 Swal.fire(
                     `Não foi possível ${(!disciplina.ID) ? "inserir" : "alterar"} o curso`,
@@ -129,49 +202,53 @@
                 '',
                 'success'
             )
-            angular.element("#modalAdicionarDisciplina").modal("hide");
-            await $scope.BuscarDisciplinasPorCurso(disciplina.ID_CURSO);
+           
+
+            await $scope.ListagemDisciplinasPorCurso(disciplina.ID_CURSO);
             $scope.$apply();
         }
 
-        $scope.AlterarStatus = async (item) => {
-            console.log(item);
-            Swal.fire({
-                title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Módulo?',
-                text: "Ativar ou Desativar o Módulo da listagem",
-                icon: 'danger',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Sim!',
-            }).then(async (result) => {
-                if (result.value) {
-                    let resultado = await moduloservice.alterarStatus(item.ID);
-                    if (resultado.erro) {
-                        Swal.fire(
-                            'Você não pode fazer alterações neste Módulo',
-                            '',
-                            'error'
-                        )
-                    } else {
-                        item.STATUS = !item.STATUS;
-                        Swal.fire(
-                            'Salvo com Sucesso',
-                            '',
-                            'success'
-                        )
-                    }
-                }
-                console.log(item)
-                await $scope.Listagem();
-                $scope.$apply();
-            }
+        //----- Mudar status do curso -----//
+        //$scope.AlterarStatus = async (item) => {
+        //    console.log(item);
+        //    Swal.fire({
+        //        title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Módulo?',
+        //        text: "Ativar ou Desativar o Módulo da listagem",
+        //        icon: 'danger',
+        //        showCancelButton: true,
+        //        confirmButtonColor: '#3085d6',
+        //        cancelButtonColor: '#d33',
+        //        cancelButtonText: 'Cancelar',
+        //        confirmButtonText: 'Sim!',
+        //    }).then(async (result) => {
+        //        if (result.value) {
+        //            let resultado = await moduloservice.alterarStatus(item.ID);
+        //            if (resultado.erro) {
+        //                Swal.fire(
+        //                    'Você não pode fazer alterações neste Módulo',
+        //                    '',
+        //                    'error'
+        //                )
+        //            }
+        //            else {
+        //                item.STATUS = !item.STATUS;
+        //                Swal.fire(
+        //                    'Salvo com Sucesso',
+        //                    '',
+        //                    'success'
+        //                )
+        //            }
+        //        }
+        //        console.log(item)
+        //        await $scope.Listagem();
+        //        $scope.$apply();
+        //    }
 
-            )
-        }
+        //    )
+        //}
 
         //----- Muda a cor do botão -----//
+
         $scope.botaoClass = (status) => {
             let classe = 'btn btn-sm btn-'
             if (status) {
@@ -197,26 +274,18 @@
                 if (result.value) {
                     item.STATUS = !item.STATUS;
                     await $scope.Finalizar(item);
-                } Swal.fire(
-                    'Salvo com Sucesso',
-                    '',
-                    'success'
-                )
+                    Swal.fire(
+                        'Salvo com Sucesso',
+                        '',
+                        'success'
+                    )
+                }
+
                 await $scope.Listagem();
                 $scope.$apply();
             }
 
             )
-        }
-
-
-        //----- Abre a modal para editar um item -----//
-        $scope.AbrirItemSelecionado = async (item) => {
-            $scope.curso = item;
-            $scope.tituloModal = "Editar Curso"
-            $scope.Modulos = await obterModulos();
-            $scope.$apply();
-            angular.element("#ModalRegistro").modal("show");
         }
 
         //----- Finaliza a função de salvar do curso -----//
@@ -240,9 +309,62 @@
                 '',
                 'success'
             )
-            angular.element("#ModalRegistro").modal("hide");
+            angular.element('#disciplinaLink').tab('show');
             $scope.$apply();
             await $scope.Listagem()
         }
+
+        //----- Altera o Status da Disciplina -----//
+        $scope.AlterarStatusDisciplina = async (item) => {
+            console.log(item)
+            Swal.fire({
+                title: 'Você deseja ' + (item.STATUS ? 'Desativar' : 'Ativar') + ' o Módulo?',
+                text: "Ativar ou Desativar o Módulo da listagem",
+                icon: 'danger',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Sim!',
+            }).then(async (result) => {
+                if (result.value) {
+                    let resultado = await disciplinaservice.alterarStatusDisciplina(item.ID);
+                    if (resultado.erro) {
+                        Swal.fire(
+                            'Você não pode fazer alterações neste Módulo',
+                            '',
+                            'error'
+                        )
+                    } else {
+                        item.STATUS = !item.STATUS;
+                        Swal.fire(
+                            'Salvo com Sucesso',
+                            '',
+                            'success'
+                        )
+                    }
+                }
+                console.log(item)
+                await $scope.ListagemDisciplinasPorCurso(item.ID_CURSO);
+                $scope.$apply();
+            }
+
+            )
+        }
+
+        //----- Editar Disciplina -----//
+        $scope.EditarDisciplina = async (disciplina) => {
+            $scope.disciplina = disciplina;
+            $scope.tituloModal = "Editar Disciplina"
+            $scope.Modulos = await obterModulos();
+            $scope.$apply();
+            angular.element("#modalEditarDisciplina").modal("show");
+
+        }
+
+        $scope.FechaModal = modal => {
+            angular.element(`#${modal}`).modal("hide");
+        }
+
     }
 })();

@@ -2,7 +2,8 @@
     ViewBag.Title = "Cursos";
 }
 
-
+<style>
+</style>
 <div ng-controller="curso as ctrl">
 
     <div class="page-header justify-content">
@@ -49,7 +50,7 @@
                             <td class="text-center">
                                 <button id="btnPrimaryDanger"
                                         type="button"
-                                        class="btn btn-primary btn-sm"
+                                        class="btn btn-warning btn-sm"
                                         title="Adicionar Conteúdo"
                                         ng-click="AbrirGerenciarCurso(item)">
                                     <i class="fas fa-cogs"></i>
@@ -116,7 +117,7 @@
 
     @* Modal Gerenciar Curso *@
     <div id="modalGerenciarCurso" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPrincipal" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog modal-xl" role="document" style="width:100% !important;">
+        <div class="modal-dialog modal-xl" role="document" style="width: 80% !important;">
             <div class="modal-content">
                 <div class="modal-header">
                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -142,40 +143,36 @@
 
                         <div class="tab-pane fade" id="disciplina" role="tabpanel" aria-labelledby="disciplina">
                             <div class="row">
-                                <div class="col-10">
+                                <div class="col-12">
                                     <h5 class="text-center"><strong>Disciplinas do Curso: {{curso.NOME}}</strong></h5>
                                 </div>
 
-                                <div class="col-2"><button id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="AbrirModalCadastroDisciplina(curso.ID)">Nova Disciplina</button></div>
-
 
                                 <div class="col-12">
-                                    <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
+                                    <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinas"
                                            class="table table-hover dataTable"
                                            style="margin: 1px; font-size: 11px !important; display: table;" role="grid">
                                         <thead>
                                             <tr>
+                                                <th class="text-center" style="width:10% !important" >Prioridade</th>
                                                 <th class="text-center">Nome</th>
-                                                <th class="text-center">Descrição</th>
-                                                <th class="text-center">Prioridade</th>
-                                                <th class="text-center" style="width:5%">Status</th>
-                                                <th class="text-center">Ações</th>
+                                                <th class="text-center" style="width:10% !important">Status</th>
+                                                <th class="text-center" style="width:150px !important">Ações</th>
 
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             <tr ng-repeat="item in TabelaDisciplinasPorCurso" ng-click="ListarAulasPorDisciplina(item)">
-                                                <td class="text-center">{{item.NOME}}</td>
-                                                <td class="text-center" style="width:50%">{{item.DESCRICAO}}</td>
                                                 <td class="text-center">{{item.PRIORIDADE}}</td>
+                                                <td class="text-center">{{item.NOME}}</td>
                                                 <td class="text-center">
                                                     <button id="btnStatus" type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)" title="Alterar Status"><i class="fas fa-check"></i></button>
 
                                                 </td>
                                                 <td class="text-center">
                                                     <button id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="AbrirModalAdicionarAula(item.ID)" title="Adicionar Aula"><i class="fas fa-plus"></i></button>
-                                                    <button id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="EditarDisciplina(item)" title="Editar Aula"><i class="fas fa-cog"></i></button>
+                                                    <button id="btnPrimaryDanger" class="btn btn-warning btn-sm" ng-click="EditarDisciplina(item)" title="Editar Disciplina"><i class="fas fa-cog"></i></button>
                                                 </td>
 
                                             </tr>
@@ -235,9 +232,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Editar Disciplina</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+
                                             </div>
                                             <form>
                                                 <div class="modal-body">
@@ -295,19 +290,25 @@
                                                         </div>
 
 
-                                                        @* UPLOAD DE ARQUIVO *@
-                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 7">
-                                                            <div class="form-group">
-                                                                <input type="file" ng-model="aula.ARQUIVO" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" />
-                                                                <button ng-click="uploadFile()">Enviar</button>
-                                                            </div>
-                                                        </div>
-
                                                         @* Tipo de Texto na Aula *@
                                                         <div class="col-12" ng-show="aula.ID_TIPO_AULA == 5">
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label">Texto da Aula:</label>
                                                                 <textarea class="form-control" id="message-text" ng-model="aula.TEXTO"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        @* Tipo de aula Video *@
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 6">
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Link do Video:</label>
+                                                                <textarea class="form-control" id="message-text" ng-model="aula.VIDEO"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        @* UPLOAD DE ARQUIVO *@
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 7">
+                                                            <div class="form-group">
+                                                                <input type="file" ng-model="aula.ARQUIVO" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" />
+                                                                <button ng-click="uploadFile()">Enviar</button>
                                                             </div>
                                                         </div>
 
@@ -342,6 +343,82 @@
                                     </div>
                                 </div>
 
+                                @* Modal Editar Aula *@
+
+                                <div class="modal fade" id="modalEditarAula" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarDisciplina" aria-hidden="true" data-backdrop="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Editar Disciplina</h5>
+
+                                            </div>
+                                            <form>
+                                                <div class="modal-body" ng-init="ListagemTiposAula()">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Tipo de Aula:</label>
+                                                                <select class="form-control" ng-model="aula.ID_TIPO_AULA" ng-options="item.ID as item.NOME for item in TiposDeAula">
+                                                                    <option value="">Selecione um Tipo de aula</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        @* Tipo de Texto na Aula *@
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 5">
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Texto da Aula:</label>
+                                                                <textarea class="form-control" id="message-text" ng-model="aula.TEXTO"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        @* Tipo de aula Video *@
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 6">
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Link do Video:</label>
+                                                                <textarea class="form-control" id="message-text" ng-model="aula.VIDEO"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        @* UPLOAD DE ARQUIVO *@
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 7">
+                                                            <div class="form-group">
+                                                                <input type="file" ng-model="aula.ARQUIVO" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" />
+                                                                <button ng-click="uploadFile()">Enviar</button>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-8">
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Nome da Aula:</label>
+                                                                <input type="text" class="form-control" id="recipient-name" placeholder="insira um nome da aula"
+                                                                       ng-model="aula.NOME">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Descrição:</label>
+                                                                <textarea class="form-control" id="message-text" ng-model="aula.DESCRICAO"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Ordem da Aula:</label>
+                                                                <input type="number" class="form-control" id="recipient-name" ng-model="aula.ORDEM_AULA">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" ng-click="FechaModal('modalEditarAula')">Fechar</button>
+                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)">Salvar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Fim Modal Editar Aula  *@
+
 
                                 <div class="col-8 col-sm justify-content-center">
                                     <h5 class="text-center"><strong>Aulas</strong></h5>
@@ -349,30 +426,32 @@
 
 
                                 <div class="col-12">
-                                    <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalDisciplinasAulas"
+                                    <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalAulas"
                                            class="table table-hover dataTable"
                                            style="width: 100%" role="grid">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">Nome</th>
-                                                <th class="text-center">Descrição</th>
-                                                <th class="text-center">Video</th>
-                                                <th class="text-center">Texto</th>
-                                                <th class="text-center">Arquivo</th>
-                                                <th class="text-center">Status</th>
+                                                <th class="text-center" style="width:50%">Nome</th>
+
+                                                <th class="text-center" style="width:100%">Video</th>
+                                                <th class="text-center" style="width:100%">Texto</th>
+                                                <th class="text-center" style="width:100%">Arquivo</th>
+                                                <th class="text-center" style="width:100%">Status</th>
+                                                <th class="text-center" style="width:150px !important">Ações</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             <tr ng-repeat="item in TabelaAulasPorDisciplina">
                                                 <td class="text-center">{{item.NOME}}</td>
-                                                <td class="text-center">{{item.DESCRICAO}}</td>
                                                 <td class="text-center">{{item.VIDEO}}</td>
                                                 <td class="text-center">{{item.TEXTO}}</td>
                                                 <td class="text-center">{{item.ARQUIVO}}</td>
                                                 <td class="text-center">
                                                     <button id="btnStatus" type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)"><i class="fas fa-check"></i></button>
-
+                                                </td>
+                                                <td class="text-center">
+                                                    <button id="btnPrimaryDanger" class="btn btn-warning btn-sm" ng-click="EditarAula(item)" title="Editar Disciplina"><i class="fas fa-cog"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -385,6 +464,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="tab-pane fade" id="editarCurso" role="tabpanel" aria-labelledby="editarCurso">
                             <form>
                                 <div class="modal-body">
@@ -424,7 +504,6 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
 
                 </div>

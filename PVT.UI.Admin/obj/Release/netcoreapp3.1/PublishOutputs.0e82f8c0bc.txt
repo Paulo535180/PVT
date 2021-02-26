@@ -5,6 +5,7 @@ C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\Pub
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\controllers\setor.controller.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\controllers\usuario.gestor.controller.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\factory\httpPadrao.factory.js
+C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\service\aula.service.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\service\curso.service.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\service\disciplina.service.js
 C:\Users\paulo.aguiar\Desktop\PVT\PVT\PVT.UI.Admin\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\app\service\modulo.service.js

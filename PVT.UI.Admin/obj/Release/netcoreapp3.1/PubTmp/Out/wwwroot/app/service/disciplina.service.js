@@ -42,10 +42,10 @@
             return { erro: false }
         }
 
-        this.alterar = async (curso) => {
+        this.alterar = async (disciplina) => {
 
 
-            let resultado = await httpPadrao.put("/Curso/" + curso.ID, curso);
+            let resultado = await httpPadrao.put("/Disciplina/" + disciplina.ID, disciplina);
             
             if (resultado.status === 409)
                 return { erro: true, mensagem: "A rota não condiz com o registro" }
@@ -58,7 +58,7 @@
         }
 
 
-        this.alterarStatus = async (id) => {
+        this.alterarStatusDisciplina = async (id) => {
             let resultado = await httpPadrao.patch("/Disciplina/" + id + "/AlterarStatus")
             if (resultado.status > 300)
                 return { erro: true, mensagem: resultado.data }

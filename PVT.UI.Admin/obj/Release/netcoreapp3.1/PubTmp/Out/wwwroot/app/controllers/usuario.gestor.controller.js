@@ -3,9 +3,15 @@
         .module('PjrPadrao')
         .controller('gestor', gestor);
 
-    gestor.$inject = ['$scope', '$http'];
+    gestor.$inject = ['$scope', '$http', 'DTOptionsBuilder'];
 
-    function gestor($scope, $http) {
+    function gestor($scope, $http, DTOptionsBuilder) {
+
+        //this.dtOptionsGestores = DTOptionsBuilder.newOptions()
+        //    .withOption('bLengthChange', false)
+        //    .withOption('searching', true)
+        //    .withDisplayLength(5)
+        //    .withLanguageSource("/js/Portuguese-Brasil.json")
 
         $scope.ListarSetores = [];
         $scope.ListarGestoresPorSetor = [];

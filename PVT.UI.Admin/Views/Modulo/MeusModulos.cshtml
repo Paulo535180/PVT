@@ -10,26 +10,26 @@
         <h3>@ViewBag.Title de @ViewBag.Setor</h3>
         <button class="btn btn-sm btn-primary" ng-click="AbrirModalVincularModulo()">Vincular Módulo</button>
         <button class="btn btn-sm btn-primary" ng-click="AbrirCadastrarNovo()">Cadastrar Módulo</button>
-    </div>
+</div>
 
 
     <div class="row layout-top-spacing">
         <div class="container-fluid">
             <div class="card border-double">
                 <div class="card-body" style="margin-top:0; border-top-style:solid;padding-top:0; border-top-width:0;padding-bottom:0" >
-                    <table datatable="ng" dt-options="dtOptions"
+                    <table datatable="ng" dt-options="ctrl.dtOptionsModulos"
                            class="table table-hover dataTable"
                            id="DtResult"
                            style="width: 100%" role="grid" ng-init="Listagem()">
                         <thead id="thead">
                             <tr>
-                                <th class="text-center">SETOR</th>
-                                <th class="text-center">MÓDULO</th>
-                                <th class="text-center">DESCRICAO</th>
-                                <th class="text-center">AUTOR DO MODULO</th>
-                                <th class="text-center">CRIADO EM</th>
-                                <th class="text-center">Ativar/Desativar</th>
-                                <th class="text-center">Ações</th>
+                                <th class="text-center">Setor</th>
+                                <th class="text-center">Módulo</th>
+                                <th class="text-center">Descrição</th>
+                                <th class="text-center">Autor do Módulo</th>
+                                <th class="text-center">Criado Em</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center" style="width:80px">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,17 +40,13 @@
                                 <td class="text-center">{{item.RESPONSAVEL}}</td>
                                 <td class="text-center">{{item.DATA_CRIACAO}}</td>
                                 <td class="text-center">
-                                    <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)">
+                                    <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)"  title="Alterar Status">
                                         <i class="fas fa-check" ng-show="item.STATUS"></i>
                                         <i class="fas fa-times" ng-show="!item.STATUS"></i>
                                     </button>
                                 </td>
                                 <td class="text-center">
-
-
-                                    <button type="button" id="salvar" class="btn btn-sm btn-primary" ng-click="AbrirItemSelecionado(item)" ng-disabled="item.ID_USUARIO_GESTOR != '@gestor'">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 text-success"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Editar
-                                    </button>
+                                    <button type="button" id="btnPrimaryDanger" class="btn btn-warning btn-sm" ng-click="AbrirItemSelecionado(item)" ng-disabled="item.ID_USUARIO_GESTOR != '@gestor'"  title="Editar Módulo"><i class="fas fa-cogs"></i></button>
                                 </td>
                             </tr>
                         </tbody>

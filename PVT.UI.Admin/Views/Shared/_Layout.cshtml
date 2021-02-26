@@ -42,7 +42,7 @@
 
         body {
             font-size: 13px;
-            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans' !important
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans' !important
         }
 
         #btnStatus {
@@ -54,11 +54,10 @@
             padding: 4px 16px;
             font-size: 13px;
         }
-        
     </style>
 </head>
 <body class="alt-menu sidebar-noneoverflow" ng-app="PjrPadrao">
-    <!-- BEGIN LOADER -->
+
     <div id="load_screen">
         <div class="loader">
             <div class="loader-content">
@@ -66,23 +65,23 @@
             </div>logo
         </div>
     </div>
-    <!--  END LOADER -->
-    <!--  BEGIN NAVBAR  -->
-    <div class="header-container">
-        <header class="header navbar navbar-expand-sm">
-            <div class="nav-logo align-self-center">
-                <a class="navbar-brand"><img alt="logo" src="~/assets/img/logoCAHorzBranco.png"><span class="navbar-brand-name">Plataforma de Videos Tutoriais</span></a>
-            </div>
-        </header>
+
+    <div class="topbar-nav">
+        <div class="header-container">
+            <header class="header navbar navbar-expand-sm">
+                <div class="nav-logo align-self-center">
+                    <a class="navbar-brand"><img alt="logo" src="~/assets/img/logoCAHorzBranco.png"><span class="navbar-brand-name">Plataforma de Videos Tutoriais</span></a>
+                </div>
+            </header>
+        </div>
     </div>
-    <!--  END NAVBAR  -->
-    <!--  BEGIN MAIN CONTAINER  -->
+
     <div class="main-container" id="container">
 
         <div class="overlay"></div>
         <div class="search-overlay"></div>
 
-        <!--  BEGIN TOPBAR  -->
+
         <div class="topbar-nav header navbar" role="banner">
             <nav id="topbar" class="navbar navbar-brand">
                 <ul class="navbar-nav theme-brand flex-row  text-center">
@@ -174,7 +173,11 @@
     @* Scripts do angular *@
     <script src="~/plugins/sweetalerts/sweetalert2.min.js"></script>
     <script src="~/lib/angular.js/angular.js"></script>
-    <script src="~/lib/datatables.net/jquery.dataTables.js"></script>
+    <script src="~/plugins/table/datatable/datatables.js"></script>
+    <script src="~/plugins/table/datatable/button-ext/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/table/datatable/button-ext/buttons.html5.min.js"></script>
+    <script src="~/lib/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
+    @*<script src="~/lib/datatables.net/jquery.dataTables.js"></script>*@
     <script src="~/lib/angular-datatables/dist/angular-datatables.js"></script>
     <script src="~/app/app.js"></script>
     @RenderSection("ScriptSectionRender", required: false);
