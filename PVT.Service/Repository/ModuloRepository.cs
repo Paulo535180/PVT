@@ -106,5 +106,7 @@ namespace PVT.Service.Repository
                 
                 WHERE PVT_MODULO.ID_USUARIO_GESTOR = @idUser and PVT_MODULO.STATUS=1", new { idUser });
         }
+
+        //SELECT pvt_curso.ID_MODULO, count (ID_MODULO) AS CURSOS_POR_MODULO FROM PVT_CURSO GROUP BY ID_MODULO
     }
 }

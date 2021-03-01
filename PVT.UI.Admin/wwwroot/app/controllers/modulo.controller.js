@@ -17,7 +17,7 @@
         this.dtOptionsModulos = DTOptionsBuilder.newOptions()
             .withOption('bLengthChange', false)
             .withOption('searching', true)
-            .withDisplayLength(3)
+            .withDisplayLength(10)
             .withLanguageSource("/js/Portuguese-Brasil.json")
 
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//

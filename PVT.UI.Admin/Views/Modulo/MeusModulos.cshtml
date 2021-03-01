@@ -27,7 +27,7 @@
                                 <th class="text-center">Módulo</th>
                                 <th class="text-center">Descrição</th>
                                 <th class="text-center">Autor do Módulo</th>
-                                <th class="text-center">Criado Em</th>
+                                <th class="text-center">Data de Criação</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center" style="width:80px">Ações</th>
                             </tr>
@@ -38,7 +38,7 @@
                                 <td class="text-center">{{item.NOME}}</td>
                                 <td class="text-center">{{item.DESCRICAO}}</td>
                                 <td class="text-center">{{item.RESPONSAVEL}}</td>
-                                <td class="text-center">{{item.DATA_CRIACAO}}</td>
+                                <td class="text-center">{{item.DATA_CRIACAO | date : 'dd/MM/yyyy'}}</td>
                                 <td class="text-center">
                                     <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)"  title="Alterar Status">
                                         <i class="fas fa-check" ng-show="item.STATUS"></i>

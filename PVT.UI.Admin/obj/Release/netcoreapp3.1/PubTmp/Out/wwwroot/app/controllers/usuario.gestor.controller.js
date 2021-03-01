@@ -7,11 +7,11 @@
 
     function gestor($scope, $http, DTOptionsBuilder) {
 
-        //this.dtOptionsGestores = DTOptionsBuilder.newOptions()
-        //    .withOption('bLengthChange', false)
-        //    .withOption('searching', true)
-        //    .withDisplayLength(5)
-        //    .withLanguageSource("/js/Portuguese-Brasil.json")
+        this.dtOptionsGestores = DTOptionsBuilder.newOptions()
+            .withOption('bLengthChange', false)
+            .withOption('searching', true)
+            .withDisplayLength(5)
+            .withLanguageSource("/js/Portuguese-Brasil.json")
 
         $scope.ListarSetores = [];
         $scope.ListarGestoresPorSetor = [];

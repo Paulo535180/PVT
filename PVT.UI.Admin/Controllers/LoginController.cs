@@ -71,5 +71,10 @@ namespace PVT.UI.Admin.Controllers
 
             return Redirect("/");
         }
+         public async Task<IActionResult> Logout(string requestPath)
+        {
+            await HttpContext.SignOutAsync(scheme: CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/Login/Index?persist=false");
+        }
     }
 }

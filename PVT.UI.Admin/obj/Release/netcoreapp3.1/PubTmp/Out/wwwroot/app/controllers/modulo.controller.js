@@ -3,9 +3,9 @@
         .module('PjrPadrao')
         .controller('modulo', modulo);
 
-    modulo.$inject = ['$scope', 'moduloservice'];
+    modulo.$inject = ['$scope', 'moduloservice', 'DTOptionsBuilder'];
 
-    function modulo($scope, moduloservice) {
+    function modulo($scope, moduloservice, DTOptionsBuilder) {
 
         $scope.Tabela
         $scope.modulo
@@ -13,6 +13,12 @@
         $scope.NaoVinculados
         $scope.dtOptions
 
+
+        this.dtOptionsModulos = DTOptionsBuilder.newOptions()
+            .withOption('bLengthChange', false)
+            .withOption('searching', true)
+            .withDisplayLength(3)
+            .withLanguageSource("/js/Portuguese-Brasil.json")
 
         //----- Apenas guarda em obterModulo o serviço de Listagem dos Módulos -----//
         let obterModulos = async () => {
