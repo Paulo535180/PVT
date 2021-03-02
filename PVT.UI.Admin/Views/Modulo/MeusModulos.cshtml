@@ -2,21 +2,27 @@
 
 
 @{ ViewBag.Title = "Módulos ";
-                var claims = (ClaimsIdentity)User.Identity;
-                var gestor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value); }
+    var claims = (ClaimsIdentity)User.Identity;
+    var gestor = Convert.ToInt32(claims.Claims.ToList().Find(id => id.Type == ClaimTypes.PrimaryGroupSid).Value); }
 
 <div ng-controller="modulo as ctrl">
-    <div class="page-header justify-content">
-        <h3>@ViewBag.Title de @ViewBag.Setor</h3>
-        <button class="btn btn-sm btn-primary" ng-click="AbrirModalVincularModulo()">Vincular Módulo</button>
-        <button class="btn btn-sm btn-primary" ng-click="AbrirCadastrarNovo()">Cadastrar Módulo</button>
-</div>
+    <div class="row justify-content">
+        <div class="page-header justify-content col-12">
+            <div class="col-9">
+                <h3>@ViewBag.Title de @ViewBag.Setor</h3>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-sm btn-primary" ng-click="AbrirModalVincularModulo()">Vincular Módulo</button>
+                <button class="btn btn-sm btn-primary" ng-click="AbrirCadastrarNovo()">Cadastrar Módulo</button>
+            </div>
+        </div>
+    </div>
 
 
     <div class="row layout-top-spacing">
         <div class="container-fluid">
             <div class="card border-double">
-                <div class="card-body" style="margin-top:0; border-top-style:solid;padding-top:0; border-top-width:0;padding-bottom:0" >
+                <div class="card-body" style="margin-top:0; border-top-style:solid;padding-top:0; border-top-width:0;padding-bottom:0">
                     <table datatable="ng" dt-options="ctrl.dtOptionsModulos"
                            class="table table-hover dataTable"
                            id="DtResult"
@@ -40,13 +46,13 @@
                                 <td class="text-center">{{item.RESPONSAVEL}}</td>
                                 <td class="text-center">{{item.DATA_CRIACAO | date : 'dd/MM/yyyy'}}</td>
                                 <td class="text-center">
-                                    <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)"  title="Alterar Status">
+                                    <button type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)" title="Alterar Status">
                                         <i class="fas fa-check" ng-show="item.STATUS"></i>
                                         <i class="fas fa-times" ng-show="!item.STATUS"></i>
                                     </button>
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" id="btnPrimaryDanger" class="btn btn-warning btn-sm" ng-click="AbrirItemSelecionado(item)" ng-disabled="item.ID_USUARIO_GESTOR != '@gestor'"  title="Editar Módulo"><i class="fas fa-cogs"></i></button>
+                                    <button type="button" id="btnPrimaryDanger" class="btn btn-warning btn-sm" ng-click="AbrirItemSelecionado(item)" ng-disabled="item.ID_USUARIO_GESTOR != '@gestor'" title="Editar Módulo"><i class="fas fa-cogs"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -66,20 +72,35 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
+                    <form name="formularioCadastroModulo">
+                        
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Nome:</label>
-                                <input type="text" class="form-control" id="recipient-name" ng-model="modulo.NOME">
+                                <input type="text" class="form-control" name="nomeModulo" id="recipient-name" ng-model="modulo.NOME" ng-required="true" ng-minlength="3">
+                                <div ng-show="formularioCadastroModulo.nomeModulo.$error.required && formularioCadastroModulo.nomeModulo.$error.$dirty" class="alert alert-danger">
+                                    Por favor, preencha o campo Nome!
+                                </div>
+                                <div ng-show="formularioCadastroModulo.nomeModulo.$error.minlength" class="alert alert-danger">
+                                    Este campo precisa de no mínimo 3 caracteres
+                                </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                <textarea class="form-control" id="message-text" ng-model="modulo.DESCRICAO"></textarea>
+                                <textarea class="form-control" name="descricaoModulo" id="message-text" ng-model="modulo.DESCRICAO" ng-required="true" ng-minlength="10"></textarea>
+                                <div ng-show="formularioCadastroModulo.descricaoModulo.required && formularioCadastroModulo.descricaoModulo.$dirty" class="alert alert-danger">
+                                    Por favor, preencha o campo Descrição!
+                                </div>
+                                <div ng-show="formularioCadastroModulo.descricaoModulo.$error.minlength" class="alert alert-danger">
+                                    Este campo precisa de no mínimo 10 caracteres
+                                </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-sm btn-primary" ng-click="Finalizar(modulo)">Salvar</button>
+                            <button type="button" class="btn btn-sm btn-primary" ng-click="Finalizar(modulo)" ng-disabled="formularioCadastroModulo.$invalid">Salvar</button>
                         </div>
                     </form>
                 </div>
@@ -98,18 +119,18 @@
                         </button>
                     </div>
 
-                    <form>
+                    <form name="vinculoModulo">
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Modulo:</label>
-                                <select class="form-control" ng-model="modulo.ID_MODULO" ng-options="item.ID as item.NOME for item in NaoVinculados">
+                                <select class="form-control" ng-model="modulo.ID_MODULO" ng-options="item.ID as item.NOME for item in NaoVinculados" ng-required="true">
                                     <option value="">Selecione um Modulo</option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-sm btn-primary" ng-click="VincularModulo(modulo)">Salvar</button>
+                            <button type="button" class="btn btn-sm btn-primary" ng-click="VincularModulo(modulo)" ng-disabled="vinculoModulo.$invalid">Salvar</button>
                         </div>
                     </form>
                 </div>

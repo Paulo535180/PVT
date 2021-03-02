@@ -44,7 +44,7 @@ namespace PVT.UI.Admin.Controllers
             {
                 claims.Add(new Claim(ClaimTypes.GroupSid, user.ID_SETOR.Value.ToString()));
                 claims.Add(new Claim(ClaimTypes.PrimaryGroupSid, user.ID_GESTOR.Value.ToString()));
-            }
+            }            
             claims.Add(new Claim(ClaimTypes.Actor, user.Login));
             claims.Add(new Claim(ClaimTypes.Role, user.Perfil));
             claims.Add(new Claim(ClaimTypes.Name, user.Nome));
@@ -69,7 +69,11 @@ namespace PVT.UI.Admin.Controllers
                 properties: cookie
                 );
 
-            return Redirect("/");
+            if (user.Perfil != "ADMINISTRADOR")
+            {
+                return Redirect("/Gestor");
+            }
+                return Redirect("/Setor");
         }
          public async Task<IActionResult> Logout(string requestPath)
         {

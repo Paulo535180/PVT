@@ -11,7 +11,6 @@
 
 
     <div class="row layout-top-spacing">
-
         @* Começo da table onde eu listo os setores *@
         <div class="container-fluid">
             <div class="card border-double">
@@ -64,12 +63,12 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Nome:</label>
-                                <input type="text" name="nomeSetor" class="form-control" id="recipient-name" ng-model="setor.NOME" required>
+                                <input type="text" name="nomeSetor" class="form-control" id="recipient-name" ng-model="setor.NOME" ng-required="true">
                                 <div ng-if="formularioCadastroSetor.nomeSetor.$touched && formularioCadastroSetor.nomeSetor.$invalid">Este campo é obrigatório</div>
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                <textarea class="form-control" id="message-text" name="descricaoSetor" ng-model="setor.DESCRICAO" required></textarea>
+                                <textarea class="form-control" id="message-text" name="descricaoSetor" ng-model="setor.DESCRICAO" ng-required="true"></textarea>
                                 <div ng-if="formularioCadastroSetor.descricaoSetor.$touched && formularioCadastroSetor.descricaoSetor.$invalid">Este campo é obrigatório</div>
                             </div>
                         </div>

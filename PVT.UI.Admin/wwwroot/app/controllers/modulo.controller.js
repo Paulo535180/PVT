@@ -7,13 +7,6 @@
 
     function modulo($scope, moduloservice, DTOptionsBuilder) {
 
-        $scope.Tabela
-        $scope.modulo
-        $scope.tituloModal
-        $scope.NaoVinculados
-        $scope.dtOptions
-
-
         this.dtOptionsModulos = DTOptionsBuilder.newOptions()
             .withOption('bLengthChange', false)
             .withOption('searching', true)
@@ -86,8 +79,6 @@
             angular.element("#ModalRegistro").modal("show");
         }
 
-
-
         $scope.AlterarStatus = async (item) => {
             console.log(item);
             Swal.fire({
@@ -126,8 +117,7 @@
         }
 
         //----- Chama os métodos para alterar os registros em banco -----//
-        $scope.Finalizar = async (modulo) => {
-            console.log(modulo)
+        $scope.Finalizar = async (modulo) => {            
             let resultado
             if (!modulo.ID) {
                 modulo = { ...modulo, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "teste" }
@@ -135,8 +125,7 @@
             }
             else {
                 resultado = await moduloservice.alterar(modulo);
-            }
-            console.log(resultado);
+            }            
             if (resultado.erro) {
                 Swal.fire(
                     `Não foi possível ${(!modulo.ID) ? "inserir" : "alterar"} o modulo`,
@@ -145,7 +134,9 @@
                 );
                 return
             }
-            angular.element("#ModalRegistro").modal("hide"); Swal.fire(
+            angular.element("#ModalRegistro").modal("hide");
+            $scope.formularioCadastroModulo.$setPristine();
+            Swal.fire(
                 'Salvo com Sucesso',
                 '',
                 'success'
@@ -153,7 +144,6 @@
             $scope.$apply();
             await $scope.Listagem()
         }
-
 
         //----- Botão que altera cor do status -----//
         $scope.botaoClass = (status) => {

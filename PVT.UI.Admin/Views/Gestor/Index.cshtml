@@ -50,17 +50,17 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form name="vincularGestor">
                     <div class="modal-body">
                         <div class="form-group">
-                            <select class="form-control" ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios">
+                            <select class="form-control" ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios" ng-required="true">
                                 <option value="">Selecione um Gestor para Adicionar</option>
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary btn-sm" ng-click="Adicionar(UserSetor.ID_USUARIO)">Salvar</button>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="Adicionar(UserSetor.ID_USUARIO)" ng-disabled="vincularGestor.$invalid">Salvar</button>
                     </div>
                 </form>
             </div>
