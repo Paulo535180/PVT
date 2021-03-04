@@ -30,7 +30,7 @@
                             <td class="text-center">{{item.ID}}</td>
                             <td class="text-center">{{item.NOME_GESTOR}}</td>
                             <td class="text-center">{{item.EMAIL}}</td>
-                            <td class="text-center"><button type="button" ng-class="botaoClass(item.STATUS)" ng-click="DesativarGestor(item)"><i class="fas fa-check"></i></button></td>
+                            <td class="text-center"><button type="button" id="btnStatus" ng-class="botaoClass(item.STATUS)" ng-click="DesativarGestor(item)"><i class="fas fa-check"></i></button></td>
                             
                         </tr>
                     </tbody>

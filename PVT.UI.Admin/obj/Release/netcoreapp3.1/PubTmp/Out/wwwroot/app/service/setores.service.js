@@ -8,8 +8,5 @@
         this.getSetores = async () => {
             return await httpPadrao.get('/setor/listagem')
         }
-    }
-
-
-        
+    }        
 })();

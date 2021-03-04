@@ -12,7 +12,7 @@
 
         this.Listagem = async () => {
             let resultado = await httpPadrao.get("/Curso/listagem");
-
+            console.log(resultado);
             if (resultado.status > 200)
                 return { erro: true, mensagem: resultado.data }
 

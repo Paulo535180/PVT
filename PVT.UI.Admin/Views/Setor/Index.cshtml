@@ -6,7 +6,9 @@
 <div ng-controller="setor">
     <div class="page-header justify-content">
         <h3>@ViewBag.Title</h3>
-        <button class="btn btn-primary btn-sm" ng-click="AbrirModalNovo()">Cadastrar Setor</button>
+        <div class="col-md-7 mb-3 text-right">
+            <button id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="AbrirModalNovo()">Cadastrar Setor</button>
+        </div>
     </div>
 
 
@@ -26,7 +28,7 @@
                                 <th class="text-center">Data Criacão</th>
                                 <th class="text-center">Usuario Criação</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">Ações</th>
+                                <th class="text-center" style="width:80px">Ações</th>
                             </tr>
                         </thead>
 
@@ -39,7 +41,7 @@
                                 <td class="text-center">
                                     <button id="btnStatus" type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatus(item)"><i class="fas fa-check"></i></button>
                                 </td>
-                                <td class="text-center"><button type="button" class="btn btn-primary btn-sm" ng-click="AbrirModalVisualizar(item)"><i class="fas fa-eye"></i>Visualizar</button></td>
+                                <td class="text-center"><button title="Visualizar" type="button" id="btnPrimaryDanger" class="btn btn-primary btn-sm" ng-click="AbrirModalVisualizar(item)"><i class="fas fa-eye"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,28 +61,33 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form novalidate name="formularioCadastroSetor">
+                    <form name="formularioCadastroSetor" autocomplete="off" novalidate>
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Nome:</label>
-                                <input type="text" name="nomeSetor" class="form-control" id="recipient-name" ng-model="setor.NOME" ng-required="true">
-                                <div ng-if="formularioCadastroSetor.nomeSetor.$touched && formularioCadastroSetor.nomeSetor.$invalid">Este campo é obrigatório</div>
+                                <input type="text" name="nomeSetor" class="form-control" id="recipient-name" ng-model="setor.NOME" required>
+                                <div ng-show="!setor.NOME && formularioCadastroSetor.nomeSetor.$touched && formularioCadastroSetor.nomeSetor.$dirty" class="alert alert-danger">Este campo é obrigatório!</div>
+                                <div ng-show="setor.NOME.length < 3" class="alert alert-danger">Mínimo 3 caracteres!</div>
+                                @*<div ng-show="formularioCadastroSetor.nomeSetor.$error.required && formularioCadastroSetor.nomeSetor.$dirty" class="alert alert-danger">Este campo é obrigatório</div>
+                                    <div ng-show="formularioCadastroSetor.nomeSetor.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 3 caracteres</div>*@
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                <textarea class="form-control" id="message-text" name="descricaoSetor" ng-model="setor.DESCRICAO" ng-required="true"></textarea>
-                                <div ng-if="formularioCadastroSetor.descricaoSetor.$touched && formularioCadastroSetor.descricaoSetor.$invalid">Este campo é obrigatório</div>
+                                <textarea class="form-control" id="message-text" name="descricaoSetor" ng-model="setor.DESCRICAO" required></textarea>
+                                <div ng-show="!setor.DESCRICAO && formularioCadastroSetor.descricaoSetor.$touched && formularioCadastroSetor.descricaoSetor.$dirty" class="alert alert-danger">Este campo é obrigatório!</div>
+                                <div ng-show="setor.DESCRICAO.length < 10" class="alert alert-danger">Mínimo 10 caracteres!</div>
+                                @*<div ng-show="formularioCadastroSetor.descricaoSetor.$error.required && formularioCadastroSetor.descricaoSetor.$dirty" class="alert alert-danger">Este campo é obrigatório</div>
+                                    <div ng-show="formularioCadastroSetor.descricaoSetor.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 10 caracteres</div>*@
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarSetor(setor)">Salvar</button>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarSetor(setor)" ng-disabled="formularioCadastroSetor.$invalid || !setor.NOME || setor.DESCRICAO.length < 10 || !setor.DESCRICAO || setor.NOME.length < 3">Salvar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
 
 
         @* Modal de vincular usuario ao Setor *@
@@ -96,14 +103,14 @@
                     <form>
                         <div class="modal-body">
                             <div class="form-group">
-                                <select class="form-control" ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios">
+                                <select class="form-control" ng-model="UserSetor.ID_USUARIO" ng-options="item.ID as item.Nome for item in ListaUsuarios" required>
                                     <option value="">Selecione um Gestor para Adicionar</option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarGestor(UserSetor)">Salvar</button>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarGestor(UserSetor)" ng-disabled="!UserSetor.ID_USUARIO">Salvar</button>
                         </div>
                     </form>
                 </div>
@@ -138,20 +145,20 @@
                         <div class="tab-content" id="pills-tabContent">
 
                             <div class="tab-pane fade" id="detalhesSetor" role="tabpanel" aria-labelledby="detalhesSetor">
-                                <form>
+                                <form name="editarSetor">
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label">Nome:</label>
-                                            <input type="text" class="form-control" id="recipient-name" name="nomeSetor" ng-model="setor.NOME" required>
-                                            <div ng-if="formularioCadastroSetor.nomeSetor.$touched && formularioCadastroSetor.nomeSetor.$invalid">
-                                                <span ng-if="formularioCadastroSetor.nomeSetor.$error.required">Este campo é obrigatório</span>
-                                            </div>
+                                            <input type="text" class="form-control" id="recipient-name" name="nomeSetor" ng-model="setor.NOME" ng-required="true" ng-minlength="3">
+                                            <div ng-show="editarSetor.nomeSetor.$error.required && editarSetor.nomeSetor.$dirty" class="alert alert-danger">Este campo é obrigatório</div>
+                                            <div ng-show="editarSetor.nomeSetor.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 3 caracteres</div>
 
                                         </div>
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Descrição:</label>
-                                            <textarea class="form-control" id="message-text" name="descricaoSetor" ng-model="setor.DESCRICAO" required></textarea>
-                                            <div ng-if="formularioCadastroSetor.descricaoSetor.$touched && formularioCadastroSetor.descricaoSetor.$invalid">Este campo é obrigatório</div>
+                                            <textarea class="form-control" id="message-text" name="descricaoSetor" ng-model="setor.DESCRICAO" ng-required="true" ng-minlength="10"></textarea>
+                                            <div ng-show="editarSetor.descricaoSetor.$error.required && editarSetor.descricaoSetor.$dirty" class="alert alert-danger">Este campo é obrigatório</div>
+                                            <div ng-show="editarSetor.descricaoSetor.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 10 caracteres</div>
                                         </div>
                                     </div>
                                 </form>
@@ -192,7 +199,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarSetor(setor)">Salvar</button>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="AdicionarSetor(setor)" ng-disabled="editarSetor.$invalid">Salvar</button>
                     </div>
                 </div>
             </div>

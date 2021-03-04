@@ -21,12 +21,16 @@ namespace PVT.Service.Repository
         {
             return await _connection.QueryAsync($@"
                     select
+			            (
+			            select count (ID_CURSO) from PVT_DISCIPLINA where ID_CURSO = PVT_CURSO.ID
+			            )as QTD_DISCIPLINAS,
+
 	                PVT_MODULO.NOME as NOME_MODULO,
 	                PVT_CURSO.* 
                     from PVT_CURSO
 	                join PVT_MODULO on PVT_MODULO.ID = PVT_CURSO.ID_MODULO
                     where PVT_MODULO.ID_USUARIO_GESTOR = @idGestor
-                    ", new { idGestor} );
+                    ", new { idGestor });
         }
     }
 }

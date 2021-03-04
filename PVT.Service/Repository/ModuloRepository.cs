@@ -48,8 +48,10 @@ namespace PVT.Service.Repository
         public async Task<IEnumerable<dynamic>> ListagemModulosPorSetor(int idSetor)
         {
             return await _connection.QueryAsync($@"
-            SELECT
-            PVT_MODULO.*,
+           SELECT            
+			(SELECT count (ID_MODULO)
+			from PVT_CURSO where ID_MODULO = PVT_SETOR_MODULO.ID_MODULO) as QTD_CURSO,
+			PVT_MODULO.*,
             UUSUARIO.NOME as RESPONSAVEL,
             PVT_SETOR_MODULO.ID as ID_SETOR_MODULO,
             PVT_SETOR_MODULO.ID_SETOR,
@@ -106,7 +108,5 @@ namespace PVT.Service.Repository
                 
                 WHERE PVT_MODULO.ID_USUARIO_GESTOR = @idUser and PVT_MODULO.STATUS=1", new { idUser });
         }
-
-        //SELECT pvt_curso.ID_MODULO, count (ID_MODULO) AS CURSOS_POR_MODULO FROM PVT_CURSO GROUP BY ID_MODULO
     }
 }

@@ -32,26 +32,28 @@
 
         //----- Método de Adicionar um Setor -----//
         $scope.AdicionarSetor = async (setor) => {
-            let resultado
-            if (!setor.ID) {
-                setor.DATA_CRIACAO = new Date(Date.now());
-                setor.USUARIO_CRIACAO = '';
-                setor.STATUS = true;
-                resultado = await $http.post('/setor/AdicionarSetor', setor);
-            } else
-                resultado = await $http.put('/setor/EditarSetor?id=' + setor.ID, setor)
 
-            if (resultado.status < 400) {
-                await $scope.BuscarSetores();
-                angular.element('#modalEdicao').modal('hide');
-                Swal.fire(
-                    'Salvo com Sucesso',
-                    '',
-                    'success'
-                );
+            if ($scope.formularioCadastroSetor.$valid) {
+                let resultado
+                if (!setor.ID) {
+                    setor.DATA_CRIACAO = new Date(Date.now());
+                    setor.USUARIO_CRIACAO = '';
+                    setor.STATUS = true;
+                    resultado = await $http.post('/setor/AdicionarSetor', setor);
+                } else {
+                    resultado = await $http.put('/setor/EditarSetor?id=' + setor.ID, setor)
+                }
+                if (resultado.status < 400) {
+                    await $scope.BuscarSetores();
+                    angular.element('#modalEdicao').modal('hide');
+                    Swal.fire(
+                        'Salvo com Sucesso',
+                        '',
+                        'success'
+                    );
+
+                }
             }
-            else
-                console.log(promessa)
         }
 
         //----- Método Adicionar um Gestor -----//
@@ -135,7 +137,7 @@
                 $scope.tituloModal = 'Novo Setor'
 
             angular.element('#modalPrincipal').modal('show');
-            
+
             angular.element('#detalhesSetorLink').tab('show');
         }
 
