@@ -74,8 +74,7 @@
         }
 
         //----- Listando as disciplinas por Id do Curso -----//
-        $scope.ListagemDisciplinasPorCurso = async (idCurso) => {
-            console.log(idCurso)
+        $scope.ListagemDisciplinasPorCurso = async (idCurso) => {            
             let resultado = await disciplinaservice.ListagemPorCurso(idCurso);
             if (resultado.erro) {
                 Swal.fire(
@@ -151,7 +150,7 @@
             angular.element("#ModalRegistro").modal("show");
         }
 
-        $scope.trocarPrioridade = (cursoView) => {
+        $scope.trocarPrioridadeCurso = (cursoView) => {
             var posicao = 1;            
             if (!cursoView.ID)
                 $scope.Tabela.map(
@@ -161,7 +160,7 @@
                         }
                     });
             $scope.curso = { ...cursoView, PRIORIDADE: posicao };
-        }
+        } 
 
         //----- Abre a modal para editar um item -----//
         $scope.AbrirItemSelecionado = async (curso) => {
@@ -183,7 +182,6 @@
 
         //----- Modal de disciplina -----//
         $scope.AbrirModalCadastroDisciplina = () => {
-
             $scope.disciplina = undefined;
             angular.element("#modalAdicionarDisciplina").modal("show");
         }
@@ -384,7 +382,7 @@
         }
 
         $scope.FechaModal = modal => {
-            angular.element(`#${modal}`).modal("hide");
+            angular.element(`#${modal}`).modal("hide");            
         }
 
     }

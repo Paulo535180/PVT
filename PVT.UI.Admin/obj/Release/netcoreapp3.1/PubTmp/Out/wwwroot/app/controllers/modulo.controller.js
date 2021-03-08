@@ -140,7 +140,8 @@
                 'Salvo com Sucesso',
                 '',
                 'success'
-            )
+            );
+            $scope.formularioCadastroModulo.$setPristine();
             $scope.$apply();
             await $scope.Listagem()
         }

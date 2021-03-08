@@ -3,6 +3,17 @@
 }
 
 <style>
+    .modal-header {
+        padding: 6px;
+    }
+
+    .modal-body {
+        padding: 6px;
+    }
+
+    .dataTables_wrapper {
+        padding: 6px;
+    }
 </style>
 <div ng-controller="curso as ctrl">
 
@@ -75,14 +86,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                
-                <form name="cadastrarCursoForm"  autocomplete="off">
-                    <div class="modal-body">                  
+                <form name="cadastrarCursoForm" novalidate autocomplete="off">
+                    <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Modulo:</label>
-                                    <select class="form-control" ng-model="curso.ID_MODULO" ng-change="trocarPrioridade(curso)" ng-options="item.ID as item.NOME for item in Modulos" ng-required="true">
+                                    <select class="form-control" ng-model="curso.ID_MODULO" ng-change="trocarPrioridadeCurso(curso)" ng-options="item.ID as item.NOME for item in Modulos" ng-required="true">
                                         <option value="">Selecione um Modulo</option>
                                     </select>
                                 </div>
@@ -115,11 +125,11 @@
                             <div class="col-12" ng-show="curso.ID_MODULO != null">
                                 <div class="form-group">
                                     <label for="message-text" class="col-form-label">Descrição:</label>
-                                    <textarea class="form-control" id="message-text" name="descricaoCurso" ng-model="curso.DESCRICAO" ng-required="true" ng-minlength="10"></textarea>
-                                    <div ng-show="cadastrarCursoForm.descricaoCurso.$error.required && cadastrarCursoForm.descricaoCurso.$dirty" class="alert alert-danger">
+                                    <textarea class="form-control" id="message-text" name="descricaoCurso" ng-model="curso.DESCRICAO" required></textarea>
+                                    <div ng-show="!curso.DESCRICAO && cadastrarCursoForm.descricaoCurso.$dirty" class="alert alert-danger">
                                         Campo obrigatório!
                                     </div>
-                                    <div ng-show="cadastrarCursoForm.descricaoCurso.$error.minlength" class="alert alert-danger">
+                                    <div ng-show="curso.DESCRICAO.length < 10" class="alert alert-danger">
                                         Este campo precisa de no mínimo 10 caracteres
                                     </div>
                                 </div>
@@ -129,7 +139,7 @@
                     </div>
                     <div class="modal-footer">
                         <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" ng-click="FechaModal('ModalRegistro')">Fechar</button>
-                        <button id="btnPrimaryDanger" type="button" class="btn btn-primary" ng-click="Finalizar(curso)" ng-disabled="cadastrarCursoForm.$invalid">Salvar</button>
+                        <button id="btnPrimaryDanger" type="button" class="btn btn-primary" ng-click="Finalizar(curso)" ng-disabled="cadastrarCursoForm.$invalid || !curso.NOME || curso.NOME.length < 3 || !curso.PRIORIDADE || curso.PRIORIDADE <= 0 || !curso.DESCRICAO || curso.DESCRICAO.length < 10">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -158,9 +168,7 @@
 
 
                 <div class="modal-body">
-
                     <div class="tab-content" id="pills-tabContent">
-
                         <div class="tab-pane fade" id="disciplina" role="tabpanel" aria-labelledby="disciplina">
                             <div class="row">
                                 <div class="col-12">
@@ -186,8 +194,9 @@
                                                 <td class="text-center">{{item.PRIORIDADE}}</td>
                                                 <td class="text-center">{{item.NOME}}</td>
                                                 <td class="text-center">
-                                                    <button id="btnStatus" type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)" title="Alterar 
-                                                            "><i class="fas fa-check"></i></button>
+                                                    <button id="btnStatus" type="button" ng-class="botaoClass(item.STATUS)" ng-click="AlterarStatusDisciplina(item)" title="Alterar">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
 
                                                 </td>
                                                 <td class="text-center">
@@ -207,9 +216,6 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Adicionar Disciplina</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
                                                 </div>
 
 
@@ -221,39 +227,43 @@
                                                                     <label for="recipient-name" class="col-form-label">Nome da Disciplina:</label>
                                                                     <input type="text" name="nomeDisciplina" class="form-control" id="recipient-name" placeholder="insira um nome da disciplina"
                                                                            ng-model="disciplina.NOME" required>
-                                                                    <div ng-show=" !disciplina.NOME && formAdicionarDisciplina.nomeDisciplina.$dirty" class="alert alert-danger">Por favor, preencha o campo Nome!</div>
-                                                                    <div ng-show="disciplina.NOME.length <= 3" class="alert alert-danger">Este campo precisa de no mínimo 3 caracteres</div>
+                                                                    <div ng-show=" !disciplina.NOME && formAdicionarDisciplina.nomeDisciplina.$dirty && formAdicionarDisciplina.nomeDisciplina.$touched" class="alert alert-danger">
+                                                                        Este campo é obrigatório!
+                                                                    </div>
+                                                                    <div ng-show="disciplina.NOME.length < 3" class="alert alert-danger">
+                                                                        Mínimo 3 caracteres!
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
                                                                 <div class="form-group">
                                                                     <label for="message-text" class="col-form-label">Descrição:</label>
                                                                     <textarea class="form-control" id="message-text" ng-model="disciplina.DESCRICAO" name="descricaoDisciplina" required></textarea>
-                                                                    <div ng-show="!disciplina.DESCRICAO && formAdicionarDisciplina.descricaoDisciplina.$dirty" class="alert alert-danger">
-                                                                        Por favor, preencha o campo Descrição!
+                                                                    <div ng-show="!disciplina.DESCRICAO && formAdicionarDisciplina.descricaoDisciplina.$dirty && formAdicionarDisciplina.descricaoDisciplina.$touched" class="alert alert-danger">
+                                                                        Este campo é obrigatório!
                                                                     </div>
-                                                                    <div ng-show="disciplina.DESCRICAO.length <= 10  " class="alert alert-danger">
-                                                                        Este campo precisa de no mínimo 10 caracteres
+                                                                    <div ng-show="disciplina.DESCRICAO.length < 10  " class="alert alert-danger">
+                                                                        Mínimo 10 caracteres!
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-4">
                                                                 <div class="form-group">
                                                                     <label for="recipient-name" class="col-form-label">Prioridade:</label>
-                                                                    <input type="number" class="form-control" id="recipient-name" name="prioridadeDisciplina" ng-model="disciplina.PRIORIDADE" required min="1">
-                                                                    <div ng-show="!disciplina.PRIORIDADE && formAdicionarDisciplina.prioridadeDisciplina.$dirty" class="alert alert-danger">
+                                                                    <input type="number" class="form-control" id="recipient-name" name="prioridadeDisciplina" ng-model="disciplina.PRIORIDADE" required>
+                                                                    <div ng-show="!disciplina.PRIORIDADE && formAdicionarDisciplina.prioridadeDisciplina.$dirty && formAdicionarDisciplina.prioridadeDisciplina.$touched" class="alert alert-danger">
                                                                         Campo obrigatório!
                                                                     </div>
-                                                                    <div ng-show="formAdicionarDisciplina.prioridadeDisciplina.$error.min" class="alert alert-danger">
+                                                                    <div ng-show="disciplina.PRIORIDADE <= 0 " class="alert alert-danger">
                                                                         Valor precisa ser maior que 0!
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>                                                   
+                                                    </div>
                                                     <div class="modal-footer">
                                                         <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" ng-click="FechaModal('modalAdicionarDisciplina')">Fechar</button>
-                                                        <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)" ng-disabled="!formAdicionarDisciplina.$valid">Salvar</button>
+                                                        <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)" ng-disabled="formAdicionarDisciplina.$invalid || disciplina.PRIORIDADE <= 0 || disciplina.DESCRICAO.length < 10 || disciplina.NOME.length < 3 || !disciplina.DESCRICAO || !disciplina.NOME">Salvar</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -271,33 +281,41 @@
                                                 <h5 class="modal-title" id="exampleModalLabel">Editar Disciplina</h5>
 
                                             </div>
-                                            <form name="editarDisciplinaForm"  autocomplete="off">
+                                            <form name="editarDisciplinaForm" autocomplete="off">
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-8">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Nome da Disciplina:</label>
-                                                                <input type="text" class="form-control" id="recipient-name" name="nomeDisciplinaEditar" placeholder="insira um nome da disciplina" ng-model="disciplina.NOME" ng-required="true" ng-minlength="3">
-                                                                <div ng-show="editarDisciplinaForm.nomeDisciplinaEditar.$error.required && editarDisciplinaForm.nomeDisciplinaEditar.$dirty" class="alert alert-danger">Por favor, preencha o campo Nome!</div>
-                                                                <div ng-show="editarDisciplinaForm.nomeDisciplinaEditar.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 3 caracteres</div>
+                                                                <input type="text" class="form-control" id="recipient-name" name="nomeDisciplinaEditar" placeholder="insira um nome da disciplina" ng-model="disciplina.NOME" required>
+                                                                <div ng-show="!disciplina.NOME && editarDisciplinaForm.nomeDisciplinaEditar.$dirty && editarDisciplinaForm.nomeDisciplinaEditar.$touched" class="alert alert-danger">
+                                                                    Campo obrigatório!
+                                                                </div>
+                                                                <div ng-show="disciplina.NOME.length < 3" class="alert alert-danger">
+                                                                    Mínimo 3 caracteres!
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                                                <textarea class="form-control" id="message-text" name="descricaoDisciplina" ng-model="disciplina.DESCRICAO" ng-required="true" ng-minlength="10"></textarea>
-                                                                <div ng-show="editarDisciplinaForm.descricaoDisciplina.$error.required && editarDisciplinaForm.descricaoDisciplina.$dirty " class="alert alert-danger">Por favor, preencha o campo Descrição!</div>
-                                                                <div ng-show="editarDisciplinaForm.descricaoDisciplina.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 10 caracteres</div>
+                                                                <textarea class="form-control" id="message-text" name="descricaoDisciplina" ng-model="disciplina.DESCRICAO" required></textarea>
+                                                                <div ng-show="!disciplina.DESCRICAO && editarDisciplinaForm.descricaoDisciplina.$dirty && editarDisciplinaForm.descricaoDisciplina.$touched " class="alert alert-danger">
+                                                                    Campo obrigatório!
+                                                                </div>
+                                                                <div ng-show="disciplina.DESCRICAO.length < 10 " class="alert alert-danger">
+                                                                    Mínimo 10 caracteres!
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Prioridade:</label>
-                                                                <input type="number" class="form-control" id="recipient-name" ng-model="disciplina.PRIORIDADE" name="prioridadeDisciplina" ng-required="true" min="1">
-                                                                <div ng-show="editarDisciplinaForm.prioridadeDisciplina.$error.required && editarDisciplinaForm.prioridadeDisciplina.$dirty" class="alert alert-danger">
+                                                                <input type="number" class="form-control" id="recipient-name" ng-model="disciplina.PRIORIDADE" name="prioridadeDisciplina" required>
+                                                                <div ng-show="!disciplina.PRIORIDADE && editarDisciplinaForm.prioridadeDisciplina.$dirty && editarDisciplinaForm.prioridadeDisciplina.$touched" class="alert alert-danger">
                                                                     Campo obrigatório!
                                                                 </div>
-                                                                <div ng-show="editarDisciplinaForm.prioridadeDisciplina.$error.min" class="alert alert-danger">
+                                                                <div ng-show="disciplina.PRIORIDADE <= 0 " class="alert alert-danger">
                                                                     Valor precisa ser maior que 0!
                                                                 </div>
                                                             </div>
@@ -306,7 +324,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" ng-click="FechaModal('modalEditarDisciplina')">Fechar</button>
-                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)" ng-disabled="editarDisciplinaForm.$invalid">Salvar</button>
+                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarDisciplina(disciplina)" ng-disabled="editarDisciplinaForm.$invalid || disciplina.NOME.length < 3 || disciplina.DESCRICAO.length < 10 || disciplina.PRIORIDADE <= 0 ">Salvar</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -323,57 +341,56 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-
-                                            <form name="adicionarAulaForm" novalidate  autocomplete="off">
+                                            <form name="adicionarAulaForm" novalidate autocomplete="off">
                                                 <div class="modal-body" ng-init="ListagemTiposAula()">
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Tipo de Aula:</label>
-                                                                <select class="form-control" name="tipoAula" ng-model="aula.ID_TIPO_AULA" ng-options="item.ID as item.NOME for item in TiposDeAula" ng-required="true">
+                                                                <select class="form-control" name="tipoAula" ng-model="aula.ID_TIPO_AULA" ng-options="item.ID as item.NOME for item in TiposDeAula">
                                                                     <option value="">Selecione um Tipo de aula para continuar...</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         @* Tipo de Texto na Aula *@
-                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 5" ng-required="true">
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 2">
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label">Texto da Aula:</label>
-                                                                <textarea class="form-control" id="message-text" name="textoAula" ng-model="aula.TEXTO" ng-required="true" ng-minlength="10"></textarea>
-                                                                <div ng-show="adicionarAulaForm.textoAula.$error.required && adicionarAulaForm.textoAula.$dirty" class="alert alert-danger">Campo obrigatório!</div>
-                                                                <div ng-show="adicionarAulaForm.textoAula.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 10 caracteres</div>
+                                                                <textarea class="form-control" id="message-text" name="textoAula" ng-model="aula.TEXTO"></textarea>
+                                                                <div ng-show="!aula.TEXTO && adicionarAulaForm.textoAula.$dirty && adicionarAulaForm.textoAula.$touched" class="alert alert-danger">
+                                                                    Campo obrigatório!
+                                                                </div>
                                                             </div>
-                                                           
                                                         </div>
                                                         @* Tipo de aula Video *@
-                                                    <div class="col-12" ng-show="aula.ID_TIPO_AULA == 6">
-                                                        <div class="form-group">
-                                                            <label for="message-text" class="col-form-label">Link do Video:</label>
-                                                            <textarea class="form-control" id="message-text" name="linkAula" ng-model="aula.VIDEO" ng-required="true"></textarea>
-                                                            <div ng-show="adicionarAulaForm.linkAula.$error.required && adicionarAulaForm.linkAula.$dirty" class="alert alert-danger">Campo com Link obrigatório!</div>
-                                                        </div>                                                        
-                                                    </div>                                                                                 
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 1">
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Link do Video:</label>
+                                                                <textarea class="form-control" id="message-text" name="linkAula" ng-model="aula.VIDEO"></textarea>
+                                                                <div ng-show="!aula.VIDEO && adicionarAulaForm.linkAula.$dirty && adicionarAulaForm.linkAula.$touched" class="alert alert-danger">
+                                                                    Campo com Link obrigatório!
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                         @* UPLOAD DE ARQUIVO *@
-                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 7">
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 3">
                                                             <div class="form-group">
                                                                 <input type="file" ng-model="aula.ARQUIVO" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" />
                                                                 <button ng-click="uploadFile()">Enviar</button>
                                                             </div>
                                                         </div>
 
-
                                                         <div class="col-8" ng-show="aula.ID_TIPO_AULA != null">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Nome da Aula:</label>
                                                                 <input type="text" class="form-control" name="nomeAula" id="recipient-name" placeholder="insira um nome da aula"
-                                                                       ng-model="aula.NOME" ng-required="true" ng-minlength="3">
-                                                                <div ng-show="adicionarAulaForm.nomeAula.$error.required && adicionarAulaForm.nomeAula.$dirty" class="alert alert-danger">
+                                                                       ng-model="aula.NOME">
+                                                                <div ng-show="!aula.NOME && adicionarAulaForm.nomeAula.$dirty && adicionarAulaForm.nomeAula.$touched" class="alert alert-danger">
                                                                     Campo obrigatório!
                                                                 </div>
-                                                                <div ng-show="adicionarAulaForm.nomeAula.$error.minlength" class="alert alert-danger">
-                                                                    Este campo precisa de no mínimo 3 caracteres
+                                                                <div ng-show="aula.NOME.length < 3" class="alert alert-danger">
+                                                                    Mínimo 3 caracteres!
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -381,28 +398,32 @@
                                                         <div class="col-12" ng-show="aula.ID_TIPO_AULA != null">
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                                                <textarea class="form-control" name="descricaoAula" id="message-text" ng-model="aula.DESCRICAO" ng-required="true" ng-minlength="10"></textarea>
-                                                                <div ng-show="adicionarAulaForm.descricaoAula.$error.required && adicionarAulaForm.descricaoAula.$dirty" class="alert alert-danger">
+                                                                <textarea class="form-control" name="descricaoAula" id="message-text" ng-model="aula.DESCRICAO" required></textarea>
+                                                                <div ng-show="!aula.DESCRICAO && adicionarAulaForm.descricaoAula.$dirty && adicionarAulaForm.descricaoAula.$touched" class="alert alert-danger">
                                                                     Campo obrigatório!
                                                                 </div>
-                                                                <div ng-show="adicionarAulaForm.descricaoAula.$error.minlength" class="alert alert-danger">
-                                                                    Este campo precisa de no mínimo 10 caracteres
+                                                                <div ng-show="aula.DESCRICAO.length < 10" class="alert alert-danger">
+                                                                    Mínimo 10 caracteres!
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-4" ng-show="aula.ID_TIPO_AULA != null">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Ordem da Aula:</label>
-                                                                <input type="number" class="form-control" name="ordemAula" id="recipient-name" ng-model="aula.ORDEM_AULA" ng-required="true" min="1">
-                                                                <div ng-show="adicionarAulaForm.ordemAula.$error.required && adicionarAulaForm.ordemAula.$dirty" class="alert alert-danger">Campo Obrigatório</div>
-                                                                <div ng-show="adicionarAulaForm.ordemAula.$error.min" class="alert alert-danger">Valor precisa ser maior que 0!</div>
+                                                                <input type="number" class="form-control" name="ordemAula" id="recipient-name" ng-model="aula.ORDEM_AULA" required>
+                                                                <div ng-show="!aula.ORDEM_AULA && adicionarAulaForm.ordemAula.$dirty && adicionarAulaForm.ordemAula.$touched" class="alert alert-danger">
+                                                                    Campo Obrigatório
+                                                                </div>
+                                                                <div ng-show="aula.ORDEM_AULA <= 0" class="alert alert-danger">
+                                                                    Valor precisa ser maior que 0!
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" ng-click="FechaModal('modalAdicionarAula')">Fechar</button>
-                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)" ng-disabled="adicionarAulaForm.$invalid">Salvar</button>
+                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)" ng-disabled="adicionarAulaForm.$invalid || (!aula.TEXTO && !aula.VIDEO && !aula.ARQUIVO) || !aula.NOME || !aula.DESCRICAO || aula.NOME.length < 3 || aula.DESCRICAO.length < 10 || aula.ORDEM_AULA <= 0 ">Salvar</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -424,7 +445,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Tipo de Aula:</label>
-                                                                <select class="form-control" ng-model="aula.ID_TIPO_AULA" ng-options="item.ID as item.NOME for item in TiposDeAula" ng-required="true">
+                                                                <select class="form-control" ng-model="aula.ID_TIPO_AULA" ng-options="item.ID as item.NOME for item in TiposDeAula">
                                                                     <option value="">Selecione um Tipo de aula</option>
                                                                 </select>
                                                             </div>
@@ -432,26 +453,29 @@
 
 
                                                         @* Tipo de Texto na Aula *@
-                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 5">
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 2">
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label">Texto da Aula:</label>
-                                                                <textarea class="form-control" id="message-text" name="textoAula" ng-model="aula.TEXTO" ng-required="true"></textarea>
-                                                                <div ng-show="editarAulaForm.textoAula.$error.required && editarAulaForm.textoAula.$dirty" class="alert alert-danger">Campo obrigatório!</div>
-                                                                <div ng-show="editarAulaForm.textoAula.$error.minlength" class="alert alert-danger">Este campo precisa de no mínimo 10 caracteres</div>
+                                                                <textarea class="form-control" id="message-text" name="textoAula" ng-model="aula.TEXTO"></textarea>
+                                                                <div ng-show="!aula.TEXTO && editarAulaForm.textoAula.$dirty && editarAulaForm.textoAula.$touched" class="alert alert-danger">
+                                                                    Campo obrigatório!
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         @* Tipo de aula Video *@
-                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 6">
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 1">
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label">Link do Video:</label>
-                                                                <textarea class="form-control" name="linkAula" id="message-text" ng-model="aula.VIDEO" ng-required="true"></textarea>
-                                                                <div ng-show="editarAulaForm.linkAula.$error.required && editarAulaForm.linkAula.$dirty" class="alert alert-danger">Campo com Link obrigatório!</div>
+                                                                <textarea class="form-control" name="linkAula" id="message-text" ng-model="aula.VIDEO"></textarea>
+                                                                <div ng-show="!aula.VIDEO && editarAulaForm.linkAula.$dirty && editarAulaForm.linkAula.$touched" class="alert alert-danger">
+                                                                    Campo com Link obrigatório!
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         @* UPLOAD DE ARQUIVO *@
-                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 7">
+                                                        <div class="col-12" ng-show="aula.ID_TIPO_AULA == 3">
                                                             <div class="form-group">
-                                                                <input type="file" ng-model="aula.ARQUIVO" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" ng-required="true"/>
+                                                                <input type="file" ng-model="aula.ARQUIVO" accept=".xls,.xlsx,.doc, .docx, .ppt, .pptx,.pdf" />
                                                                 <button ng-click="uploadFile()">Enviar</button>
                                                             </div>
                                                         </div>
@@ -461,40 +485,44 @@
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Nome da Aula:</label>
                                                                 <input type="text" class="form-control" name="nomeAula" id="recipient-name" autocomplete="off" placeholder="insira um nome da aula"
-                                                                       ng-model="aula.NOME" ng-required="true" ng-minlength="3">
-                                                                <div ng-show="editarAulaForm.nomeAula.$error.required && editarAulaForm.nomeAula.$dirty" class="alert alert-danger">
+                                                                       ng-model="aula.NOME" required>
+                                                                <div ng-show="!aula.NOME && editarAulaForm.nomeAula.$dirty && editarAulaForm.nomeAula.$touched" class="alert alert-danger">
                                                                     Campo obrigatório!
                                                                 </div>
-                                                                <div ng-show="editarAulaForm.nomeAula.$error.minlength" class="alert alert-danger">
-                                                                    Este campo precisa de no mínimo 3 caracteres
+                                                                <div ng-show="aula.NOME.length < 3" class="alert alert-danger">
+                                                                    Mínimo 3 caracteres!
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                                                <textarea class="form-control" name="descricaoAula" id="message-text" ng-model="aula.DESCRICAO" ng-required="true" ng-minlength="10"></textarea>
-                                                                <div ng-show="editarAulaForm.descricaoAula.$error.required && editarAulaForm.descricaoAula.$dirty" class="alert alert-danger">
+                                                                <textarea class="form-control" name="descricaoAula" id="message-text" ng-model="aula.DESCRICAO" required></textarea>
+                                                                <div ng-show="!aula.DESCRICAO && editarAulaForm.descricaoAula.$dirty && editarAulaForm.descricaoAula.$touched" class="alert alert-danger">
                                                                     Campo obrigatório!
                                                                 </div>
-                                                                <div ng-show="editarAulaForm.descricaoAula.$error.minlength" class="alert alert-danger">
-                                                                    Este campo precisa de no mínimo 10 caracteres
+                                                                <div ng-show="aula.DESCRICAO.length < 10" class="alert alert-danger">
+                                                                    Mínimo 10 caracteres!
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Ordem da Aula:</label>
-                                                                <input type="number" class="form-control" name="ordemAula" id="recipient-name" ng-model="aula.ORDEM_AULA" ng-required="true" min="1">
-                                                                <div ng-show="editarAulaForm.ordemAula.$error.required && editarAulaForm.ordemAula.$dirty" class="alert alert-danger">Campo Obrigatório</div>
-                                                                <div ng-show="editarAulaForm.ordemAula.$error.min" class="alert alert-danger">Valor precisa ser maior que 0!</div>
+                                                                <input type="number" class="form-control" name="ordemAula" id="recipient-name" ng-model="aula.ORDEM_AULA" required>
+                                                                <div ng-show="!aula.ORDEM_AULA && editarAulaForm.ordemAula.$dirty && editarAulaForm.ordemAula.$touched" class="alert alert-danger">
+                                                                    Campo Obrigatório
+                                                                </div>
+                                                                <div ng-show="aula.ORDEM_AULA <= 0" class="alert alert-danger">
+                                                                    Valor precisa ser maior que 0!
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" ng-click="FechaModal('modalEditarAula')">Fechar</button>
-                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)" ng-disabled="editarAulaForm.$invalid">Salvar</button>
+                                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary btn-sm" ng-click="AdicionarAula(aula)" ng-disabled="editarAulaForm.$invalid || (!aula.TEXTO && !aula.VIDEO && !aula.ARQUIVO) || !aula.NOME || !aula.DESCRICAO || aula.NOME.length < 3 || aula.DESCRICAO.length < 10 || aula.ORDEM_AULA <= 0 ">Salvar</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -503,11 +531,10 @@
                                 @* Fim Modal Editar Aula  *@
 
 
+
                                 <div class="col-8 col-sm justify-content-center">
                                     <h5 class="text-center"><strong>Aulas</strong></h5>
                                 </div>
-
-
                                 <div class="col-12">
                                     <table id="DtResult" datatable="ng" dt-options="ctrl.dtOptionsModalAulas"
                                            class="table table-hover dataTable"
@@ -515,7 +542,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" style="width:50%">Nome</th>
-
                                                 <th class="text-center" style="width:100%">Video</th>
                                                 <th class="text-center" style="width:100%">Texto</th>
                                                 <th class="text-center" style="width:100%">Arquivo</th>
@@ -539,40 +565,40 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div>                                
                                 <div class="col-12">
                                     <div class="modal-footer">
-                                        <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+                                        <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" data-dismiss="modal" >Fechar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="editarCurso" role="tabpanel" aria-labelledby="editarCurso">
-                            <form name="editarCursoForm"  autocomplete="off">
+                            <form name="editarCursoForm" autocomplete="off">
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-8">
                                             <div class="form-group">
                                                 <label for="recipient-name" class="col-form-label">Curso:</label>
                                                 <input type="text" class="form-control" name="nomeCurso" id="recipient-name" placeholder="insira um nome do curso"
-                                                       ng-model="curso.NOME" ng-required="true" ng-minlength="3">
-                                                <div ng-show="editarCursoForm.nomeCurso.$error.required && cadastrarCursoForm.nomeCurso.$dirty" class="alert alert-danger">
+                                                       ng-model="curso.NOME" required>
+                                                <div ng-show="!curso.NOME && editarCursoForm.nomeCurso.$dirty && editarCursoForm.nomeCurso.$touched" class="alert alert-danger">
                                                     Campo obrigatório!
                                                 </div>
-                                                <div ng-show="editarCursoForm.nomeCurso.$error.minlength" class="alert alert-danger">
-                                                    Este campo precisa de no mínimo 3 caracteres
+                                                <div ng-show="curso.NOME.length < 3" class="alert alert-danger">
+                                                    Mínimo 3 caracteres!
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="form-group">
                                                 <label for="recipient-name" class="col-form-label">Prioridade:</label>
-                                                <input type="number" class="form-control" id="recipient-name" name="prioridadeCurso" ng-model="curso.PRIORIDADE" ng-required="true" min="1">
-                                                <div ng-show="editarCursoForm.prioridadeCurso.$error.required && editarCursoForm.prioridadeCurso.$dirty" class="alert alert-danger">
+                                                <input type="number" class="form-control" id="recipient-name" name="prioridadeCurso" ng-model="curso.PRIORIDADE" required>
+                                                <div ng-show="!curso.PRIORIDADE && editarCursoForm.prioridadeCurso.$dirty && editarCursoForm.prioridadeCurso.$touched" class="alert alert-danger">
                                                     Campo obrigatório!
                                                 </div>
-                                                <div ng-show="editarCursoForm.prioridadeCurso.$error.min" class="alert alert-danger">
+                                                <div ng-show="curso.PRIORIDADE <= 0" class="alert alert-danger">
                                                     Valor precisa ser maior que 0!
                                                 </div>
                                             </div>
@@ -588,12 +614,12 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="message-text" class="col-form-label">Descrição:</label>
-                                                <textarea class="form-control" id="message-text" name="descricaoCurso" ng-model="curso.DESCRICAO" ng-required="true" ng-minlength="10"></textarea>
-                                                <div ng-show="editarCursoForm.descricaoCurso.$error.required && editarCursoForm.descricaoCurso.$dirty" class="alert alert-danger">
+                                                <textarea class="form-control" id="message-text" name="descricaoCurso" ng-model="curso.DESCRICAO" required></textarea>
+                                                <div ng-show="!curso.DESCRICAO && editarCursoForm.descricaoCurso.$dirty && editarCursoForm.descricaoCurso.$touched" class="alert alert-danger">
                                                     Campo obrigatório!
                                                 </div>
-                                                <div ng-show="editarCursoForm.descricaoCurso.$error.minlength" class="alert alert-danger">
-                                                    Este campo precisa de no mínimo 10 caracteres
+                                                <div ng-show="curso.DESCRICAO.length < 10" class="alert alert-danger">
+                                                    Mínimo 10 caracteres!
                                                 </div>
                                             </div>
                                         </div>
@@ -602,14 +628,12 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button id="btnPrimaryDanger" type="button" class="btn btn-danger btn-sm" ng-click="FechaModal('modalGerenciarCurso')">Fechar</button>
-                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary" ng-click="Finalizar(curso)" ng-disabled="editarCursoForm.$invalid">Salvar</button>
+                                    <button id="btnPrimaryDanger" type="button" class="btn btn-primary" ng-click="Finalizar(curso)" ng-disabled="editarCursoForm.$invalid || !curso.NOME || curso.NOME.length < 3 || !curso.PRIORIDADE || curso.PRIORIDADE.length < 10 || !curso.ID_MODULO || !curso.DESCRICAO || curso.DESCRICAO.length < 10">Salvar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>

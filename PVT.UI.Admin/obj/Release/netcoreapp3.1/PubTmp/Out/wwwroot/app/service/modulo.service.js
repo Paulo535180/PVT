@@ -13,6 +13,7 @@
         this.Listagem = async () => {
 
             let resultado = await httpPadrao.get("/modulo/ListagemPorSetor");
+            console.log(resultado)
 
             if (resultado.status > 200)
                 return { erro: true, mensagem: resultado.data }

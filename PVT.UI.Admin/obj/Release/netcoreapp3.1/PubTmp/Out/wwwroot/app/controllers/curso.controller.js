@@ -20,15 +20,20 @@
                     key: '1',
                     className: 'btn btn-primary float-right mt-2 ml-3',
                     action: () => {
-                        //console.log($scope.disciplina);
-                        $scope.disciplina = undefined;
-                        console.log($scope.disciplina);
+                        var posicao = 1;
+                        $scope.TabelaDisciplinasPorCurso.map(
+                            (x) => {
+                                console.log(x)
+                                if (posicao <= x.PRIORIDADE) {
+                                    posicao = x.PRIORIDADE + 1
+                                }
+                            }
+                        );
+                        $scope.disciplina = { PRIORIDADE: posicao };
                         $scope.$apply();
                         angular.element("#modalAdicionarDisciplina").modal("show");
                     }
                 }
-
-
             ]);
 
         this.dtOptionsModalAulas = DTOptionsBuilder.newOptions()
@@ -69,8 +74,7 @@
         }
 
         //----- Listando as disciplinas por Id do Curso -----//
-        $scope.ListagemDisciplinasPorCurso = async (idCurso) => {
-            console.log(idCurso)
+        $scope.ListagemDisciplinasPorCurso = async (idCurso) => {            
             let resultado = await disciplinaservice.ListagemPorCurso(idCurso);
             if (resultado.erro) {
                 Swal.fire(
@@ -141,18 +145,28 @@
         $scope.AbrirCadastroNovo = async () => {
             $scope.curso = undefined;
             $scope.tituloModal = "Novo Curso"
-            $scope.Modulos = await obterModulos()
-            console.log($scope.Modulos)
-            $scope.$apply();
+            $scope.Modulos = await obterModulos()                     
+            $scope.$apply();           
             angular.element("#ModalRegistro").modal("show");
         }
+
+        $scope.trocarPrioridadeCurso = (cursoView) => {
+            var posicao = 1;            
+            if (!cursoView.ID)
+                $scope.Tabela.map(
+                    (curso) => {
+                        if (posicao <= curso.PRIORIDADE && curso.ID_MODULO === cursoView.ID_MODULO) {
+                            posicao = curso.PRIORIDADE + 1
+                        }
+                    });
+            $scope.curso = { ...cursoView, PRIORIDADE: posicao };
+        } 
 
         //----- Abre a modal para editar um item -----//
         $scope.AbrirItemSelecionado = async (curso) => {
             $scope.curso = curso;
             $scope.tituloModal = "Editar Curso"
             $scope.Modulos = await obterModulos()
-            console.log($scope.Modulos)
             $scope.$apply();
             angular.element("#editarCursoLink").tab("show");
         }
@@ -168,7 +182,6 @@
 
         //----- Modal de disciplina -----//
         $scope.AbrirModalCadastroDisciplina = () => {
-
             $scope.disciplina = undefined;
             angular.element("#modalAdicionarDisciplina").modal("show");
         }
@@ -189,7 +202,7 @@
                 aula = { ...aula, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "user web" }
                 resultado = await aulaservice.inserir(aula)
                 angular.element("#modalAdicionarAula").modal("hide");
-                
+
             } else {
                 resultado = await aulaservice.alterar(aula)
                 angular.element("#modalEditarAula").modal("hide");
@@ -208,7 +221,7 @@
                 'success'
             )
             $scope.$apply();
-            await $scope.ListarAulasPorDisciplina($scope.disciplina.ID);                       
+            await $scope.ListarAulasPorDisciplina($scope.disciplina.ID);
         }
 
         //----- Método adicionar Disciplina -----//
@@ -218,6 +231,7 @@
                 disciplina = { ...disciplina, ID_CURSO: $scope.curso.ID, STATUS: true, DATA_CRIACAO: new Date(Date.now()), USUARIO_CRIACAO: "User Web" }
                 resultado = await disciplinaservice.inserir(disciplina);
                 angular.element("#modalAdicionarDisciplina").modal("hide");
+                $scope.disciplina = undefined;
             } else {
                 resultado = await disciplinaservice.alterar(disciplina);
                 angular.element("#modalEditarDisciplina").modal("hide");
@@ -236,6 +250,7 @@
                 'success'
             )
             $scope.$apply();
+            $scope.formAdicionarDisciplina.$setPristine()
             await $scope.ListagemDisciplinasPorCurso($scope.curso.ID);
         }
 
@@ -295,7 +310,10 @@
                     'error'
                 );
                 return
-            } Swal.fire(
+            }
+            angular.element('#ModalRegistro').modal('hide');
+            $scope.cadastrarCursoForm.$setPristine();
+            Swal.fire(
                 'Salvo com Sucesso',
                 '',
                 'success'
@@ -364,7 +382,7 @@
         }
 
         $scope.FechaModal = modal => {
-            angular.element(`#${modal}`).modal("hide");
+            angular.element(`#${modal}`).modal("hide");            
         }
 
     }

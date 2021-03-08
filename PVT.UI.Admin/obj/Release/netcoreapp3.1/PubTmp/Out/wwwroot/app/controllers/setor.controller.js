@@ -45,12 +45,14 @@
                 }
                 if (resultado.status < 400) {
                     await $scope.BuscarSetores();
-                    angular.element('#modalEdicao').modal('hide');
+                    angular.element('#modalPrincipal').modal('hide');
                     Swal.fire(
                         'Salvo com Sucesso',
                         '',
                         'success'
                     );
+                    $scope.formularioCadastroSetor.$setPristine()
+                    angular.element('#modalEdicao').modal('hide');
 
                 }
             }
@@ -58,10 +60,8 @@
 
         //----- Método Adicionar um Gestor -----//
         $scope.AdicionarGestor = async (UserGestor) => {
-            let resultado
-            console.log(UserGestor);
+            let resultado            
             resultado = await $http.post('/gestor/Adicionar', UserGestor);
-
             if (resultado.status < 400) {
                 angular.element('#modalVinculoGestor').modal('hide');
                 await $scope.BuscarGestoresPorSetor($scope.setor);
@@ -73,10 +73,9 @@
             } else console.log(resultado)
         }
 
-
-
         //----- Método Editar STATUS Setor -----//
         $scope.AlterarStatus = async (setor) => {
+            let resultado
             Swal.fire({
                 title: 'Você deseja ' + (setor.STATUS ? 'Desativar' : 'Ativar') + ' o Setor?',
                 text: "Ativar ou Desativar o Setor da listagem",
@@ -86,11 +85,17 @@
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Sim!',
-            }).then(async (result) => {
+            }).then(async (result) => {                
                 if (result.value) {
                     setor.STATUS = !setor.STATUS;
-                    await $scope.AdicionarSetor(setor);
-                }
+                    resultado = $http.put('/setor/EditarSetor?id=' + setor.ID, setor)
+                    Swal.fire(
+                        'Salvo com Sucesso',
+                        '',
+                        'success'
+                    );
+                    
+                }            
                 $scope.$apply();
             })
         }
