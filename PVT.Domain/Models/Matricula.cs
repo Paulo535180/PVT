@@ -6,6 +6,8 @@ namespace PVT.Domain.Models
     public class Matricula : Entity
     {
         public int ID_ALUNO { get; set; }
-        public int ID_SETOR_MODULO { get; set; }
+        public int ID_MODULO { get; set; }
+        public int ID_CURSO { get; set; }
+        public int QTD_AULAS { get; set; }
     }
 }
